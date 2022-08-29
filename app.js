@@ -1,9 +1,10 @@
 const express = require('express');
+const Router = require("./routes/index")
+const app = express();
 
-const indexRouter = require("./routes/index")
 require("dotenv").config();
 
-const app = express();
+
 
 
 //db연결
@@ -13,7 +14,7 @@ connect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", indexRouter);
+app.use("/", Router);
 
 
 module.exports = app;
