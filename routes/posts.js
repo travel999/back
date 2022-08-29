@@ -26,45 +26,28 @@ router.get("/", async (req, res) => {
 
 
 
-//게시글 상세 조회
-router.get("/:_postId", async (req, res) => {
-    try {
-        const _id = req.params._postId;
+//일정 조회
+router.get("/:postId", async (req, res) => {
+    const { postId } = req.params; 
+    const post = await Post.find({_id : postId})
+    res.status(200).json({
+        result: post
+            
+    })
 
-        if (!_id) { // TODO: Joi를 사용하지 않음
-            res.status(400).json({ message: '데이터 형식이 올바르지 않습니다.' });
+});
+
+// 일정 생성
+router.post("/", async (req, res) => {
+    try {
+        const { nickname, title,  day : [cardNum,[placeName ,locate, content] ]       } = req.body;
+        
+        if (!title || !cardNum || !placeName || !locate || !content) { 
+            res.status(401).json({ message: '데이터 형식이 올바르지 않습니다.' });
             return;
         }
 
-        const post = await Post.findOne({ _id });
-
-        const result = {
-            postId: post._id,
-            user: post.user,
-            title: post.title,
-            content: post.content,
-            createdAt: post.createdAt,
-        };
-
-        res.status(200).json({ data: result });
-    } catch (error) {
-        const message = `${req.method} ${req.originalUrl} : ${error.message}`;
-        console.log(message);
-        res.status(400).json({ message });
-    }
-});
-
-//개시글 생성
-router.post("/", async (req, res) => {
-    try {
-        const { Nickname,title,Day,cardNum,PlaceName,Locate,Content } = req.body;
-
-        // if (!user || !password || !title || !content) { // TODO: Joi를 사용하지 않음
-        //     res.status(400).json({ message: '데이터 형식이 올바르지 않습니다.' });
-        //     return;
-        // }
-
-        await Post.create({ Nickname,title,Day,cardNum,PlaceName,Locate,Content });
+        await Post.create({ nickname, title, day : [cardNum,[placeName ,locate, content]]   });
 
         res.status(201).json({ message: "게시글을 생성하였습니다." });
     } catch (error) {
@@ -74,29 +57,24 @@ router.post("/", async (req, res) => {
     }
 });
 
-//게시글 수정
+//일정 수정
 router.put("/:_postId", async (req, res) => {
     try {
         const _id = req.params._postId;
-
-        const user = req.body["user"];
-        const password = req.body["password"];
-        const title = req.body["title"];
-        const content = req.body["content"];
-
-        if (!_id || !user || !password || !title || !content) { // TODO: Joi를 사용하지 않음
-            res.status(400).json({ message: '데이터 형식이 올바르지 않습니다.' });
+        console.log(_id)
+        const { nickname, title,  day : [cardNum,[placeName ,locate, content] ]} = req.body;
+        if (!title || !cardNum || !placeName || !locate || !content) { 
+            res.status(401).json({ message: '데이터 형식이 올바르지 않습니다.' });
             return;
         }
 
-
-        const isExist = await Post.findOne({ _id, password });
+        const isExist = await Post.findOne({ _id });
         if (!isExist) {
             res.status(404).json({ message: '게시글 조회에 실패하였습니다.' });
             return;
         }
-
-        await Post.updateOne({ _id }, { $set: { user, title, content } });
+        
+        await Post.updateOne({ _id }, { $set: { nickname, title,  day : [cardNum,[placeName ,locate, content] ]} });
 
         res.status(201).json({ message: "게시글을 수정하였습니다." });
     } catch (error) {
@@ -106,18 +84,13 @@ router.put("/:_postId", async (req, res) => {
     }
 });
 
-// 게시글 삭제
+//일정 삭제
 router.delete("/:_postId", async (req, res) => {
     try {
         const _id = req.params._postId;
-        const password = req.body["password"];
+        const { nickname } = req.body;
 
-        if (!user || !password) { // TODO: Joi를 사용하지 않음
-            res.status(400).json({ message: '데이터 형식이 올바르지 않습니다.' });
-            return;
-        }
-
-        const isExist = await Post.findOne({ _id, password });
+        const isExist = await Post.findOne({ _id} );
 
         if (!isExist || !_id) {
             res.status(404).json({ message: '게시글 조회에 실패하였습니다.' });

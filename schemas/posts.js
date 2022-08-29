@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const postSchema = new Schema({
-    Nickname: {
+    nickname: {
         type: Array,
         required: true,
     },
@@ -9,35 +9,44 @@ const postSchema = new Schema({
         type: String,
         required: true,
     },
-    Day:{
-        type: Number,
+    day:{
+        type: Array,
         required: true,
-    },
-    cardNum:{
-        type: Number,
-        required: true,
-    },
-    PlaceName:{
-        type: String,
-        required: true,
-    },
-    Locate:{
-        type: String,
-        required: true,
-    },
-    Content:{
-        type: String,
-        required: true,
+        cardNum: {
+            type: Array,
+            required: true,
+            
+            placeName: {
+                type: String,
+                required: true,
+            },
+            locate: {
+                type: String,
+                required: true,
+            },
+            content: {
+                type: String,
+                required: true,
+            }
+        }
+    }
+    ,
+        
+   
 
-    },
-    OpenPublic:{
+    openPublic: {
         type: Boolean,
-        required: true,
+        default: false
+    },
+    like: {
+        type:Number,
+        default: 0
     },
     createdAt: {
         type: Date,
         default: Date.now,
     },
+
 
 });
 
