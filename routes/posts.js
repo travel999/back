@@ -2,27 +2,13 @@ const express = require("express");
 const Post = require("../schemas/posts");
 const router = express.Router();
 
-// 모든 게시글 데이터를 반환하는 함수
-router.get("/", async (req, res) => {
-    try {
-        let posts = await Post.find().sort({ createdAt: -1 });
-        let resultList = [];
+const PostsController = require('../controllers/posts.controller');
+const postsController = new PostsController();
 
-        for (const post of posts) {
-            resultList.push({
-                postId: post._id,
-                user: post.user,
-                title: post.title,
-                createdAt: post.createdAt,
-            });
-        }
-        res.status(200).json({ data: resultList });
-    } catch (error) {
-        const message = `${req.method} ${req.originalUrl} : ${error.message}`;
-        console.log(message);
-        res.status(400).json({ message });
-    }
-});
+router.get('/:postId', postsController.getPost); //일정 조회
+router.post('/',  postsController.createPost) //일정 생성
+router.put("/:_postId",  postsController.updatepost) //일정 수정
+router.delete("/:_postId",  postsController.deletepost) //일정 수정
 
 //나의여행일정 가져오기
 
@@ -44,6 +30,7 @@ router.get('/mine', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 
 //일정 조회
 router.get("/:postId", async (req, res) => {
@@ -125,4 +112,6 @@ router.delete("/:_postId", async (req, res) => {
     }
 });
 
+=======
+>>>>>>> 93c0c4e7a9ede0a75cb698a62e2ae9c5abecc850
 module.exports = router;
