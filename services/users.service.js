@@ -30,7 +30,7 @@ class UserService {
   checkNickname = async (nickname) => {
     const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
     
-    if(!regNickname.test(regNickname)){
+    if(!regNickname.test(nickname)){
       return { result:false, message: "닉네임 양식 위반."};
     }
 
@@ -40,9 +40,9 @@ class UserService {
 
   };
 
-  userLogin = async (nickname, password) => {
-    const userData = await this.userRepository.login(nickname, password);
-
+  userLogin = async (email, password) => {
+    const userData = await this.userRepository.login(email, password);
+    
     return userData;
 
   };

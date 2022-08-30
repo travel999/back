@@ -47,10 +47,10 @@ class UserController {
     const checked = await this.userService.checkEmail(email);
 
     if (checked.result === true) {
-      return res.json(200).json(checked);
+      return res.status(200).json(checked);
     }
     else {
-      return res.josn(400).json(checked);
+      return res.status(400).json(checked);
     }
 
 
@@ -63,10 +63,10 @@ class UserController {
     const checked = await this.userService.checkNickname(nickname);
 
     if (checked.result === true) {
-      return res.json(200).json(checked);
+      return res.status(200).json(checked);
     }
     else {
-      return res.josn(400).json(checked);
+      return res.status(400).json(checked);
     }
 
 
@@ -84,13 +84,19 @@ class UserController {
   };
 
   userLogin = async (req, res, next) => {
-    const { nickname, password } = req.body;
+    const { email, password } = req.body;
     const expires = new Date();
-    const user = await this.userService.userLogin(nickname, password);
+    const user = await this.userService.userLogin(email, password);
 
-
+    if (req.cookies.token) {
+      res.status(401).json({ result: false, error: "이미 로그인이 되어있습니다" });
+      return;
+  }
 
     if (user) {
+      if(user.result === false){
+        return res.status(400).json(user);
+      }
       const token = jwt.sign({ userId: user._id }, "secret-key");
       expires.setMinutes(expires.getMinutes() + 60);
       res.cookie("token", token, { expires: expires });
@@ -98,7 +104,7 @@ class UserController {
       return res.status(200).json({ statusCode: "200: 로그인 성공.", token });
     }
     else {
-      return res.status(400).json({ statusCode: "400: 오류 발생." });
+      return res.status(400).json({ statusCode: "400: 입력한 정보를 확인해주세요." });
     }
   };
 
@@ -114,16 +120,7 @@ class UserController {
 
   };
 
-  findUser = async (req, res, next) => {
-    const { user } = res.locals;
-
-    const userinfo = await this.userService.findUser(
-      user.nickname,
-      user.password,
-    );
-
-    res.status(200).json({ data: userinfo });
-  };
+  
 
 
 }

@@ -39,9 +39,10 @@ class UserRepository {
 
 
 
-  login = async (nickname, password) => {
-    const user = await User.findOne({nickname, password });
-
+  login = async (email, password) => {
+    const user = await User.findOne({ email: email, password: password });
+    console.log(user);
+    
     return user;
   };
 
