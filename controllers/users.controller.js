@@ -97,7 +97,7 @@ class UserController {
       if(user.result === false){
         return res.status(400).json(user);
       }
-      const token = jwt.sign({ userId: user._id }, "secret-key");
+      const token = jwt.sign({ userId: user._id }, process.env.myKey);
       expires.setMinutes(expires.getMinutes() + 60);
       res.cookie("token", token, { expires: expires });
 
