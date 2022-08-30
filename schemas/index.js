@@ -4,11 +4,6 @@ const connect = () => {
     const uri = process.env.MONGDB;
     mongoose.connect(
         uri,
-        {
-            useNewUrlParser: true,
-            ignoreUndefined: true,
-            useUnifiedTopology: true,
-        },
         (error) => {
             if (error) console.log("Mongo DB Connect Error");
             else console.log("몽고db에 성공적으로 연결하였습니다");
