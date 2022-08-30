@@ -21,6 +21,7 @@ class PostRepository {
     updatepost = async ({ _id, nickname, title, day: [cardNum, [placeName, locate, content]] }) => {
         const targetPost = await Post.findOne({ _id })
         const post = await targetPost.updateOne({ nickname, title, day: [cardNum, [placeName, locate, content]] });
+        // await Post.updateOne({ _id }, { $set: { nickname, title,  day : [cardNum,[placeName ,locate, content] ]} })
         return post
     }
 
