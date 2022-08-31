@@ -5,6 +5,8 @@ const router = express.Router();
 const PostsController = require('../controllers/posts.controller');
 const postsController = new PostsController();
 
+router.get("/main", postsController.getMain); //메인페이지 조회
+router.get("/search/:keyword", postsController.search); //검색
 router.get('/:postId', postsController.getPost); //일정 조회
 router.post('/',  postsController.createPost) //일정 생성
 router.put("/:postId",  postsController.updatepost) //일정 수정
