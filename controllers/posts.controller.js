@@ -15,7 +15,8 @@ class PostsController {
     //일정 생성
     createPost = async (req, res, next) => {
         try {
-            const { nickname, title, day: [cardNum, [placeName, locate, content]] } = req.body;
+            const { nickname } = res.locals.user
+            const { title, day: [cardNum, [placeName, locate, content]] } = req.body;
             const createPostData = await this.postService.createPost({ nickname, title, day: [cardNum, [placeName, locate, content]] });
 
             res.status(201).json({ data: createPostData });
@@ -27,11 +28,13 @@ class PostsController {
         }
     }
 
+    //일정 수정
     updatepost = async (req, res, next) => {
         try {
-            const _id = req.params._postId;
-            const { nickname, title, day: [cardNum, [placeName, locate, content]] } = req.body;
-            const updateData = await this.postService.updatepost({ _id, nickname, title, day: [cardNum, [placeName, locate, content]] });
+            const { nickname } = res.locals.user
+            const { postId }= req.params;
+            const { title, day: [cardNum, [placeName, locate, content]] } = req.body;
+            const updateData = await this.postService.updatepost({  postId, nickname, title, day: [cardNum, [placeName, locate, content]] });
             res.status(201).json({ message: updateData });
         } catch (error) {
             const message = `${req.method} ${req.originalUrl} : ${error.message}`;
@@ -40,11 +43,13 @@ class PostsController {
         }
 
     }
+
+    //일정 삭제
     deletepost = async (req, res, next) => {
         try {
-            const _id = req.params._postId;
-            const { nickname } = req.body
-            const deleteData = await this.postService.deletepost({ _id, nickname })
+            const { nickname } = res.locals.user
+            const postId = req.params.postId;
+            const deleteData = await this.postService.deletepost({ postId, nickname })
             res.status(201).json({ message: deleteData });
         } catch (error) {
             const message = `${req.method} ${req.originalUrl} : ${error.message}`;
