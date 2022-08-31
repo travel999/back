@@ -4,7 +4,17 @@ const User = require("../schemas/users");
 const Post = require("../schemas/posts");
 const router = express.Router();
 
+router.get('/test', async (req, res) =>{
+    const {_id} = res.locals.user
+    console.log(res.locals.user)
+    const post = await User.findById( _id)
+    res.status(200).json({
+        result: post,
+        message : "=============================="    
+    })
 
+}
+)
 //내가 좋아요한 모든 일정 조회하기
 router.get("/", async (req, res) => {
     try {
@@ -71,13 +81,11 @@ router.get("/", async (req, res) => {
 //     }
 // });
 router.post("/:postId", async (req, res) => {
-
-    const userId = "1234";
+    const { _id } = res.locals.user
     const { postId } = req.params;
-    console.log(userId);
-    const isLike = await Like.findOne({ postId, userId })
+    const isLike = await Like.findOne({ postId, _id })
     if (!isLike) {
-        await Like.create({ userId, postId })
+        await Like.create({ _id, postId })
         const existLikes = await Post.findOneAndUpdate({ _id: postId })
         console.log(existLikes)
         if (existLikes) {
@@ -142,5 +150,8 @@ router.post("/:postId", async (req, res) => {
 //         });
 //     }
 // })
+
+
+
 
 module.exports = router;
