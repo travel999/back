@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const authMiddlewares = require("../middlewares/auth-middleware");
+const authMiddlewares = require("../middlewares/auth.middleware");
 const Post = require("../schemas/posts");
 const UserController = require("../controllers/users.controller");
 const usercontroller = new UserController();
