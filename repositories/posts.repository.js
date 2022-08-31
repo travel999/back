@@ -1,5 +1,4 @@
 const Post = require("../schemas/posts");
-const { exists } = require("../schemas/users");
 
 class PostRepository {
 
