@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.get('/test', async (req, res) =>{
     const {_id} = res.locals.user
-    console.log(res.locals.user)
+    const {nickname} = res.locals.user
+    console.log(nickname)
     const post = await User.findById( _id)
     res.status(200).json({
         result: post,
