@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.get('/test', async (req, res) =>{
     const {_id} = res.locals.user
-    console.log(res.locals.user)
+    const {nickname} = res.locals.user
+    console.log(nickname)
     const post = await User.findById( _id)
     res.status(200).json({
         result: post,
@@ -18,21 +19,10 @@ router.get('/test', async (req, res) =>{
 //내가 좋아요한 모든 일정 조회하기
 router.get("/", async (req, res) => {
     try {
-        const { userId } = res.locals.user;
-        const likeuser = await Like.find({ postId: userId });
-        console.log(likeuser);
-        const LikeUsers = likeuser.map((e) => e.userId);
-        res.status(201).json({ LikeUsers });
-
-        // const likes = await Like.find({ postId: userId });
-        // let result = [];
-        // for (const like of likes) (
-        //     result.push({
-        //         post_id: like.postId,
-        //         userId: like.userId
-        //     })
-        // )
-        res.status(200).json(result)
+        const { nickname } = res.locals.user
+        const targetPost= await Like.find({ nickname });
+        const likedPost = targetPost.map((post) => post.postId)
+        res.status(201).json({ result : likedPost });
 
     } catch (error) {
         console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
@@ -80,34 +70,41 @@ router.get("/", async (req, res) => {
 //         });
 //     }
 // });
+
 router.post("/:postId", async (req, res) => {
-    const { _id } = res.locals.user
+    const { nickname } = res.locals.user
+    console.log(nickname)
     const { postId } = req.params;
-    const isLike = await Like.findOne({ postId, _id })
+    const isLike = await Like.findOne({ postId, nickname })
     if (!isLike) {
-        await Like.create({ _id, postId })
-        const existLikes = await Post.findOneAndUpdate({ _id: postId })
-        console.log(existLikes)
+        await Like.create({ postId, nickname })
+        const existLikes = await Post.findById({ _id: postId })
         if (existLikes) {
             const countLikes = existLikes.like
             const postLike = countLikes + 1
-            console.log(postLike);
             await Post.updateOne(
                 { _id: postId },
                 { $set: { like : postLike } }
                 
             )
-        } res.status(201).json({ message: '일정에 좋아요를 눌렀습니다' });
+            res.status(201).json({ message: '일정에 좋아요를 눌렀습니다' });
+        }else{ 
+            res.status(401).json({ message: '일정을 찾을수 없습니다.' });
+        }
     } else {
-        await Like.deleteOne({ userId, postId })
-        const deleteLikes = await Post.findOne({ _id: postId })
+        await Like.deleteOne({ postId, nickname })
+        const deleteLikes = await Post.findById({ _id: postId })
         if (deleteLikes) {
-            const countLike = deleteLikes.like - 1
+            const countLikes = deleteLikes.like
+            const postLike = countLikes -1
             await Post.updateOne(
                 { _id: postId },
-                { $set: { countLike } }
+                { $set: { like : postLike } }
             )
-        } res.status(201).json({ message: '일정에 좋아요를 취소하였습니다' })
+            res.status(201).json({ message: '일정에 좋아요를 취소하였습니다' })
+        }else{ 
+            res.status(401).json({ message: '일정을 찾을수 없습니다.' });
+        } 
     }
 });
 
