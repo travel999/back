@@ -16,10 +16,13 @@ class PostsController {
     createPost = async (req, res, next) => {
         try {
             const { nickname } = res.locals.user
-            const { title, day: [cardNum, [placeName, locate, content]] } = req.body;
-            const createPostData = await this.postService.createPost({ nickname, title, day: [cardNum, [placeName, locate, content]] });
+            const { nickname2, title, day: [cardNum, [placeName, locate, content]] } = req.body;
+            console.log([nickname])
+            
+            const createPostData = await this.postService.createPost({ nickname : [nickname].concat(nickname2), title, day: [cardNum, [placeName, locate, content]] });
 
             res.status(201).json({ data: createPostData });
+            
 
         } catch (error) {
             const message = `${req.method} ${req.originalUrl} : ${error.message}`;
