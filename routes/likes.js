@@ -22,7 +22,12 @@ router.get("/", async (req, res) => {
         const { nickname } = res.locals.user
         const targetPost= await Like.find({ nickname });
         const likedPost = targetPost.map((post) => post.postId)
-        res.status(201).json({ result : likedPost });
+        const post  = []
+        for( var i = 0 ; i < likedPost.length; i++ ){    
+            const data = await Post.findById(likedPost[i])
+            post.push(data) 
+        }
+        res.status(201).json({ result : post });
 
     } catch (error) {
         console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
