@@ -10,7 +10,7 @@ const likeSchema = new Schema({
         type: String,
         required: false,
     },
-    Nickname: {
+    nickname: {
         type: String,
         required: false,
     },
