@@ -22,7 +22,8 @@ class PostsController {
     getMain = async (req, res, next) => {
         const { nickname } = res.locals.user;
         const posts = await this.postService.findMain(nickname);
-        res.status(200).json({ data: posts })
+        const Lposts = await this.postService.findMain2(nickname);
+        res.status(200).json({ data1: posts, data2:Lposts });
     }
         
     
