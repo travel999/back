@@ -6,7 +6,7 @@ const UserRouter = require("./users");
 const LikesRouter = require("./likes");
 const postsRouter = require("./posts");
 
-router.use("/users", UserRouter);
+router.use("/user", UserRouter);
 router.use("/post", authMiddlewares, postsRouter);
 router.use('/likes', LikesRouter);
 

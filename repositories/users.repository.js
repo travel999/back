@@ -17,10 +17,10 @@ class UserRepository {
     const user = await User.findOne({email});
     
     if(user){
-      return {result: false, message: "이미 사용 중인 이메일입니다."}
+      return {result: false, message: "이미 사용 중인 이메일입니다."};
     }
     else{
-      return {result: true, message: "사용 가능한 이메일입니다."}
+      return {result: true, message: "사용 가능한 이메일입니다."};
     }
   };
 
@@ -28,10 +28,10 @@ class UserRepository {
     const user = await User.findOne({nickname});
 
     if(user){
-      return {result: false, message: "이미 사용 중인 닉네임입니다."}
+      return {result: false, message: "이미 사용 중인 닉네임입니다."};
     }
     else{
-      return {result: true, message: "사용 가능한 닉네임입니다."}
+      return {result: true, message: "사용 가능한 닉네임입니다."};
     }
 
     
@@ -47,7 +47,7 @@ class UserRepository {
   };
 
   findUser = async (nickname, password) => {
-    const findUserData = await User.findOne({nickname, password});
+    const findUserData = await User.findOne({ nickname:nickname, password: password});
 
     return findUserData;
   };

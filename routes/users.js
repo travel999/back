@@ -11,7 +11,7 @@ router.post("/login", usercontroller.userLogin);
 router.post("/logout", usercontroller.userLogout);
 router.post("/checkEmail", usercontroller.checkEmail);
 router.post("/checkNickname", usercontroller.checkNickname);
-router.get("/me", usercontroller.findUser);
+router.get("/me", authMiddleware, usercontroller.findUser);
 
 module.exports = router;
 

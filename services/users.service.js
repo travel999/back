@@ -51,7 +51,7 @@ class UserService {
     const findUser = await this.userRepository.findUser(nickname, password);
 
     return {
-      userId: findUser.null,
+      email: findUser.email,
       nickname: findUser.nickname,
       password: findUser.null,
       createdAt: findUser.createdAt,
