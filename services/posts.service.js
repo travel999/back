@@ -5,6 +5,30 @@ const PostRepository = require('../repositories/posts.repository');
 class PostService {
     postRepository = new PostRepository();
     
+    
+    searchKey = async (keyword) => {
+        const posts = await this.postRepository.searchKey(keyword);
+
+        if(!posts || !posts.length){
+            return {result:false, message: "검색 결과가 존재하지 않습니다." };
+        }
+        else{
+            return posts;
+        }
+    }
+    
+    findMain = async (nickname) => {
+        const posts = await this.postRepository.findMain(nickname);
+        
+        if(!posts || !posts.length){
+            return { result:false, message: "일정을 찾을수 없습니다." };
+        }
+
+        return posts
+            
+    }
+    
+    
     findPost = async (postId) => {
         const post = await this.postRepository.findPost(postId);
         if(!post){

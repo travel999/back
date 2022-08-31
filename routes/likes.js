@@ -14,8 +14,8 @@ router.get('/test', async (req, res) =>{
         message : "=============================="    
     })
 
-}
-)
+});
+
 //내가 좋아요한 모든 일정 조회하기
 router.get("/", async (req, res) => {
     try {

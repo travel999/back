@@ -2,6 +2,19 @@ const Post = require("../schemas/posts");
 
 class PostRepository {
 
+    searchKey = async (keyword) => {
+        console.log(keyword);
+        const posts = await Post.find({title:{$regex : keyword}}).sort({"createdAt": -1});
+
+        return posts;
+    }
+    
+    findMain = async ( nickname ) => {
+        const posts = await Post.find({nickname}).sort({ "createdAt": -1 }).limit(3);
+        
+        return posts;
+    }
+    
     findPost = async ( postId ) => {
         const post = await Post.findById( postId )
         return post;
