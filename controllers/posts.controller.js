@@ -10,7 +10,7 @@ class PostsController {
         const posts = await this.postService.searchKey(keyword);
 
         if(posts.result === false ){
-            return res.status(400).json(posts);
+            return res.status(400).json({ data:posts, message: "해당 정보가 존재하지 않습니다" });
         }
         else{
             return res.status(200).json({data:posts});
