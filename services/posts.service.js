@@ -21,22 +21,32 @@ class PostService {
         const posts = await this.postRepository.findMain(nickname);
         
         if(!posts || !posts.length){
-            return { result:false, message: "일정을 찾을수 없습니다." };
+            return { result:false, message: "일정을 찾을수 없습니다" };
         }
 
-        return posts
+        return posts;
             
     }
 
     findMain2 = async (nickname) => {
-        const posts = await this.postRepository.findMain(nickname);
+        const posts = await this.postRepository.findMain2(nickname);
         
         if(!posts || !posts.length){
-            return { result:false, message: "좋아요 한 일정이 없습니다." };
+            return { result:false, message: "좋아요 한 일정이 없습니다" };
         }
 
-        return posts
+        return posts;
             
+    }
+
+    findMain3 = async (openStatus) => {
+        const posts = await this.postRepository.findMain3(openStatus);
+
+        if (!posts || !posts.length){
+            return { result:false, message: "공개된 일정이 없습니다."};
+        }
+
+        return posts;
     }
     
     
