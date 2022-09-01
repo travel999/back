@@ -1,7 +1,34 @@
 const Post = require("../schemas/posts");
+const Like = require("../schemas/likes");
 
 class PostRepository {
 
+    searchKey = async (keyword) => {
+        console.log(keyword);
+        const posts = await Post.find({title:{$regex : keyword}}).sort({"createdAt": -1});
+
+        return posts;
+    }
+    
+    findMain = async ( nickname ) => {
+        const posts = await Post.find({nickname}).sort({ "createdAt": -1 }).limit(3);
+                
+        return posts;
+    }
+
+    findMain2 = async ( nickname ) => {
+        const targetPost= await Like.find({ nickname });
+        const likedPost = targetPost.map((post) => post.postId)
+        const post  = []
+        
+        for( var i = 0 ; i < likedPost.length; i++ ){    
+            const data = await Post.findById(likedPost[i])
+            post.push(data) 
+        }
+        
+        return post;
+    }
+    
     findPost = async ( postId ) => {
         const post = await Post.findById( postId )
         return post;

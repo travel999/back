@@ -8,7 +8,7 @@ const postsRouter = require("./posts");
 
 router.use("/user", UserRouter);
 router.use("/post", authMiddleware, postsRouter);
-router.use('/likes',authMiddleware, LikesRouter);
+router.use('/like',authMiddleware, LikesRouter);
 
 
 

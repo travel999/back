@@ -4,7 +4,29 @@ const PostService = require('../services/posts.service');
 class PostsController {
     postService = new PostService(); // Post 서비스를 클래스를 컨트롤러 클래스의 멤버 변수로 할당합니다.
 
+    
+    search = async (req,res,next) => {
+        const {keyword} = req.params;
+        const posts = await this.postService.searchKey(keyword);
 
+        if(posts.result === false ){
+            return res.status(400).json(posts);
+        }
+        else{
+            return res.status(200).json({data:posts});
+        }
+    }
+    
+    
+    //메인페이지 게시글 조회
+    getMain = async (req, res, next) => {
+        const { nickname } = res.locals.user;
+        const posts = await this.postService.findMain(nickname);
+        const Lposts = await this.postService.findMain2(nickname);
+        res.status(200).json({ data1: posts, data2:Lposts });
+    }
+        
+    
     //일정 조회
     getPost = async (req, res, next) => {
         const { postId } = req.params;

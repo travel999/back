@@ -1,15 +1,20 @@
 const express = require('express');
 const cookieParser = require("cookie-parser");
-require("dotenv").config();
+const cors = require("cors");
 const app = express();
-const Router = require("./routes/index")
-
-
-
+const Router = require("./routes/index");
+require("dotenv").config();
 
 //db연결
 const connect = require("./schemas");
 connect();
+
+app.use(
+  cors({
+  origin: true,
+  credentials: true
+  })
+);
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
