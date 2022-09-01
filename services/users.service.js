@@ -4,7 +4,7 @@ class UserService {
   userRepository = new UserRepository();
 
   createUser = async (email, nickname, password, confirm) => {
-    
+
     const createUserData = await this.userRepository.createUser(
       email,
       nickname,
@@ -16,9 +16,9 @@ class UserService {
 
   checkEmail = async (email) => {
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-    
-    if(!regEmail.test(email)){
-      return { result:false, message: "이메일 양식 위반."}
+
+    if (!regEmail.test(email)) {
+      return { result: false, message: "이메일 양식 위반." }
     }
 
     const checked = await this.userRepository.checkEmail(email);
@@ -29,9 +29,9 @@ class UserService {
 
   checkNickname = async (nickname) => {
     const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
-    
-    if(!regNickname.test(nickname)){
-      return { result:false, message: "닉네임 양식 위반."};
+
+    if (!regNickname.test(nickname)) {
+      return { result: false, message: "닉네임 양식 위반." };
     }
 
     const checked = await this.userRepository.checkNickname(nickname);
@@ -42,7 +42,7 @@ class UserService {
 
   userLogin = async (email, password) => {
     const userData = await this.userRepository.login(email, password);
-    
+
     return userData;
 
   };
@@ -57,8 +57,12 @@ class UserService {
       createdAt: findUser.createdAt,
     };
   };
-
-  
+  findPost = async (nickname) => {
+    const post = await this.userRepository.findPost(nickname);
+    if (!post.length) {
+      return { Message: '나의 일정 조회에 실패하였습니다.' }
+    }
+    return post
+  }
 }
-
 module.exports = UserService;

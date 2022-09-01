@@ -1,4 +1,5 @@
 const User = require("../schemas/users");
+const Post = require("../schemas/posts");
 
 class UserRepository {
   createUser = async (email, nickname, password) => {
@@ -50,6 +51,12 @@ class UserRepository {
     const findUserData = await User.findOne({nickname, password});
 
     return findUserData;
+  };
+  
+  findPost = async (nickname) => {
+    const findPostData = await Post.find({ nickname });
+    
+    return findPostData;
   };
 
   
