@@ -17,7 +17,7 @@ class PostRepository {
     }
 
     findMain2 = async ( nickname ) => {
-        const targetPost= await Like.find({ nickname }).sort({ "createdAt": -1 });
+        const targetPost= await Like.find({ nickname }).sort({ "createdAt": -1 }).limit(4);
         const likedPost = targetPost.map((post) => post.postId)
         const post  = []
         
