@@ -5,7 +5,15 @@ class UserController {
   userService = new UserService();
 
   createUser = async (req, res, next) => {
-    const { email, nickname, password, confirm } = req.body;
+    // const { email, nickname, password, confirm } = req.body;
+    // console.log(email);
+
+    const {signUp} = req.body;
+    const email = signUp.email;
+    const nickname = signUp.nickname;
+    const password = signUp.password;
+    const confirm = signUp.confirm;
+
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
     const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -46,7 +54,11 @@ class UserController {
   };
 
   checkEmail = async (req, res, next) => {
-    const { email } = req.body;
+    // const { email } = req.body;
+    
+    const { signUp } = req.body;
+    const email = signUp.email;
+    
 
     const checked = await this.userService.checkEmail(email);
 
@@ -62,7 +74,12 @@ class UserController {
   };
 
   checkNickname = async (req, res, next) => {
-    const { nickname } = req.body;
+    // const { nickname } = req.body;
+    
+    
+    const { signUp } = req.body;
+    const nickname = signUp.nickname;
+    
 
     const checked = await this.userService.checkNickname(nickname);
 
