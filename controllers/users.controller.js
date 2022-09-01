@@ -6,8 +6,7 @@ class UserController {
 
   createUser = async (req, res, next) => {
     // const { email, nickname, password, confirm } = req.body;
-    // console.log(email);
-
+    
     const {signUp} = req.body;
     const email = signUp.email;
     const nickname = signUp.nickname;
