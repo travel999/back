@@ -118,6 +118,18 @@ class PostService {
         
         
         }
+
+    recommend = async (openStatus) => {
+        const posts = await this.postRepository.recommend(openStatus);
+        
+        if( !posts || !posts.length){
+            return {result:false, message: "공유된 일정이 없습니다"};
+        }
+
+        return posts;
+
+    }
+
     }
 
 

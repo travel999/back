@@ -69,6 +69,12 @@ class PostRepository {
         const post = await targetPost.updateOne({openPublic})
         return post
     }
+
+    recommend = async ( openStatus ) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 });
+                
+        return posts;
+    };
 }
 
 
