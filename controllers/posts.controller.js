@@ -21,9 +21,11 @@ class PostsController {
     //메인페이지 게시글 조회
     getMain = async (req, res, next) => {
         const { nickname } = res.locals.user;
+        const  openStatus = true;
         const posts = await this.postService.findMain(nickname);
         const Lposts = await this.postService.findMain2(nickname);
-        res.status(200).json({ data1: posts, data2:Lposts });
+        const openPosts = await this.postService.findMain3(openStatus);
+        res.status(200).json({ data1: posts, data2:Lposts, data3:openPosts });
     }
         
     
