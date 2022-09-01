@@ -108,6 +108,18 @@ class PostsController {
         
     }
 
+    recommendation = async (req,res,next) => {
+        const openStatus = true;
+        const posts = await this.postService.recommend(openStatus);
+
+        if(posts.result === false){
+            return res.status(400).json(posts);
+        }
+        else{
+            return res.status(200).json({data:posts});
+        }
+    }
+
 }
 
 module.exports = PostsController;
