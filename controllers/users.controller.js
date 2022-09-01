@@ -5,7 +5,14 @@ class UserController {
   userService = new UserService();
 
   createUser = async (req, res, next) => {
-    const { email, nickname, password, confirm } = req.body;
+    // const { email, nickname, password, confirm } = req.body;
+    
+    const {signUp} = req.body;
+    const email = signUp.email;
+    const nickname = signUp.nickname;
+    const password = signUp.password;
+    const confirm = signUp.confirm;
+
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
     const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -18,12 +25,16 @@ class UserController {
       return res.status(412).json({ statusCode: "412: 비밀번호 양식 위반." });
     }
 
-    if (!regNickname.test(nickname)) {
-      return res.status(413).json({ statusCode: "413: 닉네임 양식 위반." });
+    const nicknameCheck = await this.userService.checkNickname(nickname);
+
+    if (nicknameCheck.result === false) {
+      return res.status(413).json({ statusCode: "413", nicknameCheck });
     }
 
-    if (!regEmail.test(email)) {
-      return res.status(414).json({ statusCode: "414: 이메일 양식 위반." });
+    const emailCheck = await this.userService.checkEmail(email);
+
+    if (emailCheck.result === false) {
+      return res.status(414).json({ statusCode: "414", emailCheck });
     }
 
     const user = await this.userService.createUser(
@@ -42,7 +53,11 @@ class UserController {
   };
 
   checkEmail = async (req, res, next) => {
-    const { email } = req.body;
+    // const { email } = req.body;
+    
+    const { signUp } = req.body;
+    const email = signUp.email;
+    
 
     const checked = await this.userService.checkEmail(email);
 
@@ -58,7 +73,12 @@ class UserController {
   };
 
   checkNickname = async (req, res, next) => {
-    const { nickname } = req.body;
+    // const { nickname } = req.body;
+    
+    
+    const { signUp } = req.body;
+    const nickname = signUp.nickname;
+    
 
     const checked = await this.userService.checkNickname(nickname);
 
@@ -91,10 +111,10 @@ class UserController {
     if (req.cookies.token) {
       res.status(401).json({ result: false, error: "이미 로그인이 되어있습니다" });
       return;
-  }
+    }
 
     if (user) {
-      if(user.result === false){
+      if (user.result === false) {
         return res.status(400).json(user);
       }
       const token = jwt.sign({ userId: user._id }, process.env.myKey);
@@ -120,9 +140,12 @@ class UserController {
 
   };
 
-  
+  getmine = async (req, res, next) => {
 
-
+    const { nickname } = res.locals.user;
+    const post = await this.userService.findPost(nickname);
+    res.status(400).json({ post });
+  }
 }
 
 module.exports = UserController;

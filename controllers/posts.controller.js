@@ -10,7 +10,7 @@ class PostsController {
         const posts = await this.postService.searchKey(keyword);
 
         if(posts.result === false ){
-            return res.status(400).json(posts);
+            return res.status(400).json({ data:posts, message: "해당 정보가 존재하지 않습니다" });
         }
         else{
             return res.status(200).json({data:posts});
@@ -21,9 +21,11 @@ class PostsController {
     //메인페이지 게시글 조회
     getMain = async (req, res, next) => {
         const { nickname } = res.locals.user;
+        const  openStatus = true;
         const posts = await this.postService.findMain(nickname);
         const Lposts = await this.postService.findMain2(nickname);
-        res.status(200).json({ data1: posts, data2:Lposts });
+        const openPosts = await this.postService.findMain3(openStatus);
+        res.status(200).json({ data1: posts, data2:Lposts, data3:openPosts });
     }
         
     
@@ -104,6 +106,18 @@ class PostsController {
             res.status(400).json({ message });
         }
         
+    }
+
+    recommendation = async (req,res,next) => {
+        const openStatus = true;
+        const posts = await this.postService.recommend(openStatus);
+
+        if(posts.result === false){
+            return res.status(400).json(posts);
+        }
+        else{
+            return res.status(200).json({data:posts});
+        }
     }
 
 }

@@ -17,7 +17,7 @@ class PostRepository {
     }
 
     findMain2 = async ( nickname ) => {
-        const targetPost= await Like.find({ nickname });
+        const targetPost= await Like.find({ nickname }).sort({ "createdAt": -1 }).limit(4);
         const likedPost = targetPost.map((post) => post.postId)
         const post  = []
         
@@ -28,6 +28,13 @@ class PostRepository {
         
         return post;
     }
+
+    findMain3 = async ( openStatus ) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "createdAt": -1 });
+                
+        return posts;
+    }
+
     
     findPost = async ( postId ) => {
         const post = await Post.findById( postId )
@@ -62,6 +69,12 @@ class PostRepository {
         const post = await targetPost.updateOne({openPublic})
         return post
     }
+
+    recommend = async ( openStatus ) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 });
+                
+        return posts;
+    };
 }
 
 
