@@ -11,10 +11,10 @@ connect();
 
 app.use(
   cors({
-  credentials: true,
-  origin: "http://localhost:3000",
+  origin: true,
+  credentials: true
   })
-  );
+);
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
