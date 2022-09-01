@@ -1,7 +1,41 @@
 const Post = require("../schemas/posts");
+const Like = require("../schemas/likes");
 
 class PostRepository {
 
+    searchKey = async (keyword) => {
+        console.log(keyword);
+        const posts = await Post.find({title:{$regex : keyword}}).sort({"createdAt": -1});
+
+        return posts;
+    }
+    
+    findMain = async ( nickname ) => {
+        const posts = await Post.find({nickname}).sort({ "createdAt": -1 }).limit(3);
+                
+        return posts;
+    }
+
+    findMain2 = async ( nickname ) => {
+        const targetPost= await Like.find({ nickname }).sort({ "createdAt": -1 }).limit(4);
+        const likedPost = targetPost.map((post) => post.postId)
+        const post  = []
+        
+        for( var i = 0 ; i < likedPost.length; i++ ){    
+            const data = await Post.findById(likedPost[i])
+            post.push(data) 
+        }
+        
+        return post;
+    }
+
+    findMain3 = async ( openStatus ) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "createdAt": -1 });
+                
+        return posts;
+    }
+
+    
     findPost = async ( postId ) => {
         const post = await Post.findById( postId )
         return post;
@@ -26,9 +60,21 @@ class PostRepository {
 
 
     deletepost = async ({ _id }) => {
-        const deletepost = await Post.deleteOne({ _id });
-        return deletepost
+        const post = await Post.deleteOne({ _id });
+        return post
     }
+
+    publicPost = async ({ openPublic, _id }) =>{
+        const targetPost = await Post.findById( _id )
+        const post = await targetPost.updateOne({openPublic})
+        return post
+    }
+
+    recommend = async ( openStatus ) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 });
+                
+        return posts;
+    };
 }
 
 
