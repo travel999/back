@@ -53,8 +53,14 @@ class PostRepository {
 
 
     deletepost = async ({ _id }) => {
-        const deletepost = await Post.deleteOne({ _id });
-        return deletepost
+        const post = await Post.deleteOne({ _id });
+        return post
+    }
+
+    publicPost = async ({ openPublic, _id }) =>{
+        const targetPost = await Post.findById( _id )
+        const post = await targetPost.updateOne({openPublic})
+        return post
     }
 }
 
