@@ -60,8 +60,8 @@ class PostsController {
         try {
             const { nickname } = res.locals.user;
             const { postId }= req.params;
-            const { title, day: [cardNum, [placeName, locate, content]] } = req.body;
-            const updateData = await this.postService.updatepost({  postId, nickname, title, day: [cardNum, [placeName, locate, content]] });
+            const { nickname2, title, day: [cardNum, [placeName, locate, content]] } = req.body;
+            const updateData = await this.postService.updatepost({ postId, nickname : [nickname].concat(nickname2), title, day: [cardNum, [placeName, locate, content]] });
             res.status(201).json( updateData );
         } catch (error) {
             const message = `${req.method} ${req.originalUrl} : ${error.message}`;
