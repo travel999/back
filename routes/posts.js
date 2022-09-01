@@ -14,25 +14,5 @@ router.put("/:postId",  postsController.updatePost); //일정 수정
 router.delete("/:postId",  postsController.deletePost); //일정 삭제
 router.patch("/public/:postId",  postsController.publicPost); //일정 공개/비공개
 
-//나의여행일정 가져오기
-
-router.get('/mine', async (req, res) => {
-    user = res.locals.user;
-    try {
-        const { _id } = user;
-        if (!_id) {
-            res.status(400).json({ message: '데이터형식이올바르지않습니다' })
-        };
-
-        const post = await Post.find({ userId: _id });
-        res.status(200).json({ "statusCode": 200, post });
-    } catch (error) {
-        console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
-        return res.status(400).json({
-            errorMessage: '나의 일정 조회에 실패하였습니다.',
-        });
-    }
-});
-
 
 module.exports = router;
