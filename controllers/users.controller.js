@@ -18,12 +18,16 @@ class UserController {
       return res.status(412).json({ statusCode: "412: 비밀번호 양식 위반." });
     }
 
-    if (!regNickname.test(nickname)) {
-      return res.status(413).json({ statusCode: "413: 닉네임 양식 위반." });
+    const nicknameCheck = await this.userService.checkNickname(nickname);
+
+    if (nicknameCheck.result === false) {
+      return res.status(413).json({ statusCode: "413", nicknameCheck });
     }
 
-    if (!regEmail.test(email)) {
-      return res.status(414).json({ statusCode: "414: 이메일 양식 위반." });
+    const emailCheck = await this.userService.checkEmail(email);
+
+    if (emailCheck.result === false) {
+      return res.status(414).json({ statusCode: "414", emailCheck });
     }
 
     const user = await this.userService.createUser(
