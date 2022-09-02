@@ -49,14 +49,15 @@ class PostService {
 
     findMain3 = async (openStatus,page,pageSize) => {
         
-        let start = 0;
-        if (page <= 0) {
-            page = 1;
-        } else {
-            start = (page - 1) * pageSize;
-        }
+        const start = 0;
+        const testSize = page * pageSize; 
+        // if (page <= 0) {
+        //     page = 1;
+        // } else {
+        //     start = (page - 1) * pageSize;
+        // }
         
-        const posts = await this.postRepository.findMain3(openStatus,start,pageSize);
+        const posts = await this.postRepository.findMain3(openStatus,start,testSize);
 
         if (!posts || !posts.length){
             return { result:false, message: "공개된 일정이 없습니다."};
