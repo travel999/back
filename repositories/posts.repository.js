@@ -5,7 +5,7 @@ class PostRepository {
 
     searchKey = async (keyword) => {
         console.log(keyword);
-        const posts = await Post.find({title:{$regex : keyword}}).sort({"createdAt": -1});
+        const posts = await Post.find({title:{$regex : keyword}, openPublic:true}).sort({"createdAt": -1});
 
         return posts;
     }
@@ -29,8 +29,8 @@ class PostRepository {
         return post;
     }
 
-    findMain3 = async ( openStatus ) => {
-        const posts = await Post.find({ openPublic: openStatus }).sort({ "createdAt": -1 });
+    findMain3 = async ( openStatus,start,pageSize ) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "createdAt": -1 }).skip(start).limit(pageSize);
                 
         return posts;
     }
