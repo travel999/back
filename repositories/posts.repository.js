@@ -29,8 +29,8 @@ class PostRepository {
         return post;
     }
 
-    findMain3 = async ( openStatus,start,pageSize ) => {
-        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 }).skip(start).limit(pageSize);
+    findMain3 = async ( openStatus,start,testSize ) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 }).skip(start).limit(testSize);
                 
         return posts;
     }
