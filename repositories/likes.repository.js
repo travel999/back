@@ -15,10 +15,13 @@ class LikeRepository {
     }
 
     findLike = async (nickname, postId) => {
-        console.log("닉네임:", nickname, " 포스트ID:", postId);
         const likesData = await Like.findOne({ nickname, postId });
-        console.log(likesData)
         return likesData;
+    }
+
+    targetId = async (_id) => {
+        const targetData = await Post.findById(_id);
+        return targetData;
     }
 
     createLike = async (nickname, postId) => {
@@ -26,22 +29,19 @@ class LikeRepository {
         return createLikeData;
     }
 
-    updateLike = async ( _id, postLike ) => {
-        const updateLikeData = await Post.updateOne(
-            { _id },
-            { $set: { like: postLike } });
-        return updateLikeData;
-    }
-
     deleteLike = async (nickname, postId) => {
         const deleteLikeData = await Like.deleteOne({ nickname, postId });
         return deleteLikeData;
     }
 
-    targetId = async (_id) => {
-        const targetData = await Post.findById(_id);
-        return targetData;
+    updateLike = async (postId, postLike) => {
+        const updateLikeData = await Post.updateOne(
+            { _id: postId },
+            { $set: { like: postLike } });
+
+        return updateLikeData;
     }
+
 }
 
 
