@@ -4,7 +4,7 @@ const router = express.Router();
 const PostsController = require('../controllers/posts.controller');
 const postsController = new PostsController();
 
-router.get("/main", postsController.getMain); //메인페이지 조회
+router.get("/main/:page", postsController.getMain); //메인페이지 조회
 router.get("/good", postsController.recommendation); // 추천 일정 불러오기
 router.get("/search/:keyword", postsController.search); //검색
 router.get('/:postId', postsController.getPost); //일정 조회
