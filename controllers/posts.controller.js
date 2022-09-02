@@ -7,7 +7,9 @@ class PostsController {
     
     search = async (req,res,next) => {
         const {keyword} = req.params;
-        const posts = await this.postService.searchKey(keyword);
+        const { page } = req.params;
+        const pageSize = 7;
+        const posts = await this.postService.searchKey(keyword,page,pageSize);
 
         if(posts.result === false ){
             return res.status(400).json({ data:posts, message: "해당 정보가 존재하지 않습니다" });
