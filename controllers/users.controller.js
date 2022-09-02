@@ -111,10 +111,10 @@ class UserController {
     if (req.cookies.token) {
       res.status(401).json({ result: false, error: "이미 로그인이 되어있습니다" });
       return;
-  }
+    }
 
     if (user) {
-      if(user.result === false){
+      if (user.result === false) {
         return res.status(400).json(user);
       }
       const token = jwt.sign({ userId: user._id }, process.env.myKey);
@@ -140,9 +140,12 @@ class UserController {
 
   };
 
-  
+  getmine = async (req, res, next) => {
 
-
+    const { nickname } = res.locals.user;
+    const post = await this.userService.findPost(nickname);
+    res.status(400).json({ post });
+  }
 }
 
 module.exports = UserController;
