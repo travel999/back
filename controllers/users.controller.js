@@ -10,6 +10,7 @@ class UserController {
     const {signUp} = req.body;
     const email = signUp.email;
     const nickname = signUp.nickname;
+    const userImage = signUp.userImage;
     const password = signUp.password;
     const confirm = signUp.confirm;
 
@@ -40,6 +41,7 @@ class UserController {
     const user = await this.userService.createUser(
       email,
       nickname,
+      userImage,
       password,
       confirm
     );
