@@ -2,11 +2,12 @@ const User = require("../schemas/users");
 const Post = require("../schemas/posts");
 
 class UserRepository {
-  createUser = async (email, nickname, password) => {
+  createUser = async (email, nickname, userImage, password) => {
     
     const createUserData = await User.create({
       email,
       nickname,
+      userImage,
       password,
     });
 
