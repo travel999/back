@@ -12,10 +12,11 @@ router.post("/logout", usercontroller.userLogout);
 router.post("/checkEmail", usercontroller.checkEmail);
 router.post("/checkNickname", usercontroller.checkNickname);
 
-router.get("/me", usercontroller.findUser);
+router.get("/me", authMiddlewares, usercontroller.findUser);
+router.put("/me/image", authMiddlewares, usercontroller.updateImage);
+router.put("/me/password", authMiddlewares, usercontroller.updatePassword);
+router.delete("/me/delete", authMiddlewares, usercontroller.deleteUser);
 router.get('/mine',authMiddlewares,usercontroller.getmine);//나의여행일정 가져오기(닉네임이같아야함)
-
-// router.get("/me", authMiddleware, usercontroller.findUser); // 수정중
 
 
 module.exports = router;
