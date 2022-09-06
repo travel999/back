@@ -8,6 +8,13 @@ const app = express();
 const logger = require('./logger')
 const Router = require("./routes/index");
 
+// 패스포트연결
+const passport = require("passport");
+const passportConfig = require("./passport/index.js"); // passportIndex
+passportConfig();
+console.log("Passport & kakaoeStrategy _ 설정 완료!");
+
+
 //db연결
 const connect = require("./schemas");
 connect();
@@ -29,11 +36,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/", Router);
 
-//패스포트//////////
-const passport = require("passport");
-const passportConfig = require("./passport/index.js"); // passportIndex
-passportConfig();
-console.log("Passport & kakaoeStrategy _ 설정 완료!");
 
 
 
