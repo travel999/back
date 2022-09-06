@@ -5,7 +5,7 @@ class UserController {
   userService = new UserService();
 
   createUser = async (req, res, next) => {
-    // const { email, nickname, password, confirm } = req.body;
+    // const { email, nickname, userImage, password, confirm } = req.body;
     
     const {signUp} = req.body;
     const email = signUp.email;

@@ -26,17 +26,17 @@ const userSchema = new Schema({
         default: Date.now,
     },
     
-    userId: {//카카오
-        type: String,
-        required: true,
-        unique: true
-    },
-    provider: {//카카오
-        type: String
-    },
-    profileImage: {//카카오
-        type: String
-    },
+    // userId: {//카카오
+    //     type: String,
+    //     required: true,
+    //     unique: true
+    // },
+    // provider: {//카카오
+    //     type: String
+    // },
+    // profileImage: {//카카오
+    //     type: String
+    // },
 
 });
 
