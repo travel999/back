@@ -4,8 +4,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         // trim : true,
-        required: false,
-        unique: true,
+        required: true,
     },
     password: {
         type: String,
@@ -15,9 +14,9 @@ const userSchema = new Schema({
     nickname: {
         type: String,
         // trim : true,
-        required: false,
+        required: true,
     },
-    userImage:{
+    userImage: {
         type: String,
         required: false,
     },
@@ -25,18 +24,20 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-    
-    // userId: {//카카오
-    //     type: String,
-    //     required: true,
-    //     unique: true
-    // },
-    // provider: {//카카오
-    //     type: String
-    // },
-    // profileImage: {//카카오
-    //     type: String
-    // },
+
+
+    userId: {//카카오
+        type: String,
+
+
+    },
+    provider: {//카카오
+        type: String
+    },
+    profile_image: {//카카오
+        type: String
+    },
+
 
 });
 

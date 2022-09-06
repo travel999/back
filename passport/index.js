@@ -11,9 +11,5 @@ module.exports = () => {
         console.log('역직렬화', user);
         done(null, user);
     });
-
-
-
-    // google();
     kakao();
 };
