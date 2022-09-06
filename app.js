@@ -40,6 +40,9 @@ app.use("/", Router);
 
 
 
+
+
+
 //404에러 페이지 없을때 처리하는 미들웨어
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
