@@ -10,6 +10,7 @@ const Router = require("./routes/index");
 
 // 패스포트연결
 const passport = require("passport");
+console.log("여기까지 실행");
 const passportConfig = require("./passport/index.js"); // passportIndex
 passportConfig();
 console.log("Passport & kakaoeStrategy _ 설정 완료!");
