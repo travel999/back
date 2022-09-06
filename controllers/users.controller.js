@@ -5,11 +5,15 @@ class UserController {
   userService = new UserService();
 
   createUser = async (req, res, next) => {
-    // const { email, nickname, password, confirm } = req.body;
+
+    // const { email, nickname, password, confirm,userImage } = req.body;
+
+
     
     const {signUp} = req.body;
     const email = signUp.email;
     const nickname = signUp.nickname;
+    const userImage = signUp.userImage;
     const password = signUp.password;
     const confirm = signUp.confirm;
 
@@ -40,6 +44,7 @@ class UserController {
     const user = await this.userService.createUser(
       email,
       nickname,
+      userImage,
       password,
       confirm
     );
@@ -93,14 +98,54 @@ class UserController {
   };
 
   findUser = async (req, res, next) => {
-    const { user } = res.locals;
-
-    const userinfo = await this.userService.findUser(
-      user.nickname,
-      user.password,
+    const { nickname, password } = res.locals.user;
+    
+    const userInfo = await this.userService.findUser(
+      nickname,
+      password,
     );
 
-    res.status(200).json({ data: userinfo });
+    if(userInfo.result === true){
+      res.status(200).json({ data: userInfo });
+    }else{
+      res.status(400).json(userInfo);
+    }  
+  };
+
+  updateImage = async (req,res,next) => {
+    const {newImage} = req.body;
+    const {nickname} = res.locals.user;
+    const userInfo = await this.userService.updateImage(nickname,newImage);
+
+    if(userInfo.result === true){
+      res.status(200).json(userInfo);
+    }else{
+      res.status(400).json(userInfo);
+    }
+  };
+
+  updatePassword = async (req,res,next) => {
+    const {newPassword,confirm} = req.body;
+    const {nickname,password} = res.locals.user;
+    const userInfo = await this.userService.updatePassword(nickname,password,newPassword,confirm);
+
+    if(userInfo.result === true){
+      res.status(200).json(userInfo);
+    }else{
+      res.status(400).json(userInfo);
+    }
+  };
+
+  deleteUser = async (req,res,next) => {
+    const {nickname} = res.locals.user;
+
+    const userInfo = await this.userService.deleteUser(nickname);
+
+    if(userInfo.result === true){
+      res.status(200).json(userInfo);
+    }else{
+      res.status(400).json(userInfo);
+    }    
   };
 
   userLogin = async (req, res, next) => {
