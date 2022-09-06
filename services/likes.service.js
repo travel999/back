@@ -13,7 +13,6 @@ class LikeService {
 
     updateLike = async (nickname, postId) => {
         const isLike = await this.likeRepository.findLike(nickname, postId);
-
         if (!isLike) {
 
             const existLikes = await this.likeRepository.targetId({ _id: postId });
@@ -23,7 +22,7 @@ class LikeService {
                 const postLike = countLikes + 1
                 await this.likeRepository.createLike(nickname, postId);
                 await this.likeRepository.updateLike(postId, postLike);
-                return { message: '일정에 좋아요를 했습니다' };
+                return { message: '일정에 좋아요를 했습니다', existLikes };
             } else {
                 return { message: '일정이 없습니다' };
             }
@@ -35,7 +34,7 @@ class LikeService {
                 const postLike = countLikes - 1
                 await this.likeRepository.deleteLike(nickname, postId);
                 await this.likeRepository.updateLike(postId, postLike);
-                return { message: '일정에 좋아요를 취소했습니다' };
+                return { message: '일정에 좋아요를 취소했습니다', existLikes};
             } else {
                 return { message: '일정이 없습니다' };
             }
