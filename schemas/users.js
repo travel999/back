@@ -4,18 +4,18 @@ const userSchema = new Schema({
     email: {
         type: String,
         // trim : true,
-        required: true,
+        required: false,
         unique: true,
     },
     password: {
         type: String,
         // trim : true,
-        required: true,
+        required: false,
     },
     nickname: {
         type: String,
         // trim : true,
-        required: true,
+        required: false,
     },
     userImage:{
         type: String,
@@ -25,6 +25,19 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    
+    userId: {//카카오
+        type: String,
+        required: true,
+        unique: true
+    },
+    provider: {//카카오
+        type: String
+    },
+    profileImage: {//카카오
+        type: String
+    },
+
 });
 
 module.exports = mongoose.model(`User`, userSchema);
