@@ -49,9 +49,32 @@ class UserRepository {
   };
 
   findUser = async (nickname, password) => {
-    const findUserData = await User.findOne({ nickname:nickname, password: password});
-
+    const findUserData = await User.findOne({ nickname: nickname, password: password });
+    
     return findUserData;
+  };
+
+  updateImage = async (nickname, newImage) => {
+    
+    const updateUser = await User.updateOne({ nickname: nickname },{ $set: { userImage: newImage } });
+    const userInfo = await User.findOne({ nickname: nickname });
+
+    return userInfo;
+  };
+
+  updatePassword = async (nickname,newPassword) => {
+    
+    const updateUser = await User.updateOne({ nickname: nickname },{ $set: { password: newPassword }});
+    const userInfo = await User.findOne({ nickname: nickname });
+    console.log(userInfo);
+    return userInfo;
+  };
+
+  deleteUser = async (nickname) => {
+    const updateUser = await User.deleteOne({nickname:nickname});
+    const userInfo = await User.findOne({nickname:nickname});
+
+    return userInfo;
   };
   
   findPost = async (nickname) => {
