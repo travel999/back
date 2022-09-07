@@ -10,7 +10,6 @@ const Router = require("./routes/index");
 
 // 패스포트연결
 const passport = require("passport");
-console.log("여기까지 실행");
 const passportConfig = require("./passport/index.js"); // passportIndex
 passportConfig();
 console.log("Passport & kakaoeStrategy _ 설정 완료!");
@@ -22,8 +21,14 @@ connect();
 
 app.use(
   cors({
-  origin: true,
-  withCredentials: true
+  // origin: true,
+  origin:[
+    "http://localhost:3000",
+    "http://localhost:3000/kakao/callback",
+    "http://localhost:3000/kakao",
+    "http://43.200.173.40:3000/kakao"
+  ],
+  Credentials: true
   })
 );
 
