@@ -8,7 +8,6 @@ class LikeRepository {
         const post = []
         for (var i = 0; i < likedPost.length; i++) {
             const data = await Post.findById(likedPost[i])
-            console.log(data)
             post.push(data)
         }
         return post;
