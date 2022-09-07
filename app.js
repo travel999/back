@@ -22,8 +22,14 @@ connect();
 
 app.use(
   cors({
-  origin: true,
-  withCredentials: true
+  // origin: true,
+  origin:[
+    "http://localhost:3000",
+    "http://localhost:3000/kakao/callback",
+    "http://localhost:3000/kakao",
+    "http://43.200.173.40:3000/kakao"
+  ],
+  Credentials: true
   })
 );
 
