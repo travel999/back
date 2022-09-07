@@ -25,6 +25,7 @@ const userSchema = new Schema({
         default: Date.now,
     },
 
+
     userId: {//카카오
         type: String,
 
@@ -36,6 +37,7 @@ const userSchema = new Schema({
     profile_image: {//카카오
         type: String
     },
+
 
 });
 

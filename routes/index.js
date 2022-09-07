@@ -10,7 +10,7 @@ const kakaosRouter=require("./kakaos");
 router.use("/user", UserRouter);
 router.use("/post", authMiddleware, postsRouter);
 router.use("/like",authMiddleware, LikesRouter);
-router.use("/kakao",kakaosRouter);
+router.use("/kakao", kakaosRouter);
 
 
 
