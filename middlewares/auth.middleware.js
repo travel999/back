@@ -19,7 +19,6 @@ module.exports = (req, res, next) => {
     const {userId} = jwt.verify(token, process.env.myKey); // userId 는 jwt.sign(userId : user._id)의 user._id가 할당된다.
     User.findById(userId).then((user) => {
       res.locals.user = user;
-      console.log("유저정보:", res.locals.user);
       next();
     });
   } catch (error) {
