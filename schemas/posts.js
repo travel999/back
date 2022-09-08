@@ -9,31 +9,6 @@ const postSchema = new Schema({
         type: String,
         required: true,
     },
-    day:{
-        type: Array,
-        required: true,
-        cardNum: {
-            type: Array,
-            required: true,
-            
-            placeName: {
-                type: String,
-                required: true,
-            },
-            locate: {
-                type: String,
-                required: true,
-            },
-            content: {
-                type: String,
-                required: true,
-            }
-        }
-    }
-    ,
-        
-   
-
     openPublic: {
         type: Boolean,
         default: false
@@ -48,6 +23,6 @@ const postSchema = new Schema({
     },
 
 
-});
+},{ strict: false }); //{ strict: false } 스키마에 제약 없이 DB에 저장가능
 
 module.exports = mongoose.model(`Post`, postSchema);

@@ -1,7 +1,7 @@
 {
   "name": "travel",
   "version": "1.0.0",
-  "description": "",
+  "description": "travel planning service",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
