@@ -22,13 +22,13 @@ connect();
 
 app.use(
   cors({
-  origin: true,
-  credentials: true
+    origin: true,
+    credentials: true
   })
 );
 
 app.use(morgan('combined', {                                  // 코드가 400 미만라면 함수를 리턴해 버려서 로그 기록 안함.
-    skip : function(req, res) { return res.statusCode < 400 } // 코드가 400 이상이면 로그 기록함
+  skip: function (req, res) { return res.statusCode < 400 } // 코드가 400 이상이면 로그 기록함
 }));
 
 
@@ -59,8 +59,8 @@ app.use((err, req, res, next) => {
 
 
 app.listen(3000, () => {
-    console.log(3000, '포트로 서버가 열렸어요!');
-  });
+  console.log(3000, '포트로 서버가 열렸어요!');
+});
 
 
 
