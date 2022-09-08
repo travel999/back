@@ -18,7 +18,7 @@ const kakaoCallback = (req, res, next) => {
             if (err) return next(err)
             const { userId } = user
             const userInfo = user
-            const token = jwt.sign({ userId }, process.env.KAKAO_SECRETKEY)
+            const token = jwt.sign({ userId }, process.env.myKey)
             result = {
                 token,
                 userInfo,//이메일,프로필사진,닉네임
@@ -28,8 +28,8 @@ const kakaoCallback = (req, res, next) => {
         }
     )(req, res, next)
 }
-
 router.get('/callback', kakaoCallback)
+
 
 
 module.exports = router;
