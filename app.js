@@ -88,7 +88,7 @@ app.use(
   "http://localhost:3000",
   "http://localhost:3000/kakao/callback",
   "http://localhost:3000/kakao",
-  "http://origachi.s3-website.ap-northeast-2.amazonaws.com/"
+  "http://origachi.s3-website.ap-northeast-2.amazonaws.com"
   
   ],
   credentials: true
