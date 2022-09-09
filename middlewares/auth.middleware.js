@@ -5,9 +5,11 @@ const User = require("../schemas/users");
    서버 환경에서 테스트 에는 헤더를 이용해주세요.*/
 
 module.exports = (req, res, next) => {
-  // const  token  = req.headers.token;
-  const {token} = req.cookies;
- 
+
+  const  token  = req.headers.token;
+  // const {token} = req.cookies;
+  console.log("토큰 확인:", token);
+
 
   if (!token) {
     res.status(401).json({ result: false, error: "로그인이 필요합니다1." });
