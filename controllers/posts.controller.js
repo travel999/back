@@ -50,7 +50,6 @@ class PostsController {
         try {
             const { nickname } = res.locals.user
             const { nickname2, title, day: [cardNum, [placeName, locate, content]] } = req.body;
-            console.log([nickname])
             
             const createPostData = await this.postService.createPost({ nickname : [nickname].concat(nickname2), title, day: [cardNum, [placeName, locate, content]] });
 
