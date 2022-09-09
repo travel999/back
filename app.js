@@ -7,6 +7,7 @@ const socket = require("socket.io");
 require("dotenv").config();
 const app = express();
 const http = require("http");
+const server  = http.createServer(app);
 const logger = require('./logger')
 const Router = require("./routes/index");
 
@@ -17,7 +18,6 @@ passportConfig();
 
 //소켓 서버 연결
 // const fs = require("fs");
-// const server  = http.createServer(app);
 // const io = socket(server);
 
 // app.use("/css", express.static("./static/css"))
@@ -126,7 +126,7 @@ app.listen(3000, () => {
 
 
 
-module.exports = app;
+module.exports = server;
 
 
 
