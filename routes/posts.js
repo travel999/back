@@ -39,9 +39,10 @@ router.post('/',  async (req, res, next) =>{
     try{
         const { nickname } = res.locals.user;
         const { title, date } = req.body;
+
         getpost = await Post.create({nickname, title, date })
-        // res.status(200).json({ postId : getpost._id })
-        res.status(200).json( getpost )
+        res.status(200).json({ postId : getpost._id , title, date })
+        // res.status(200).json( getpost )
     }catch(err) {
         console.log(err)
         next(err);
