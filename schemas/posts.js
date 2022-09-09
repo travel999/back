@@ -13,6 +13,10 @@ const postSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isLiked: {
+        type: Boolean,
+        default: false,
+    },
     like: {
         type:Number,
         default: 0
