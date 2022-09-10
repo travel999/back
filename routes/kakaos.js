@@ -8,7 +8,7 @@ const passport = require('passport')
 
 //소셜로그인 카카오톡
 
-router.get('/', passport.authenticate('kakao'))
+
 
 const kakaoCallback = (req, res, next) => {
     passport.authenticate(
@@ -18,7 +18,7 @@ const kakaoCallback = (req, res, next) => {
             if (err) return next(err)
             const { userId } = user
             const userInfo = user
-            const token = jwt.sign({ userId }, process.env.KAKAO_SECRETKEY)
+            const token = jwt.sign({ userId }, process.env.myKey)
             result = {
                 token,
                 userInfo,//이메일,프로필사진,닉네임
@@ -29,6 +29,7 @@ const kakaoCallback = (req, res, next) => {
     )(req, res, next)
 }
 
+router.get('/', passport.authenticate('kakao'))
 router.get('/callback', kakaoCallback)
 
 
