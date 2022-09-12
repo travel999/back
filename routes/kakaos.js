@@ -24,7 +24,7 @@ const kakaoCallback = (req, res, next) => {
                 userInfo,//이메일,프로필사진,닉네임
             }
             console.log('카카오 콜백 함수 결과', result)
-            res.status(200).send({ user: result })
+            res.status(200).json({ user: result })
         }
     )(req, res, next)
 }
