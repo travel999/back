@@ -10,6 +10,7 @@ const passport = require('passport')
 
 router.get('/', passport.authenticate('kakao'))
 
+
 const kakaoCallback = (req, res, next) => {
     passport.authenticate(
         'kakao',
