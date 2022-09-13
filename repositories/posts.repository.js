@@ -31,7 +31,20 @@ class PostRepository {
 
     findMain3 = async ( openStatus,start,listSize ) => {
         const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 }).skip(start).limit(listSize);
-                
+        // const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
+        // const likedPost = targetPost.map((post) => post.postId);
+        // const likePosts  = [];
+        
+        // for( var i = 0 ; i < likedPost.length; i++ ){    
+        //     const data = await Post.findById(likedPost[i]);
+        //     likePosts.push(data);
+        // }
+
+        // for( var i = 0; i < likePosts.length; i++){
+        //     let id = likePosts[i]._id;
+            
+        // }
+
         return posts;
     }
 

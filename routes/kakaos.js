@@ -8,8 +8,8 @@ const passport = require('passport')
 
 //소셜로그인 카카오톡
 
-router.get('/', passport.authenticate('kakao'))
 
+router.get('/', passport.authenticate('kakao'))
 
 const kakaoCallback = (req, res, next) => {
     passport.authenticate(
@@ -17,8 +17,10 @@ const kakaoCallback = (req, res, next) => {
         { failureRedirect: '/' },
         (err, user, info) => {
             if (err) return next(err)
+
             const  userId  = user._id;
             const userInfo = user;
+
             const token = jwt.sign({ userId }, process.env.myKey)
             result = {
                 token,
@@ -29,8 +31,6 @@ const kakaoCallback = (req, res, next) => {
         }
     )(req, res, next)
 }
-
-
 
 
 router.get('/callback', kakaoCallback)
