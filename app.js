@@ -23,17 +23,17 @@ connect();
 
 app.use(
   cors({
-  // origin: true,
-  origin:[
-  "http://54.180.131.25:3000",
-  "http://localhost:3000",
-  "http://localhost:3000/kakao/callback",
-  "http://localhost:3000/kakao",
-  "http://origachi.s3-website.ap-northeast-2.amazonaws.com",
-  "http://localhost:8000",
-  
-  ],
-  credentials: true
+    // origin: true,
+    origin: [
+      "http://54.180.131.25:3000",
+      "http://localhost:3000",
+      "http://localhost:3000/kakao/callback",
+      "http://localhost:3000/kakao",
+      "http://origachi.s3-website.ap-northeast-2.amazonaws.com",
+      "http://localhost:8000",
+
+    ],
+    credentials: true
   })
 );
 
@@ -62,12 +62,9 @@ app.use((err, req, res, next) => {
 });
 
 
-
-
-
-  server.listen(3000, () => {
-    console.log(3000, '포트로 서버가 열렸어요!');
-  });
+server.listen(3001, () => {
+  console.log(3001, '포트로 서버가 열렸어요!');
+});
 
 
 module.exports = server;
