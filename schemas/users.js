@@ -26,7 +26,7 @@ const userSchema = new Schema({
     },
 
 
-    userId: {//카카오
+    snsId: {//카카오
         type: String,
 
 
