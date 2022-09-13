@@ -7,4 +7,6 @@ const socket = io();
 
 io.on("connection", (socket) => {
     console.log("소켓통신 연결");
+  
 });
+
