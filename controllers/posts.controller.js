@@ -28,9 +28,9 @@ class PostsController {
         const openStatus = true;
         try{
             const posts = await this.postService.findMain(nickname);
-            const Lposts = await this.postService.findMain2(nickname);
+            const likedPosts = await this.postService.findMain2(nickname);
             const openPosts = await this.postService.findMain3(openStatus,page,pageSize);
-            res.status(200).json({ data1: posts, data2:Lposts, data3:openPosts });
+            res.status(200).json({ data1: posts, data2:likedPosts, data3:openPosts });
         }catch(error){
             res.status(400).json({statusCode: "400: 정보 호출 오류"});
         }

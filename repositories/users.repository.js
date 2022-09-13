@@ -50,7 +50,6 @@ class UserRepository {
 
   findUser = async (nickname, password) => {
     const findUserData = await User.findOne({ nickname: nickname, password: password });
-    
     return findUserData;
   };
 

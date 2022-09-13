@@ -49,13 +49,13 @@ class UserService {
   };
 
   findUser = async (nickname, password) => {
-    const findUser = await this.userRepository.findUser(nickname, password);
-
-    if(!findUser || !findUser.length){
-      return {result:false, message:"정보 조회 실패"};
+    const userInfo = await this.userRepository.findUser(nickname, password);
+    
+    if(userInfo){
+      return {result: true, userInfo};
     }
     else{
-      return {result: true, findUser};
+      return {result:false, message:"정보 조회 실패"};
     }
     
   };
