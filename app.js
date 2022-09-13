@@ -62,8 +62,8 @@ app.use((err, req, res, next) => {
 });
 
 
-server.listen(3001, () => {
-  console.log(3001, '포트로 서버가 열렸어요!');
+server.listen(3000, () => {
+  console.log(3000, '포트로 서버가 열렸어요!');
 });
 
 
