@@ -1,12 +1,17 @@
 const express = require('express');
+const http = require("http");;
+const SocketIo = require("socket.io")
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
 
+
+
 require("dotenv").config();
 const app = express();
-const http = require("http");;
+
 const server = http.createServer(app);
+const io = SocketIo(server)
 const logger = require('./logger')
 const Router = require("./routes/index");
 
@@ -37,6 +42,8 @@ app.use(
   })
 );
 
+
+
 app.use(morgan('combined', {                                  // 코드가 400 미만라면 함수를 리턴해 버려서 로그 기록 안함.
   skip: function (req, res) { return res.statusCode < 400 } // 코드가 400 이상이면 로그 기록함
 }));
@@ -44,8 +51,12 @@ app.use(morgan('combined', {                                  // 코드가 400 �
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.json()); 
 app.use("/", Router);
+
+
+
+
 
 
 //404에러 페이지 없을때 처리하는 미들웨어
@@ -62,9 +73,30 @@ app.use((err, req, res, next) => {
 });
 
 
-server.listen(3001, () => {
-  console.log(3001, '포트로 서버가 열렸어요!');
+server.listen(3000, () => {
+  console.log(3000, '포트로 서버가 열렸어요!');
 });
+
+
+
+io.on("connection", (socket) => {
+  console.log("Connected to Browser ✅")
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    });
+    
+    socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+    });
+})
+
+
+  
+  
+  
 
 
 module.exports = server;
