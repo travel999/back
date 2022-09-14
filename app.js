@@ -4,7 +4,7 @@ const SocketIo = require("socket.io")
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
-const Chat = require("./schemas/Chat");
+
 
 
 
@@ -26,6 +26,7 @@ passportConfig();
 const connect = require("./schemas");
 connect();
 
+const Chat = require("./schemas/Chat");
 
 app.use(
   cors({
