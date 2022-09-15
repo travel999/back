@@ -89,6 +89,15 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     
+<<<<<<< HEAD
+    socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+    });
+});
+
+
+  
+=======
     socket.join(data);// 소켓아이디 말고 nickname 를 넘겨주기. 
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
   });
@@ -113,6 +122,7 @@ io.on("connection", (socket) => {
 
 
 
+>>>>>>> cd999ada061e2ca66790adf831a365efabb84014
 module.exports = server;
 
 
