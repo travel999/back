@@ -27,7 +27,6 @@ passportConfig();
 const connect = require("./schemas");
 connect();
 
-const Chat = require("./schemas/Chat");
 
 app.use(
   cors({
