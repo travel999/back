@@ -11,12 +11,12 @@ const postSchema = new Schema({
     },
     openPublic: {
         type: Boolean,
-        default: false
+        default: false,
     },
-    // isLiked: {
-    //     type: Boolean,
-    //     default: false,
-    // },
+    isLiked: {
+        type: Boolean,
+        default: false,
+    },
     like: {
         type:Number,
         default: 0

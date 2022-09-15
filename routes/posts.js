@@ -69,6 +69,24 @@ router.put('/:postId',  async (req, res, next) =>{
     }
 })
 
+router.put('/test/:postId',  async (req, res, next) =>{
+    try{
+        const { nickname } = res.locals.user;
+        const _id = req.params.postId
+        // targetPost = await Post.findById(_id)
+        const { title, date,  day1, day2, day3, day4, day5 } = req.body;
+        const filter = { _id }
+        const update = { title, date, day1, day2, day3, day4, day5 }
+        await Post.findOneAndUpdate(filter, update)  //파인드와 업데이트 한번에 
+        const getpost = await Post.findById(filter)  //업데이트된 값을 바로 돌려주기 위해 겟포스트
+
+        // await targetPost.updateOne({ nickname, title, date, day1, day2, day3, day4, day5  })
+        res.status(200).json( getpost ) 
+    }catch(err) {
+        console.log(err)
+        next(err);
+    }
+})
 
 
 module.exports = router;
