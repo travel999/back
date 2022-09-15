@@ -1,10 +1,11 @@
 const express = require('express');
-const http = require("http");;
+const http = require("http");
 const SocketIo = require("socket.io")
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
 
+const Chat = require("./schemas/chat");
 
 
 
@@ -26,7 +27,6 @@ passportConfig();
 const connect = require("./schemas");
 connect();
 
-const Chat = require("./schemas/Chat");
 
 app.use(
   cors({
@@ -70,7 +70,7 @@ app.use((req, res, next) => {
 
 
 app.use((err, req, res, next) => {
-  logger.error(err.message) //서버 배포할때 주석 해제해서 에러 로그가 남게 설정!!!
+  // logger.error(err.message) //서버 배포할때 주석 해제해서 에러 로그가 남게 설정!!!
   res.status(err.status || 500).send(err.message);
 });
 
@@ -85,11 +85,8 @@ io.on("connection", (socket) => {
   console.log("Connected to Browser ✅")
   console.log(`User Connected: ${socket.id}`);
 
-  socket["nickname"] = "Anonymous"
-
   socket.on("join_room", (data) => {
-    
-    socket.join(data);// 소켓아이디 말고 nickname 를 넘겨주기. 
+    socket.join(data);
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
   });
 
@@ -97,18 +94,23 @@ io.on("connection", (socket) => {
     log = await Chat.findOne({room : messageData.room})
     if (log){
       await Chat.updateOne({ room : messageData.room }, { $push: { chatLog : messageData.message} }) //배열에 메시지 추가
+      socket.to(messageData.room).emit("receive_message", messageData);
+      console.log("메시지보냄1")
     }else{
-      await Chat.create({room : messageData.room, chatLog : message })
+      await Chat.create({room : messageData.room, chatLog : messageData.message })
+      socket.to(messageData.room).emit("receive_message", messageData);
+      console.log("메시지보냄2")
     }
-    socket.to(messageData.room).emit("receive_message", messageData);
+    // socket.to(messageData.room).emit("receive_message", messageData);
   });
   // socket.on("send_message", (data) => {
   //   socket.to(data.room).emit("receive_message", data);
   // });
+
+ 
 })
 
-
-
+ 
 
 
 
