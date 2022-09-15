@@ -6,7 +6,7 @@ class PostService {
     postRepository = new PostRepository();
     
     
-    searchKey = async (keyword,page,pageSize) => {
+    searchKey = async (nickname,keyword,page,pageSize) => {
         
         const start = 0;
         // if (page <= 0) {
@@ -16,7 +16,7 @@ class PostService {
         // }
         const listSize = page * pageSize;
 
-        const posts = await this.postRepository.searchKey(keyword,start,listSize);
+        const posts = await this.postRepository.searchKey(nickname,keyword,start,listSize);
 
         if(!posts || !posts.length){
             return {result:false, message: "검색 결과가 존재하지 않습니다." };
