@@ -7,6 +7,7 @@ const morgan = require('morgan');
 
 
 
+
 require("dotenv").config();
 const app = express();
 
@@ -25,6 +26,7 @@ passportConfig();
 const connect = require("./schemas");
 connect();
 
+const Chat = require("./schemas/Chat");
 
 app.use(
   cors({
@@ -51,7 +53,7 @@ app.use(morgan('combined', {                                  // 코드가 400 �
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json()); 
+app.use(express.json());
 app.use("/", Router);
 
 
@@ -83,11 +85,11 @@ io.on("connection", (socket) => {
   console.log("Connected to Browser ✅")
   console.log(`User Connected: ${socket.id}`);
 
+  socket["nickname"] = "Anonymous"
+
   socket.on("join_room", (data) => {
-    socket.join(data);
-    console.log(`User with ID: ${socket.id} joined room: ${data}`);
-    });
     
+<<<<<<< HEAD
     socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
     });
@@ -95,6 +97,32 @@ io.on("connection", (socket) => {
 
 
   
+=======
+    socket.join(data);// 소켓아이디 말고 nickname 를 넘겨주기. 
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on("send_message", async (messageData) => {
+    log = await Chat.findOne({room : messageData.room})
+    if (log){
+      await Chat.updateOne({ room : messageData.room }, { $push: { chatLog : messageData.message} }) //배열에 메시지 추가
+    }else{
+      await Chat.create({room : messageData.room, chatLog : message })
+    }
+    socket.to(messageData.room).emit("receive_message", messageData);
+  });
+  // socket.on("send_message", (data) => {
+  //   socket.to(data.room).emit("receive_message", data);
+  // });
+})
+
+
+
+
+
+
+
+>>>>>>> cd999ada061e2ca66790adf831a365efabb84014
 module.exports = server;
 
 
