@@ -38,7 +38,7 @@ class PostRepository {
         for (var i = 0; i < likedPost.length; i++) {
             let ids = likedPost[i];
             for(var j = 0; j < posts.length; j++){
-                if(posts[j]._id == ids){
+                if(posts[j]._id.toString() === ids){
                     posts[j].isLiked = true;
                 }
             }
