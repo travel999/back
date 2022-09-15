@@ -3,9 +3,19 @@ const Like = require("../schemas/likes");
 
 class PostRepository {
 
-    searchKey = async (keyword, start, listSize) => {
-        console.log(keyword);
-        const posts = await Post.find({ title: { $regex: keyword }, openPublic: true }).sort({ "like": -1 }).skip(start).limit(listSize);
+    searchKey = async (keyword, start, pageSize) => {
+        const posts = await Post.find({ title: { $regex: keyword }, openPublic: true }).sort({ "like": -1 }).skip(start).limit(pageSize);
+        const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
+        const likedPost = targetPost.map((post) => post.postId);
+          
+        for (var i = 0; i < likedPost.length; i++) {
+            let ids = likedPost[i];
+            for(var j = 0; j < posts.length; j++){
+                if(posts[j]._id.toString() === ids){
+                    posts[j].isLiked = true;
+                }
+            }
+        }
 
         return posts;
     }
@@ -23,18 +33,18 @@ class PostRepository {
 
         for (var i = 0; i < likedPost.length; i++) {
             const data = await Post.findById(likedPost[i]);
+            data.isLiked = true;
             post.push(data);
         }
 
         return post;
     }
 
-    findMain3 = async (openStatus, nickname, start, listSize) => {
-        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 }).skip(start).limit(listSize);
+    findMain3 = async (openStatus, nickname, start, pageSize) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 }).skip(start).limit(pageSize);
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
           
-        
         for (var i = 0; i < likedPost.length; i++) {
             let ids = likedPost[i];
             for(var j = 0; j < posts.length; j++){
@@ -43,7 +53,6 @@ class PostRepository {
                 }
             }
         }
-
 
         return posts;
     }
