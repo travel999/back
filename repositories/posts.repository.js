@@ -3,8 +3,8 @@ const Like = require("../schemas/likes");
 
 class PostRepository {
 
-    searchKey = async (keyword, start, pageSize) => {
-        const posts = await Post.find({ title: { $regex: keyword }, openPublic: true }).sort({ "like": -1 }).skip(start).limit(pageSize);
+    searchKey = async (keyword, start, listSize) => {
+        const posts = await Post.find({ title: { $regex: keyword }, openPublic: true }).sort({ "like": -1 }).skip(start).limit(listSize);
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
           
@@ -40,8 +40,8 @@ class PostRepository {
         return post;
     }
 
-    findMain3 = async (openStatus, nickname, start, pageSize) => {
-        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 }).skip(start).limit(pageSize);
+    findMain3 = async (openStatus, nickname, start, listSize) => {
+        const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 }).skip(start).limit(listSize);
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
           
