@@ -9,14 +9,14 @@ class PostService {
     searchKey = async (nickname,keyword,page,pageSize) => {
         
         const start = 0;
-        // if (page <= 0) {
-        //     page = 1;
-        // } else {
-        //     start = (page - 1) * pageSize;
-        // }
-        const listSize = page * pageSize;
+        if (page <= 0) {
+            page = 1;
+        } else {
+            start = (page - 1) * pageSize;
+        }
+        // const listSize = page * pageSize;
 
-        const posts = await this.postRepository.searchKey(nickname,keyword,start,listSize);
+        const posts = await this.postRepository.searchKey(nickname,keyword,start,pageSize);
 
         if(!posts || !posts.length){
             return {result:false, message: "검색 결과가 존재하지 않습니다." };
@@ -51,14 +51,14 @@ class PostService {
     findMain3 = async (openStatus,nickname,page,pageSize) => {
         
         const start = 0;
-        // if (page <= 0) {
-        //     page = 1;
-        // } else {
-        //     start = (page - 1) * pageSize;
-        // }
-        const listSize = page * pageSize;
+        if (page <= 0) {
+            page = 1;
+        } else {
+            start = (page - 1) * pageSize;
+        }
+        // const listSize = page * pageSize;
                         
-        const posts = await this.postRepository.findMain3(openStatus,nickname,start,listSize);
+        const posts = await this.postRepository.findMain3(openStatus,nickname,start,pageSize);
 
         if (!posts || !posts.length){
             return { result:false, message: "공개된 일정이 없습니다."};
