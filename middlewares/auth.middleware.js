@@ -6,8 +6,8 @@ const User = require("../schemas/users");
 
 module.exports = (req, res, next) => {
 
-  // const token = req.headers.token;
-  const {token} = req.cookies;
+  const token = req.headers.token;
+  // const {token} = req.cookies;
 
 
   if (!token) {
