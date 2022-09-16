@@ -9,8 +9,8 @@ class UserController {
     // const { email, nickname, password, confirm,userImage } = req.body;
 
 
-    
-    const {signUp} = req.body;
+
+    const { signUp } = req.body;
     const email = signUp.email;
     const nickname = signUp.nickname;
     const userImage = signUp.userImage;
@@ -59,10 +59,10 @@ class UserController {
 
   checkEmail = async (req, res, next) => {
     // const { email } = req.body;
-    
+
     const { signUp } = req.body;
     const email = signUp.email;
-    
+
 
     const checked = await this.userService.checkEmail(email);
 
@@ -79,11 +79,11 @@ class UserController {
 
   checkNickname = async (req, res, next) => {
     // const { nickname } = req.body;
-    
-    
+
+
     const { signUp } = req.body;
     const nickname = signUp.nickname;
-    
+
 
     const checked = await this.userService.checkNickname(nickname);
 
@@ -99,53 +99,53 @@ class UserController {
 
   findUser = async (req, res, next) => {
     const { nickname, password } = res.locals.user;
-    
+
     const userInfo = await this.userService.findUser(
       nickname,
       password,
     );
 
-    if(userInfo.result === true){
+    if (userInfo.result === true) {
       res.status(200).json({ data: userInfo });
-    }else{
-      res.status(400).json(userInfo);
-    }  
-  };
-
-  updateImage = async (req,res,next) => {
-    const {newImage} = req.body;
-    const {nickname} = res.locals.user;
-    const userInfo = await this.userService.updateImage(nickname,newImage);
-
-    if(userInfo.result === true){
-      res.status(200).json(userInfo);
-    }else{
+    } else {
       res.status(400).json(userInfo);
     }
   };
 
-  updatePassword = async (req,res,next) => {
-    const {newPassword,confirm} = req.body;
-    const {nickname,password} = res.locals.user;
-    const userInfo = await this.userService.updatePassword(nickname,password,newPassword,confirm);
+  updateImage = async (req, res, next) => {
+    const { newImage } = req.body;
+    const { nickname } = res.locals.user;
+    const userInfo = await this.userService.updateImage(nickname, newImage);
 
-    if(userInfo.result === true){
+    if (userInfo.result === true) {
       res.status(200).json(userInfo);
-    }else{
+    } else {
       res.status(400).json(userInfo);
     }
   };
 
-  deleteUser = async (req,res,next) => {
-    const {nickname} = res.locals.user;
+  updatePassword = async (req, res, next) => {
+    const { newPassword, confirm } = req.body;
+    const { nickname, password } = res.locals.user;
+    const userInfo = await this.userService.updatePassword(nickname, password, newPassword, confirm);
+
+    if (userInfo.result === true) {
+      res.status(200).json(userInfo);
+    } else {
+      res.status(400).json(userInfo);
+    }
+  };
+
+  deleteUser = async (req, res, next) => {
+    const { nickname } = res.locals.user;
 
     const userInfo = await this.userService.deleteUser(nickname);
 
-    if(userInfo.result === true){
+    if (userInfo.result === true) {
       res.status(200).json(userInfo);
-    }else{
+    } else {
       res.status(400).json(userInfo);
-    }    
+    }
   };
 
   userLogin = async (req, res, next) => {
@@ -166,7 +166,7 @@ class UserController {
       expires.setMinutes(expires.getMinutes() + 60);
       res.cookie("token", token, { expires: expires });
 
-      return res.status(200).json({ statusCode: "200: 로그인 성공.", token });
+      return res.status(200).json({ statusCode: "200: 로그인 성공.", token, image: user.userImage, nickname: user.nickname });
     }
     else {
       return res.status(400).json({ statusCode: "400: 입력한 정보를 확인해주세요." });
