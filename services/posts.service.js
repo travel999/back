@@ -8,7 +8,7 @@ class PostService {
     
     searchKey = async (nickname,keyword,page,pageSize) => {
         
-        const start = 0;
+        let start = 0;
         if (page <= 0) {
             page = 1;
         } else {
@@ -50,7 +50,7 @@ class PostService {
 
     findMain3 = async (openStatus,nickname,page,pageSize) => {
         
-        const start = 0;
+        let start = 0;
         if (page <= 0) {
             page = 1;
         } else {
