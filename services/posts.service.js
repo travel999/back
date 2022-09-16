@@ -44,7 +44,7 @@ class PostService {
             return { result:false, message: "좋아요 한 일정이 없습니다" };
         }
 
-        return { result:true, posts };
+        return posts;
             
     }
 
