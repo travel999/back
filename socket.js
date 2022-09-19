@@ -36,11 +36,12 @@ module.exports = (server, app) => {
         socket.on("SaveDone_data", (data) => {
             // console.log("저장한사람: ", data.author);
             socket.to(data.room).emit("SaveGet_data", data);
-            // console.log(data.room);
+            console.log("save", data.author);
         });
             
         socket.on("liveText_send", (data) => {
             socket.to(data.room).emit("liveText_receive", data);
+            console.log("live", data.msg)
         });
 
     })
