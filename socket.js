@@ -19,6 +19,7 @@ module.exports = (server, app) => {
             console.log(`User with ID: ${socket.id} joined room: ${data}`);
         });
         
+
         socket.on("send_message", async (data) => {
             // log = await Chat.findOne({room : data.room})
             // if(log){
@@ -43,6 +44,6 @@ module.exports = (server, app) => {
         });
 
     })
-
-        
+    
+    
     }
