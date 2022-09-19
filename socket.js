@@ -19,24 +19,30 @@ module.exports = (server, app) => {
             console.log(`User with ID: ${socket.id} joined room: ${data}`);
         });
         
-        socket.on("send_message", async (messageData) => {
-            log = await Chat.findOne({room : messageData.room})
-            if (log){
-            await Chat.updateOne({ room : messageData.room }, { $push: { chatLog : messageData.message} }) //배열에 메시지 추가
-            socket.to(messageData.room).emit("receive_message", messageData);
-            console.log("메시지보냄1")
-            }else{
-            await Chat.create({room : messageData.room, chatLog : messageData.message })
-            socket.to(messageData.room).emit("receive_message", messageData);
-            console.log("메시지보냄2")
-            }
+        socket.on("send_message", async (data) => {
+            // log = await Chat.findOne({room : data.room})
+            // if(log){
+            // await Chat.updateOne({ room : data.room }, { $push: { chatLog : data.message, nickname : data.author, chatTime : data.time} }) //배열에 메시지 추가
+            // socket.to(data.room).emit("receive_message", data);
+            // }else{
+            await Chat.create({room : data.room, chatLog : data.message, nickname : data.author, chatTime : data.time })
+            socket.to(data.room).emit("receive_message", data);
+            // }
             
             // socket.to(messageData.room).emit("receive_message", messageData);
         });
+
+        socket.on("SaveDone_data", (data) => {
+            // console.log("저장한사람: ", data.author);
+            socket.to(data.room).emit("SaveGet_data", data);
+            // console.log(data.room);
+        });
+            
+        socket.on("liveText_send", (data) => {
+            socket.to(data.room).emit("liveText_receive", data);
+        });
+
+    })
+
         
-        socket.on("test_send", (data) => {
-            console.log(data.msg);
-            socket.to(data.room).emit("test_receive", data);
-            });
-        })
     }
