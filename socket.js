@@ -32,6 +32,11 @@ module.exports = (server, app) => {
             
             // socket.to(messageData.room).emit("receive_message", messageData);
         });
+        
+        socket.on("join_box", (data) => {
+            socket.join(data);
+            console.log(`User: ${socket.id} room: ${data}`);
+            });
 
         socket.on("SaveDone_data", (data) => {
             // console.log("저장한사람: ", data.author);
