@@ -5,15 +5,15 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
 
-const Chat = require("./schemas/chat");
 
-
+const webSocket = require('./socket');
 
 require("dotenv").config();
 const app = express();
 
 const server = http.createServer(app);
-const io = SocketIo(server)
+
+
 const logger = require('./logger')
 const Router = require("./routes/index");
 
@@ -34,8 +34,8 @@ app.use(
     origin: [
       "http://54.180.131.25:3000",
       "http://localhost:3000",
-      "http://origachi.s3-website.ap-northeast-2.amazonaws.com",
-    ],
+      "http://origachi.s3-website.ap-northeast-2.amazonaws.com"
+        ],
     credentials: true
   })
 );
@@ -75,36 +75,7 @@ server.listen(3000, () => {
   console.log(3000, '포트로 서버가 열렸어요!');
 });
 
-
-
-io.on("connection", (socket) => {
-  console.log("Connected to Browser ✅")
-  console.log(`User Connected: ${socket.id}`);
-
-  socket.on("join_room", (data) => {
-    socket.join(data);
-    console.log(`User with ID: ${socket.id} joined room: ${data}`);
-  });
-
-  socket.on("send_message", async (messageData) => {
-    log = await Chat.findOne({ room: messageData.room })
-    if (log) {
-      await Chat.updateOne({ room: messageData.room }, { $push: { chatLog: messageData.message } }) //배열에 메시지 추가
-      socket.to(messageData.room).emit("receive_message", messageData);
-      console.log("메시지보냄1")
-    } else {
-      await Chat.create({ room: messageData.room, chatLog: messageData.message })
-      socket.to(messageData.room).emit("receive_message", messageData);
-      console.log("메시지보냄2")
-    }
-    // socket.to(messageData.room).emit("receive_message", messageData);
-  });
-  // socket.on("send_message", (data) => {
-  //   socket.to(data.room).emit("receive_message", data);
-  // });
-
-
-})
+webSocket(server, app);  //소켓 서버 열기
 
 
 

@@ -4,9 +4,17 @@ const chatSchema = new Schema({
 
     room: {
         type: String,
-        required: false,
+        required: true,
     },
     chatLog: {
+        type: Array,
+        required: false,
+    },
+    nickname: {
+        type: Array,
+        required: false,
+    },
+    chatTime: {
         type: Array,
         required: false,
     },
