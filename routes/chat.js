@@ -3,7 +3,7 @@ const router = express.Router();
 const Chat = require("../schemas/chat");
 
 
-router.get("/chat/:postId", async (req, res, next) => {  //채팅방 로그 돌려주는 
+router.get("/:postId", async (req, res, next) => {  //채팅방 로그 돌려주는 
     try {
         const { postId } = req.params;
         const chatRoom = await Chat.findOne({ postId })
