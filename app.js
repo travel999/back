@@ -1,18 +1,19 @@
 const express = require('express');
-const http = require("http");;
+const http = require("http");
 const SocketIo = require("socket.io")
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
 
 
-
+const webSocket = require('./socket');
 
 require("dotenv").config();
 const app = express();
 
 const server = http.createServer(app);
-const io = SocketIo(server)
+
+
 const logger = require('./logger')
 const Router = require("./routes/index");
 
@@ -26,7 +27,6 @@ passportConfig();
 const connect = require("./schemas");
 connect();
 
-const Chat = require("./schemas/Chat");
 
 app.use(
   cors({
@@ -34,12 +34,8 @@ app.use(
     origin: [
       "http://54.180.131.25:3000",
       "http://localhost:3000",
-      "http://localhost:3000/kakao/callback",
-      "http://localhost:3000/kakao",
-      "http://origachi.s3-website.ap-northeast-2.amazonaws.com",
-      "http://localhost:8000",
-
-    ],
+      "http://origachi.s3-website.ap-northeast-2.amazonaws.com"
+        ],
     credentials: true
   })
 );
@@ -70,7 +66,7 @@ app.use((req, res, next) => {
 
 
 app.use((err, req, res, next) => {
-  logger.error(err.message) //서버 배포할때 주석 해제해서 에러 로그가 남게 설정!!!
+  // logger.error(err.message) //서버 배포할때 주석 해제해서 에러 로그가 남게 설정!!!
   res.status(err.status || 500).send(err.message);
 });
 
@@ -79,36 +75,9 @@ server.listen(3000, () => {
   console.log(3000, '포트로 서버가 열렸어요!');
 });
 
+webSocket(server, app);  //소켓 서버 열기
 
-
-io.on("connection", (socket) => {
-  console.log("Connected to Browser ✅")
-  console.log(`User Connected: ${socket.id}`);
-
-  socket["nickname"] = "Anonymous"
-
-  socket.on("join_room", (data) => {
-    
-    socket.join(data);// 소켓아이디 말고 nickname 를 넘겨주기. 
-    console.log(`User with ID: ${socket.id} joined room: ${data}`);
-  });
-
-  socket.on("send_message", async (messageData) => {
-    log = await Chat.findOne({room : messageData.room})
-    if (log){
-      await Chat.updateOne({ room : messageData.room }, { $push: { chatLog : messageData.message} }) //배열에 메시지 추가
-    }else{
-      await Chat.create({room : messageData.room, chatLog : message })
-    }
-    socket.to(messageData.room).emit("receive_message", messageData);
-  });
-  // socket.on("send_message", (data) => {
-  //   socket.to(data.room).emit("receive_message", data);
-  // });
-})
-
-
-
+//테스트용
 
 
 
