@@ -34,12 +34,8 @@ app.use(
     origin: [
       "http://54.180.131.25:3000",
       "http://localhost:3000",
-      "http://localhost:3000/kakao/callback",
-      "http://localhost:3000/kakao",
-      "http://origachi.s3-website.ap-northeast-2.amazonaws.com",
-      "http://localhost:8000",
-
-    ],
+      "http://origachi.s3-website.ap-northeast-2.amazonaws.com"
+        ],
     credentials: true
   })
 );
@@ -81,7 +77,7 @@ server.listen(3000, () => {
 
 webSocket(server, app);  //소켓 서버 열기
 
- 
+
 
 
 
