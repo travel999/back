@@ -1,4 +1,5 @@
 const UserService = require("../services/users.service");
+const NoticeController = require('../controllers/notis.controller');
 const jwt = require("jsonwebtoken");
 
 class UserController {
@@ -6,16 +7,16 @@ class UserController {
 
   createUser = async (req, res, next) => {
 
-    // const { email, nickname, password, confirm,userImage } = req.body;
+    const { email, nickname, password, confirm,userImage } = req.body;
 
 
     
-    const {signUp} = req.body;
-    const email = signUp.email;
-    const nickname = signUp.nickname;
-    const userImage = signUp.userImage;
-    const password = signUp.password;
-    const confirm = signUp.confirm;
+    // const {signUp} = req.body;
+    // const email = signUp.email;
+    // const nickname = signUp.nickname;
+    // const userImage = signUp.userImage;
+    // const password = signUp.password;
+    // const confirm = signUp.confirm;
 
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
     const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
@@ -48,7 +49,7 @@ class UserController {
       password,
       confirm
     );
-
+    await NoticeController.createNoticeBoard({ user });
     if (user) {
       return res.status(201).json({ statusCode: "201: 새로운 유저 정보가 등록되었습니다." });
     } else {

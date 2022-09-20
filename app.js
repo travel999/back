@@ -34,11 +34,7 @@ app.use(
     origin: [
       "http://54.180.131.25:3000",
       "http://localhost:3000",
-      "http://localhost:3000/kakao/callback",
-      "http://localhost:3000/kakao",
       "http://origachi.s3-website.ap-northeast-2.amazonaws.com",
-      "http://localhost:8000",
-
     ],
     credentials: true
   })
@@ -91,13 +87,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_message", async (messageData) => {
-    log = await Chat.findOne({room : messageData.room})
-    if (log){
-      await Chat.updateOne({ room : messageData.room }, { $push: { chatLog : messageData.message} }) //배열에 메시지 추가
+    log = await Chat.findOne({ room: messageData.room })
+    if (log) {
+      await Chat.updateOne({ room: messageData.room }, { $push: { chatLog: messageData.message } }) //배열에 메시지 추가
       socket.to(messageData.room).emit("receive_message", messageData);
       console.log("메시지보냄1")
-    }else{
-      await Chat.create({room : messageData.room, chatLog : messageData.message })
+    } else {
+      await Chat.create({ room: messageData.room, chatLog: messageData.message })
       socket.to(messageData.room).emit("receive_message", messageData);
       console.log("메시지보냄2")
     }
@@ -107,10 +103,10 @@ io.on("connection", (socket) => {
   //   socket.to(data.room).emit("receive_message", data);
   // });
 
- 
+
 })
 
- 
+
 
 
 
