@@ -11,16 +11,16 @@ module.exports = (server, app) => {
     // app.set('socket.io', io);
 
     io.on("connection", (socket) => {
-        console.log("Connected to Browser ✅")
+        console.log("Connected to Browser ✅")  
         // console.log(`User Connected: ${socket.id}`);
         
-        socket.on("join_room", (data) => {
+        socket.on("join_room", (data) => {  //채팅방 입장
             socket.join(data);
             console.log(`User with ID: ${socket.id} joined room: ${data}`);
         });
         
 
-        socket.on("send_message", async (data) => {
+        socket.on("send_message", async (data) => {  //채팅 메시지 및 채팅기록 저장 
             log = await Chat.findOne({room : data.room})
             if(log){
             await Chat.updateOne({ room : data.room }, { $push: { chatLog : data.message, nickname : data.author, chatTime : data.time} }) //배열에 메시지 추가
@@ -48,6 +48,10 @@ module.exports = (server, app) => {
             socket.to(data.room).emit("liveText_receive", data);
             console.log("live", data.msg)
         });
+
+        socket.on("join_save", (data) => {
+            socket.join(data);
+            });
 
     })
     
