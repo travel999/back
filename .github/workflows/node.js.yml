@@ -27,6 +27,6 @@ jobs:
                 cd /home/ubuntu/hyunho/dev/back2
                 sudo git pull origin dev
                 npm install
-                sudo pm2 restart app.js
+                pm2 restart app.js
 
 
