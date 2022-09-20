@@ -26,7 +26,7 @@ module.exports = (server, app) => {
             await Chat.updateOne({ room : data.room }, { $push: { chatLog : data.message, nickname : data.author, chatTime : data.time} }) //배열에 메시지 추가
             socket.to(data.room).emit("receive_message", data);
             }else{
-            await Chat.create({room : data.room, chatLog : data.message, nickname : data.author, chatTime : data.time })
+            await Chat.create({room : data.room, postId : data.postId, chatLog : data.message, nickname : data.author, chatTime : data.time })
             socket.to(data.room).emit("receive_message", data);
             }
             
