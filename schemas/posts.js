@@ -11,7 +11,7 @@ const postSchema = new Schema({
     },
     openPublic: {
         type: Boolean,
-        default: true,
+        default: false,
     },
     isLiked: {
         type: Boolean,
