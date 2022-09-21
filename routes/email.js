@@ -1,8 +1,9 @@
 const nodemailer = require('nodemailer');
 const crypto = require("crypto");
+const ejs = require('ejs');
 
 module.exports = async (req, res, next) => {
-  const { email, title, desc, username } = req.body; // 보낼 이메일 주소, 이메일 제목, 이메일 본문, 받는 사람 이름
+  const { email, username } = req.body; // 보낼 이메일 주소, 이메일 제목, 이메일 본문, 받는 사람 이름
   try {
   // 전송하기
     let transporter = nodemailer.createTransport({

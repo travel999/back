@@ -1,9 +1,82 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>email 인증</title>
+    <style>
+        body {
+            width: 700px;
+            margin: auto;
+            font-family: "Roboto";
+            font-weight: 300;
+            line-height: 35px;
+            background-color: white;
+            /* 배경색 맘에 안드시면 위에 백그라운드 컬러 지워주세요 */
+        }
+
+        img {
+            width: 500px;
+            object-fit: cover;
+        }
+
+        div {
+            margin-left: 20px;
+        }
+
+        hr {
+            color: #6c6c6c;
+        }
+
+        .certify {
+            margin: 10px auto 15px auto;
+            padding-top: 15px;
+            text-align: center;
+            font-weight: 500;
+            /* border: 1px solid black; */
+            border: 0;
+            background-color: #F2F7FF;
+            width: 450px;
+            height: 50px;
+        }
+
+        a {
+            font-weight: 500;
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        span {
+            font-weight: 500;
+        }
+    </style>
+</head>
+
 <body>
-  <div>
-    <p style='color:black'>회원 가입을 위한 인증번호 입니다.</p>
-    <p style='color:black'>아래의 인증 번호를 입력하여 인증을 완료해주세요.</p>
-    <h2><%= authCode %></h2>
-  </div>
+    <img src="oorigachiblue.png" alt="로고" />
+    <div>
+        <%= nickname %> 회원님 안녕하세요.
+    </div>
+    <div>
+        <span>OORIGACHI</span>에 회원가입해주셔서 감사합니다. <br />
+        아래의 인증번호로 이메일 인증을 완료해주세요. <br />
+    </div>
+    <div class="certify">
+        <%= authCode %>
+    </div>
+    <hr />
+    <footer>
+        <div>실시간 여행 플랜 웹 서비스,
+            <span>OORIGACHI</span>
+        </div>
+        <a href="http://origachi.s3-website.ap-northeast-2.amazonaws.com/">OORIGACHI 가기</a>
+        <div>이 메일은 수신 전용 메일입니다.</div>
+    </footer>
+
 </body>
+
 </html>

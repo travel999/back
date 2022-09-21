@@ -22,7 +22,7 @@ class PostRepository {
 
     findMain = async (nickname) => {
         const posts = await Post.find({ nickname }).sort({ "createdAt": -1 });
-
+        console.log("내글: ", posts);
         return posts;
     }
 
@@ -30,14 +30,20 @@ class PostRepository {
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
         const post = [];
+        
+        if(likedPost.length > 0){
+            for (var i = 0; i < likedPost.length; i++) {
+                const data = await Post.findById(likedPost[i]);
+                data.isLiked = true;
+                post.push(data);
+            }
 
-        for (var i = 0; i < likedPost.length; i++) {
-            const data = await Post.findById(likedPost[i]);
-            data.isLiked = true;
-            post.push(data);
+            return post;
+        
+        }else{
+            return post;
         }
-
-        return post;
+        
     }
 
     findMain3 = async (openStatus, nickname, start, pageSize) => {
@@ -54,7 +60,7 @@ class PostRepository {
                 }
             }
         }
-
+        
         return posts;
     }
 
