@@ -10,6 +10,7 @@ const webSocket = require('./socket');
 
 require("dotenv").config();
 const app = express();
+const port = process.env.Port
 
 const server = http.createServer(app);
 
@@ -71,18 +72,17 @@ app.use((err, req, res, next) => {
 });
 
 
-server.listen(3000, () => {
-  console.log(3000, '포트로 서버가 열렸어요!');
-});
+// server.listen(port, () => {
+//   console.log(port, '포트로 서버가 열렸어요!');
+// });
 
-webSocket(server, app);  //소켓 서버 열기
-
-//테스트용
+// webSocket(server, app);  //소켓 서버 열기
 
 
 
 
-module.exports = server;
+
+module.exports = app;
 
 
 
