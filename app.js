@@ -35,7 +35,7 @@ app.use(
     origin: [
       "http://54.180.131.25:3000",
       "http://localhost:3000",
-      "http://origachi.s3-website.ap-northeast-2.amazonaws.com"
+      "http://oorigachi.com"
         ],
     credentials: true
   })
