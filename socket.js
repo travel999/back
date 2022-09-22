@@ -1,13 +1,23 @@
-const SocketIo = require("socket.io")
 const Chat = require("./schemas/chat");
+const SocketIO = require("socket.io");
+const server = require("./app");
+const io = SocketIO(server, {
+	cors: {
+		origin: "*",
+		methods: ["GET", "POST"],
+	},
+});
 
-module.exports = (server, app) => {
-    const io = SocketIo(server, {
-        cors: {
-            origin: '*',
-            credentials: true,
-        },
-    });
+
+
+
+// module.exports = (server, app) => {
+//     const io = SocketIo(server, {
+//         cors: {
+//             origin: '*',
+//             credentials: true,
+//         },
+//     });
     // app.set('socket.io', io);
 
     io.on("connection", (socket) => {
@@ -64,4 +74,5 @@ module.exports = (server, app) => {
     })
 
 
-}
+// }
+
