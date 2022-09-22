@@ -7,26 +7,11 @@ const io = SocketIO(server, {
 		methods: ["GET", "POST"],
 	},
 });
-
-
-
-
-// module.exports = (server, app) => {
-//     const io = SocketIo(server, {
-//         cors: {
-//             origin: '*',
-//             credentials: true,
-//         },
-//     });
-    // app.set('socket.io', io);
-
     io.on("connection", (socket) => {
         console.log("Connected to Browser ✅")
-        // console.log(`User Connected: ${socket.id}`);
-
+        
         socket.on("join_room", (data) => {  //채팅방 입장
             socket.join(data);
-            console.log(`User with ID: ${socket.id} joined room: ${data}`);
         });
 
 
@@ -48,7 +33,6 @@ const io = SocketIO(server, {
                 socket.to(data.room).emit("receive_message", data);
             }
 
-            // socket.to(messageData.room).emit("receive_message", messageData);
         });
 
         socket.on("join_box", (data) => {
