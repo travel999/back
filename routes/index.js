@@ -11,7 +11,9 @@ const NotisRouter = require("./notis");
 const mailRouter = require("./email");
 const chatRouter = require("./chat")
 
-
+router.get('/', (req, res) => {
+    res.status(200).json({ massage: '서버 잘 켜졌습니다.' });
+  });
 
 router.use("/user", UserRouter);
 router.use("/post", authMiddleware, postsRouter);

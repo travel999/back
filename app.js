@@ -1,16 +1,18 @@
 const express = require('express');
 const http = require("http");
-const SocketIo = require("socket.io")
+// const SocketIo = require("socket.io")
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
 
 
-const webSocket = require('./socket');
+// const webSocket = require('./socket');
 
 require("dotenv").config();
 const app = express();
-const port = process.env.Port
+
+// const port = process.env.Port
+
 
 const server = http.createServer(app);
 
@@ -52,6 +54,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/", Router);
+
 
 
 
