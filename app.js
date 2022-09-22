@@ -10,7 +10,9 @@ const morgan = require('morgan');
 
 require("dotenv").config();
 const app = express();
+
 // const port = process.env.Port
+
 
 const server = http.createServer(app);
 
@@ -83,7 +85,7 @@ app.use((err, req, res, next) => {
 
 
 
-module.exports = server;
+module.exports = app;
 
 
 
