@@ -167,7 +167,7 @@ class UserController {
       expires.setMinutes(expires.getMinutes() + 60);
       res.cookie("token", token, { expires: expires });
 
-      return res.status(200).json({ statusCode: "200: 로그인 성공.", token, image: user.userImage, nickname: user.nickname });
+      return res.status(200).json({ statusCode: "200: 로그인 성공.", token });
     }
     else {
       return res.status(400).json({ statusCode: "400: 입력한 정보를 확인해주세요." });
