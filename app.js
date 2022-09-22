@@ -7,10 +7,8 @@ const morgan = require('morgan');
 
 require("dotenv").config();
 const app = express();
-const port = process.env.Port
 
 const server = http.createServer(app);
-d
 const logger = require('./logger')
 const Router = require("./routes/index");
 
