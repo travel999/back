@@ -6,7 +6,7 @@ const chatSchema = new Schema({
         type: String,
         required: true,
     },
-    room: {
+    postId: {
         type: String,
         required: true,
     },
