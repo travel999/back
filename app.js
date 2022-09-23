@@ -1,20 +1,14 @@
 const express = require('express');
 const http = require("http");
-const SocketIo = require("socket.io")
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
 
 
-const webSocket = require('./socket');
-
 require("dotenv").config();
 const app = express();
-const port = process.env.Port
 
 const server = http.createServer(app);
-
-
 const logger = require('./logger')
 const Router = require("./routes/index");
 
@@ -35,7 +29,7 @@ app.use(
     origin: [
       "http://54.180.131.25:3000",
       "http://localhost:3000",
-      "http://origachi.s3-website.ap-northeast-2.amazonaws.com"
+      "http://oorigachi.com"
         ],
     credentials: true
   })
@@ -56,8 +50,6 @@ app.use("/", Router);
 
 
 
-
-
 //404에러 페이지 없을때 처리하는 미들웨어
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
@@ -72,17 +64,7 @@ app.use((err, req, res, next) => {
 });
 
 
-// server.listen(port, () => {
-//   console.log(port, '포트로 서버가 열렸어요!');
-// });
-
-// webSocket(server, app);  //소켓 서버 열기
-
-
-
-
-
-module.exports = app;
+module.exports = server;
 
 
 
