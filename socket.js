@@ -57,13 +57,13 @@ const io = SocketIO(server, {
         socket.on("join_marker", (data) => {
             socket.join(data);
         });
-        socket.on("send_marker", (name, x, y, room) => {
-            socket.to(room).emit("receive_marker", name, x, y);
+        socket.on("send_marker", (name, x, y, nowDay, pins, room) => { //좌표생성
+            socket.to(room).emit("receive_marker", name, x, y, nowDay, pins);
         });    
         socket.on("join_dayDone", (data) => {
             socket.join(data);
         });    
-        socket.on("send_dayDone", (data, person) => {
+        socket.on("send_dayDone", (data, person) => { //알림 
             socket.to(data).emit("receive_dayDone", person);
         });
     })
