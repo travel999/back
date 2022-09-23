@@ -54,7 +54,18 @@ const io = SocketIO(server, {
         socket.on("join_save", (data) => {
             socket.join(data);
         });
-
+        socket.on("join_marker", (data) => {
+            socket.join(data);
+        });
+        socket.on("send_marker", (name, x, y, room) => {
+            socket.to(room).emit("receive_marker", name, x, y);
+        });    
+        socket.on("join_dayDone", (data) => {
+            socket.join(data);
+        });    
+        socket.on("send_dayDone", (data, person) => {
+            socket.to(data).emit("receive_dayDone", person);
+        });
     })
 
 
