@@ -8,7 +8,6 @@ const postsRouter = require("./posts");
 const kakaosRouter = require("./kakaos");
 const NotisRouter = require("./notis");
 
-const mailRouter = require("./email");
 const chatRouter = require("./chat")
 
 router.get('/', (req, res) => {
@@ -21,7 +20,6 @@ router.use("/like",authMiddleware, LikesRouter);
 router.use("/kakao", kakaosRouter);
 
 router.use("/noti", authMiddleware, NotisRouter);
-router.post("/mail", mailRouter);
 router.use("/chat",authMiddleware, chatRouter);
 
 
