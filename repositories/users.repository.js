@@ -1,9 +1,8 @@
 const User = require("../schemas/users");
 const Post = require("../schemas/posts");
 const bcrypt = require("bcrypt");
-
 const salt = 12;
-
+const Email = require("../schemas/emailValidation");
 
 class UserRepository {
   createUser = async (email, nickname, userImage, password) => {
@@ -28,7 +27,43 @@ class UserRepository {
     else {
       return { result: true, message: "사용 가능한 이메일입니다." };
     }
-  };
+  }
+
+  emailValidate = async (email) => {
+    const userEmail = await Email.findOne({email});
+
+    return userEmail;
+  }
+
+  sendEmail = async (email,code) => {
+    const userEmailInfo = await Email.findOne({email});
+    
+    if(userEmailInfo){
+      return userEmailInfo;
+    }
+    else{
+      const userEmailInfo = await Email.create({
+        email,
+        code,
+        verified:false,
+      });
+  
+      return userEmailInfo;
+    }
+    
+  }
+
+  checkCode = async (email,code) => {
+    const userInfo = await Email.findOne({email,code});
+
+    if(userInfo.code === code){
+      const updateUser = await Email.updateOne({ email: email, code: code },{ $set: { verified: true } });
+      return {verified:true};
+    }
+    else{
+      return {verified:false};
+    }
+  }
 
   checkNickname = async (nickname) => {
     const user = await User.findOne({ nickname });
