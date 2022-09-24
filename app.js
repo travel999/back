@@ -4,6 +4,7 @@ const SocketIo = require("socket.io")
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
+const fs = require('fs');
 
 
 const webSocket = require('./socket');
@@ -25,6 +26,7 @@ passportConfig();
 
 //db연결
 const connect = require("./schemas");
+const { fstat } = require('fs');
 connect();
 
 
@@ -51,10 +53,6 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/", Router);
-
-
-
-
 
 
 //404에러 페이지 없을때 처리하는 미들웨어

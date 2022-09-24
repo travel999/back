@@ -6,19 +6,19 @@ const User = require("../schemas/users");
 
 module.exports = (req, res, next) => {
 
+  const { authorization } = req.headers;
+  console.log(authorization);
+  const [tokenType, tokenValue] = authorization.split(' ');
+  console.log("토큰타입: ", tokenType, " 토큰값: ", tokenValue);
 
-
-  const token = req.headers.token;
-  // const {token} = req.cookies;
-
-  if (!token) {
+  if (tokenType !== "Bearer") {
     res.status(401).json({ result: false, error: "로그인이 필요합니다1." });
 
     return;
   } 
 
   try {
-    const {userId} = jwt.verify(token, process.env.myKey); // userId 는 jwt.sign(userId : user._id)의 user._id가 할당된다.
+    const {userId} = jwt.verify(tokenValue, process.env.myKey); // userId 는 jwt.sign(userId : user._id)의 user._id가 할당된다.
     User.findById(userId).then((user) => {
       res.locals.user = user;
       next();
