@@ -7,9 +7,12 @@ const LikesRouter = require("./likes");
 const postsRouter = require("./posts");
 const kakaosRouter = require("./kakaos");
 const NotisRouter = require("./notis");
+
 const chatRouter = require("./chat")
 
-
+router.get('/', (req, res) => {
+    res.status(200).json({ massage: '서버 잘 켜졌습니다.' });
+  });
 
 router.use("/user", UserRouter);
 router.use("/post", authMiddleware, postsRouter);

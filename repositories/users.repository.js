@@ -1,31 +1,33 @@
 const User = require("../schemas/users");
 const Post = require("../schemas/posts");
+const bcrypt = require("bcrypt");
+const salt = 12;
 const Email = require("../schemas/emailValidation");
 
 class UserRepository {
   createUser = async (email, nickname, userImage, password) => {
-    
+    const hash = await bcrypt.hash(password, salt);
     const createUserData = await User.create({
       email,
       nickname,
       userImage,
-      password,
+      password: hash,
     });
 
     return createUserData;
   };
 
-  
+
   checkEmail = async (email) => {
-    const user = await User.findOne({email});
-    
-    if(user){
-      return {result: false, message: "이미 사용 중인 이메일입니다."};
+    const user = await User.findOne({ email });
+
+    if (user) {
+      return { result: false, message: "이미 사용 중인 이메일입니다." };
     }
-    else{
-      return {result: true, message: "사용 가능한 이메일입니다."};
+    else {
+      return { result: true, message: "사용 가능한 이메일입니다." };
     }
-  };
+  }
 
   emailValidate = async (email) => {
     const userEmail = await Email.findOne({email});
@@ -64,25 +66,34 @@ class UserRepository {
   }
 
   checkNickname = async (nickname) => {
-    const user = await User.findOne({nickname});
+    const user = await User.findOne({ nickname });
 
-    if(user){
-      return {result: false, message: "이미 사용 중인 닉네임입니다."};
+    if (user) {
+      return { result: false, message: "이미 사용 중인 닉네임입니다." };
     }
-    else{
-      return {result: true, message: "사용 가능한 닉네임입니다."};
+    else {
+      return { result: true, message: "사용 가능한 닉네임입니다." };
     }
 
-    
+
   };
 
 
 
   login = async (email, password) => {
-    const user = await User.findOne({ email: email, password: password });
-    console.log(user);
-    
+    const dbhash = await User.findOne({
+      email
+    });
+
+    const match = await bcrypt.compare(password, dbhash.password);
+    if (!match) {
+      return res.json({
+        Message: "검증되지 않은 비밀번호 입니다",
+      });
+    }
+    const user = await User.findOne({ email: email, password: dbhash.password });
     return user;
+
   };
 
   findUser = async (nickname, password) => {
@@ -91,35 +102,35 @@ class UserRepository {
   };
 
   updateImage = async (nickname, newImage) => {
-    
-    const updateUser = await User.updateOne({ nickname: nickname },{ $set: { userImage: newImage } });
+
+    const updateUser = await User.updateOne({ nickname: nickname }, { $set: { userImage: newImage } });
     const userInfo = await User.findOne({ nickname: nickname });
 
     return userInfo;
   };
 
-  updatePassword = async (nickname,newPassword) => {
-    
-    const updateUser = await User.updateOne({ nickname: nickname },{ $set: { password: newPassword }});
+  updatePassword = async (nickname, newPassword) => {
+
+    const updateUser = await User.updateOne({ nickname: nickname }, { $set: { password: newPassword } });
     const userInfo = await User.findOne({ nickname: nickname });
     console.log(userInfo);
     return userInfo;
   };
 
   deleteUser = async (nickname) => {
-    const updateUser = await User.deleteOne({nickname:nickname});
-    const userInfo = await User.findOne({nickname:nickname});
+    const updateUser = await User.deleteOne({ nickname: nickname });
+    const userInfo = await User.findOne({ nickname: nickname });
 
     return userInfo;
   };
-  
+
   findPost = async (nickname) => {
     const findPostData = await Post.find({ nickname });
-    
+
     return findPostData;
   };
 
-  
+
 }
 
 module.exports = UserRepository;

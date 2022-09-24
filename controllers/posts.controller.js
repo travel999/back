@@ -91,7 +91,7 @@ class PostsController {
             const { nickname } = res.locals.user;
             const { postId } = req.params;
             const deleteData = await this.postService.deletepost({ postId, nickname })
-            res.status(201).json(deleteData);
+            res.status(200).json(deleteData);
         } catch (error) {
             const message = `${req.method} ${req.originalUrl} : ${error.message}`;
             console.log(message);

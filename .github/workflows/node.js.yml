@@ -8,7 +8,7 @@ on:
 
 jobs:
   AUTO_DEPLOY:
-
+ 
     runs-on: ubuntu-20.04
 
     strategy:
@@ -24,9 +24,7 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-                cd /home/ubuntu/hyunho/dev/back2
+                cd /home/ubuntu/hyunho/dev/back4/back
                 sudo git pull origin dev
                 npm install
-                pm2 restart app.js
-
-
+                pm2 restart server.js

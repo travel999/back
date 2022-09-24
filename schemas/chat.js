@@ -6,6 +6,10 @@ const chatSchema = new Schema({
         type: String,
         required: true,
     },
+    postId: {
+        type: String,
+        required: true,
+    },
     chatLog: {
         type: Array,
         required: false,
