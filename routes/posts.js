@@ -41,7 +41,6 @@ router.post('/',  async (req, res, next) =>{
     try{
         const { nickname } = res.locals.user;
         const { title, date } = req.body;
-
         getpost = await Post.create({nickname, title, date })
         res.status(200).json({ postId : getpost._id , title, date })
         // res.status(200).json( getpost )
@@ -56,15 +55,23 @@ router.put('/:postId',  async (req, res, next) =>{
     try{
         const { nickname } = res.locals.user;
         const _id = req.params.postId
-        // targetPost = await Post.findById(_id)
-        const { title, date, day1, day2, day3, day4, day5  } = req.body;
-        const filter = { _id }
-        const update = { title, date, day1, day2, day3, day4, day5  }
-        await Post.findOneAndUpdate(filter, update)  //파인드와 업데이트 한번에 
-        const getpost = await Post.findById(filter)  //업데이트된 값을 바로 돌려주기 위해 겟포스트
-
-        // await targetPost.updateOne({ nickname, title, date, day1, day2, day3, day4, day5  })
-        res.status(200).json( getpost ) 
+        const targetPost = await Post.findById(_id)
+        if (targetPost) {
+            const member = targetPost.nickname
+            if(member.includes(nickname)){
+                const { title, date, day1, day2, day3, day4, day5, day6, day7  } = req.body;
+                const filter = { _id }
+                const update = { title, date, day1, day2, day3, day4, day5, day6, day7  }
+                await Post.findOneAndUpdate(filter, update)  //파인드와 업데이트 한번에 
+                const getpost = await Post.findById(filter)  //업데이트된 값을 바로 돌려주기 위해 겟포스트
+                res.status(200).json( getpost ) 
+            }else{
+                res.status(400).json({message : "수정권한이 없습니다."})
+            }
+           
+        }else{
+            res.status(400).json({message : "게시글이 존재 하지 않습니다."})
+        }
     }catch(err) {
         console.log(err)
         next(err);
@@ -76,39 +83,30 @@ router.put('/:postId/title',  async (req, res, next) =>{
     try{
         const { nickname } = res.locals.user;
         const _id = req.params.postId
-        // targetPost = await Post.findById(_id)
-        const { title, date  } = req.body;
-        const filter = { _id }
-        const update = { title, date}
-        await Post.findOneAndUpdate(filter, update)  //파인드와 업데이트 한번에 
-        const getpost = await Post.findById(filter)  //업데이트된 값을 바로 돌려주기 위해 겟포스트
-
-        // await targetPost.updateOne({ nickname, title, date, day1, day2, day3, day4, day5  })
-        res.status(200).json( getpost ) 
+        const targetPost = await Post.findById(_id)
+        if (targetPost) {
+            const member = targetPost.nickname
+            if(member.includes(nickname)){
+                const { title, date } = req.body;
+                const filter = { _id }
+                const update = { title, date }
+                await Post.findOneAndUpdate(filter, update)  //파인드와 업데이트 한번에 
+                const getpost = await Post.findById(filter)  //업데이트된 값을 바로 돌려주기 위해 겟포스트
+                res.status(200).json( getpost ) 
+            }else{
+                res.status(400).json({message : "수정권한이 없습니다."})
+            }
+           
+        }else{
+            res.status(400).json({message : "게시글이 존재 하지 않습니다."})
+        }
     }catch(err) {
         console.log(err)
         next(err);
     }
 })
+   
 
-router.put('/test/:postId',  async (req, res, next) =>{
-    try{
-        const { nickname } = res.locals.user;
-        const _id = req.params.postId
-        // targetPost = await Post.findById(_id)
-        const { title, date,  day1, day2, day3, day4, day5 } = req.body;
-        const filter = { _id }
-        const update = { title, date, day1, day2, day3, day4, day5 }
-        await Post.findOneAndUpdate(filter, update)  //파인드와 업데이트 한번에 
-        const getpost = await Post.findById(filter)  //업데이트된 값을 바로 돌려주기 위해 겟포스트
-
-        // await targetPost.updateOne({ nickname, title, date, day1, day2, day3, day4, day5  })
-        res.status(200).json( getpost ) 
-    }catch(err) {
-        console.log(err)
-        next(err);
-    }
-})
 
 
 module.exports = router;
