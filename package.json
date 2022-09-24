@@ -4,7 +4,7 @@
   "description": "travel planning service",
   "main": "app.js",
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles",
+    "test": "jest ",
     "coverage": "jest --coverage"
   },
   "author": "",
