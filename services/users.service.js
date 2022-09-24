@@ -1,5 +1,5 @@
 const UserRepository = require("../repositories/users.repository");
-const crypto = require("crypto");
+// const crypto = require("crypto");
 const ejs = require('ejs');
 const nodemailer = require('nodemailer');
 const { send } = require("process");
@@ -48,7 +48,8 @@ class UserService {
 
   sendEmail = async (email) => {
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-    const code = crypto.randomBytes(10).toString('hex');
+    // const code = crypto.randomBytes(10).toString('hex');
+    let code = Math.random().toString().substr(2,8);
     if (!regEmail.test(email)) {
       return { result: false, message: "이메일 양식 위반." }
     }
