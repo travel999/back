@@ -27,14 +27,14 @@ connect();
 
 app.use(
   cors({
-    origin: true,
-    // origin: [
-    //   "http://54.180.131.25:3000",
-    //   "http://localhost:3000",
-    //   "http://oorigachi.com",
-    //   "https://oorigachi.com",
-    //   "https://d2pzxujfgupu45.cloudfront.net",
-    //     ],
+    // origin: true,
+    origin: [
+      "http://54.180.131.25:3000",
+      "http://localhost:3000",
+      "http://oorigachi.com",
+      "https://oorigachi.com",
+      "https://d2pzxujfgupu45.cloudfront.net",
+        ],
     credentials: true
   })
 );
