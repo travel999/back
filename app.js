@@ -33,6 +33,7 @@ app.use(
       "http://localhost:3000",
       "http://oorigachi.com",
       "https://oorigachi.com",
+      "https://d2pzxujfgupu45.cloudfront.net",
         ],
     credentials: true
   })
