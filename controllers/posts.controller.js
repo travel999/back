@@ -1,9 +1,10 @@
 
+
 const PostService = require('../services/posts.service');
 
 class PostsController {
     postService = new PostService(); // Post 서비스를 클래스를 컨트롤러 클래스의 멤버 변수로 할당합니다.
-
+   
 
     search = async (req, res, next) => {
         const { keyword } = req.params;

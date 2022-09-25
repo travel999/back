@@ -1,9 +1,9 @@
 const Post = require("../schemas/posts");
 const Like = require("../schemas/likes");
 const User = require("../schemas/users");
-
+const NoticeService = require('../services/notis.service');
 class PostRepository {
-
+    notisService = new NoticeService();
     searchKey = async (nickname, keyword, start, pageSize) => {
         const posts = await Post.find({ title: { $regex: keyword }, openPublic: true }).sort({ "like": -1, "createdAt": -1 }).skip(start).limit(pageSize);
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
@@ -106,7 +106,9 @@ class PostRepository {
     };
 
     invite = async ({ postId, nickname2 }) => {
+        
         const post = await Post.updateOne({ _id : postId }, { $push: { nickname: nickname2 } })
+        await this.notisService.createNoticeMessage(  nickname2  );
         return post
     }
 
