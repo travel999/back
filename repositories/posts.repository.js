@@ -1,8 +1,9 @@
 const Post = require("../schemas/posts");
 const Like = require("../schemas/likes");
-
+const User = require("../schemas/users");
+const NoticeService = require('../services/notis.service');
 class PostRepository {
-
+    notisService = new NoticeService();
     searchKey = async (nickname, keyword, start, pageSize) => {
         const posts = await Post.find({ title: { $regex: keyword }, openPublic: true }).sort({ "like": -1, "createdAt": -1 }).skip(start).limit(pageSize);
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
@@ -75,17 +76,17 @@ class PostRepository {
         return post;
     }
 
-    createPost = async ({ nickname, title, day: [cardNum, [placeName, locate, content]] }) => {
-        const post = await Post.create({ nickname, title, day: [cardNum, [placeName, locate, content]] });
+    createPost = async ({ nickname, title, date }) => {
+        const post = await Post.create({ nickname, title, date  });
         return post
     }
 
-    updatepost = async ({ _id, nickname, title, day: [cardNum, [placeName, locate, content]] }) => {
-        const targetPost = await Post.findById(_id)
-        const post = await targetPost.updateOne({ nickname, title, day: [cardNum, [placeName, locate, content]] });
-        // await Post.updateOne({ _id }, { $set: { nickname, title,  day : [cardNum,[placeName ,locate, content] ]} })
-        return post
+    updatepost = async (filter, update) => {
+        await Post.findOneAndUpdate(filter, update)
+        const updatePost = await Post.findById(filter) // 업데이트값 바로 보내주기
+        return updatePost 
     }
+    
 
 
     deletepost = async ({ _id }) => {
@@ -101,9 +102,20 @@ class PostRepository {
 
     recommend = async (openStatus) => {
         const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1 });
-
         return posts;
     };
+
+    invite = async ({ postId, nickname2 }) => {
+        
+        const post = await Post.updateOne({ _id : postId }, { $push: { nickname: nickname2 } })
+        await this.notisService.createNoticeMessage(  nickname2  );
+        return post
+    }
+
+    findUser = async ({ nickname }) => {
+        const user = await User.findOne({ nickname })
+        return user
+    }
 }
 
 
