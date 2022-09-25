@@ -177,7 +177,8 @@ class PostService {
         if(!targetUser){
             return 3
             // return { message: '존재하지 않는 닉네임입니다.'}
-        }else{
+        }
+        else{
             const post = await this.postRepository.invite({nickname2, postId})
             return post
         }

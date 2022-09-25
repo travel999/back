@@ -29,7 +29,8 @@ app.use(
     origin: [
       "http://54.180.131.25:3000",
       "http://localhost:3000",
-      "http://oorigachi.com"
+      "http://oorigachi.com",
+      "https://oorigachi.com"
         ],
     credentials: true
   })
