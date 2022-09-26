@@ -24,5 +24,8 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-                sh deploy.sh
+                cd $TEST_DEPLOY
+                sudo git pull origin dev
+                npm install
+                pm2 restart server.js
                 
