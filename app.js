@@ -31,7 +31,7 @@ app.use(
     // origin: true,
     origin: [
       "http://54.180.131.25:3000",
-      //"http://localhost:3000",
+      "http://localhost:3000",
       "http://oorigachi.com",
       "https://oorigachi.com",
       "http://randomtest.co.kr",
