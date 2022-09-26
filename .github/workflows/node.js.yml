@@ -23,8 +23,5 @@ jobs:
           username: ${{ secrets.REMOTE_SSH_ID }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: |
-                cd /home/ubuntu/hyunho/dev/back4/back
-                sudo git pull origin dev
-                npm install
-                pm2 restart server.js
+          script: ./deploy.sh
+                
