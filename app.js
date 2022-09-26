@@ -39,6 +39,7 @@ app.use(
       "http://randomtest.co.kr",
       "https://randomtest.co.kr",
       "https://d2pzxujfgupu45.cloudfront.net",
+      "http://oorigachi-1.s3-website.ap-northeast-2.amazonaws.com"
         ],
 
     credentials: true
