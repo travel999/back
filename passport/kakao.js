@@ -1,7 +1,7 @@
 const passport = require('passport');
 const KakaoStrategy = require('passport-kakao').Strategy;
 const User = require('../schemas/users');
-const NoticeController = require('../controllers/notis.controller');
+const NoticeService = require('../services/notis.service');
 require('dotenv').config();
 module.exports = () => {
     passport.use(
@@ -25,7 +25,7 @@ module.exports = () => {
                     });
                     // 이미 가입된 카카오 프로필이면 성공
                     if (exUser) {
-                        await NoticeController.createNoticeBoard({ user: exUser });
+                        await NoticeService.createNoticeBoard({ user: exUser });
                         done(null, exUser); // 로그인 인증 완료
                     } else {
                         // let profile_image = "";
@@ -39,7 +39,7 @@ module.exports = () => {
                             profile_image: profile._json.properties.profile_image,
                             provider: 'kakao',
                         });
-                        await NoticeController.createNoticeBoard({ user: exUser });
+                        await NoticeService.createNoticeBoard({ user: exUser });
                         done(null, newUser); // 회원가입하고 로그인 인증 완료
                     }
                 } catch (error) {
