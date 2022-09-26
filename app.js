@@ -41,6 +41,10 @@ app.use(morgan('combined', {                                  // 코드가 400 �
   skip: function (req, res) { return res.statusCode < 400 } // 코드가 400 이상이면 로그 기록함
 }));
 
+// app.use(morgan('dev', {                                  
+//   skip: function (req, res) { return res.statusCode < 400 } 
+// })); //개발환경
+
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
@@ -63,6 +67,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message);
   console.log(err.message);
 });
+
+
 
 
 module.exports = server;
