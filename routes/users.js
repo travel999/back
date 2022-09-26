@@ -11,6 +11,8 @@ router.post("/login", usercontroller.userLogin);
 router.post("/logout", usercontroller.userLogout);
 router.post("/checkEmail", usercontroller.checkEmail);
 router.post("/checkNickname", usercontroller.checkNickname);
+router.post("/sendEmail", usercontroller.sendEmail);
+router.post("/checkCode", usercontroller.checkCode);
 
 router.get("/me", authMiddlewares, usercontroller.findUser);
 router.put("/me/image", authMiddlewares, usercontroller.updateImage);

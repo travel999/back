@@ -3,6 +3,7 @@ const http = require("http");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require('morgan');
+const fs = require('fs');
 
 
 require("dotenv").config();
@@ -20,6 +21,7 @@ passportConfig();
 
 //db연결
 const connect = require("./schemas");
+const { fstat } = require('fs');
 connect();
 
 
@@ -30,7 +32,10 @@ app.use(
       "http://54.180.131.25:3000",
       "http://localhost:3000",
       "http://oorigachi.com",
-      "https://oorigachi.com"
+      "https://oorigachi.com",
+      "http://randomtest.co.kr",
+      "https://randomtest.co.kr",
+      "https://d2pzxujfgupu45.cloudfront.net",
         ],
     credentials: true
   })
