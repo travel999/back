@@ -23,7 +23,6 @@ class PostRepository {
 
     findMain = async (nickname) => {
         const posts = await Post.find({ nickname }).sort({ "createdAt": -1 });
-        console.log("내글: ", posts);
         return posts;
     }
 
@@ -48,7 +47,6 @@ class PostRepository {
     }
 
     findMain3 = async (openStatus, nickname, start, pageSize) => {
-        console.log(start);
         const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1, "createdAt": -1 }).skip(start).limit(pageSize);
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);

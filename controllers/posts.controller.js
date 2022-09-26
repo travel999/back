@@ -170,9 +170,7 @@ class PostsController {
             const { nickname } = res.locals.user;
             const { postId } = req.params;
             const { nickname2 } = req.body;
-           
             const post = await this.postService.invite({ postId, nickname, nickname2 })
-            
             if (post === 1){
                 res.status(400).json({ message: '일정을 찾을수 없습니다.' })
             }else if(post === 2){

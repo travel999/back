@@ -41,6 +41,11 @@ class UserController {
       return res.status(414).json({ statusCode: "414", emailCheck });
     }
 
+    const emailValidate = await this.userService.emailValidate(email);
+    if(emailValidate.result === false){
+      return res.status(415).json({ statusCode:"415", emailValidate});
+    }
+
     const user = await this.userService.createUser(
       email,
       nickname,
@@ -73,9 +78,34 @@ class UserController {
       return res.status(400).json(checked);
     }
 
-
-
   };
+
+  sendEmail = async(req,res,next) => {
+    const { email } = req.body;
+
+    const emailSent = await this.userService.sendEmail(email);
+    
+    if (emailSent.result === true){
+      return res.status(200).json(emailSent);
+    }
+    else{
+      return res.status(400).json(emailSent);
+    }
+
+  }
+
+  checkCode = async (req,res,next) => {
+    const { email,code } = req.body;
+
+    const checkResult = await this.userService.checkCode(email,code);
+    
+    if(checkResult.result === true){
+      return res.status(200).json(checkResult);
+    }
+    else{
+      return res.status(400).json(checkResult);
+    }
+  }
 
   checkNickname = async (req, res, next) => {
     // const { nickname } = req.body;
