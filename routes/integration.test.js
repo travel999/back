@@ -17,6 +17,7 @@ describe("POST / signup", ()=>{
             password: "111111"
             }
         await request(app).post("/user/login").send(data)
+        .expect(200)
         })
 
     test("임시 일정 작성", async () => {
@@ -25,7 +26,7 @@ describe("POST / signup", ()=>{
             date : ["2022-11-11", "2022-11-15"]
         }
         await request(app).post("/post").set("authorization", "Bearer " + token).send(data)
-        expect(200)
+        .expect(200)
     })
 
     test("일정 작성", async () => {
@@ -42,7 +43,7 @@ describe("POST / signup", ()=>{
             
         }
         await request(app).put("/post/632f21fcff4116a2546823d9").set("authorization", "Bearer " + token).send(data)
-        expect(200)
+        .expect(200)
     })
 
     test("일정 작성 권한 없음", async () => {
@@ -58,12 +59,12 @@ describe("POST / signup", ()=>{
             ]}]
         }
         await request(app).put("/post/632d0049f8d99ed90bee791c").set("authorization", "Bearer " + token).send(data) //DB 초기화 할때 게시글 수정.
-        expect(400)
+        .expect(400)
     })
 
     test("일정 조회", async () => {
-        await request(app).get("/post/631712390b27004c0c19b691").set("authorization", "Bearer " + token)
-        expect(200)
+        await request(app).get("/post/632d0049f8d99ed90bee791c").set("authorization", "Bearer " + token)
+        .expect(200)
     })
     
     
@@ -72,19 +73,30 @@ describe("POST / signup", ()=>{
             nickname2 : "코드테스터2"
         }
         await request(app).patch("/post/invite/632dae42916c7dfcd375930e").set("authorization", "Bearer " + token).send(data)
-        expect(400)
+        .expect(400)
     })
     
-    test("좋아요기능", async () => {
-        await request(app).patch("/like/632dae42916c7dfcd375930e").set("authorization", "Bearer " + token)
-        expect(200)
+    test("메인페이지 게시글 조회", async () => {
+        await request(app).get("/post/main/0").set("authorization", "Bearer " + token)
+        .expect(200)
     })
 
-    test("메인페이지 게시글 조회", async () => {
-        await request(app).get("/main/:page").set("authorization", "Bearer " + token)
-        expect(200)
+    test("검색기능", async () => {
+        await request(app).get(encodeURI(`/post/search/테스트/0`)).set("authorization", "Bearer " + token)
+        .expect(200)
+    })
+
+    test("좋아요기능", async () => {
+        await request(app).post("/like/632dae42916c7dfcd375930e").set("authorization", "Bearer " + token)
+        .expect(200)
     })
     
+    test("유저정보 페이지", async () => {
+        await request(app).get("/user/me").set("authorization", "Bearer " + token)
+        .expect(200)
+    })
+        
+      
 })
 afterAll(async () => {
     mongoose.disconnect()
