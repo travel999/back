@@ -27,7 +27,6 @@ connect();
 
 app.use(
   cors({
-
     // origin: true,
     origin: [
       "http://54.180.131.25:3000",
@@ -37,6 +36,7 @@ app.use(
       "http://randomtest.co.kr",
       "https://randomtest.co.kr",
       "https://d2pzxujfgupu45.cloudfront.net",
+
       ],
 
     credentials: true
@@ -69,6 +69,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   // logger.error(err.message) //서버 배포할때 주석 해제해서 에러 로그가 남게 설정!!!
   res.status(err.status || 500).send(err.message);
+  console.log(err.message);
 });
 
 

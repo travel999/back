@@ -1,13 +1,16 @@
 const UserService = require("../services/users.service");
-const NoticeController = require('../controllers/notis.controller');
 const jwt = require("jsonwebtoken");
-
+const NoticeService = require('../services/notis.service');
 class UserController {
   userService = new UserService();
-
+  notisService = new NoticeService();
   createUser = async (req, res, next) => {
 
-    const {signUp} = req.body;
+    // const { email, nickname, password, confirm,userImage } = req.body;
+
+
+
+    const { signUp } = req.body;
     const email = signUp.email;
     const nickname = signUp.nickname;
     const userImage = signUp.userImage;
@@ -50,7 +53,7 @@ class UserController {
       password,
       confirm
     );
-    await NoticeController.createNoticeBoard({ user });
+    await this.notisService.createNoticeBoard( user );
     if (user) {
       return res.status(201).json({ statusCode: "201: 새로운 유저 정보가 등록되었습니다." });
     } else {
@@ -61,10 +64,10 @@ class UserController {
 
   checkEmail = async (req, res, next) => {
     // const { email } = req.body;
-    
+
     const { signUp } = req.body;
     const email = signUp.email;
-    
+
 
     const checked = await this.userService.checkEmail(email);
 
@@ -106,11 +109,11 @@ class UserController {
 
   checkNickname = async (req, res, next) => {
     // const { nickname } = req.body;
-    
-    
+
+
     const { signUp } = req.body;
     const nickname = signUp.nickname;
-    
+
 
     const checked = await this.userService.checkNickname(nickname);
 
@@ -126,53 +129,53 @@ class UserController {
 
   findUser = async (req, res, next) => {
     const { nickname, password } = res.locals.user;
-    
+
     const userInfo = await this.userService.findUser(
       nickname,
       password,
     );
 
-    if(userInfo.result === true){
+    if (userInfo.result === true) {
       res.status(200).json({ data: userInfo });
-    }else{
-      res.status(400).json(userInfo);
-    }  
-  };
-
-  updateImage = async (req,res,next) => {
-    const {newImage} = req.body;
-    const {nickname} = res.locals.user;
-    const userInfo = await this.userService.updateImage(nickname,newImage);
-
-    if(userInfo.result === true){
-      res.status(200).json(userInfo);
-    }else{
+    } else {
       res.status(400).json(userInfo);
     }
   };
 
-  updatePassword = async (req,res,next) => {
-    const {newPassword,confirm} = req.body;
-    const {nickname,password} = res.locals.user;
-    const userInfo = await this.userService.updatePassword(nickname,password,newPassword,confirm);
+  updateImage = async (req, res, next) => {
+    const { newImage } = req.body;
+    const { nickname } = res.locals.user;
+    const userInfo = await this.userService.updateImage(nickname, newImage);
 
-    if(userInfo.result === true){
+    if (userInfo.result === true) {
       res.status(200).json(userInfo);
-    }else{
+    } else {
       res.status(400).json(userInfo);
     }
   };
 
-  deleteUser = async (req,res,next) => {
-    const {nickname} = res.locals.user;
+  updatePassword = async (req, res, next) => {
+    const { newPassword, confirm } = req.body;
+    const { nickname, password } = res.locals.user;
+    const userInfo = await this.userService.updatePassword(nickname, password, newPassword, confirm);
+
+    if (userInfo.result === true) {
+      res.status(200).json(userInfo);
+    } else {
+      res.status(400).json(userInfo);
+    }
+  };
+
+  deleteUser = async (req, res, next) => {
+    const { nickname } = res.locals.user;
 
     const userInfo = await this.userService.deleteUser(nickname);
 
-    if(userInfo.result === true){
+    if (userInfo.result === true) {
       res.status(200).json(userInfo);
-    }else{
+    } else {
       res.status(400).json(userInfo);
-    }    
+    }
   };
 
   userLogin = async (req, res, next) => {
