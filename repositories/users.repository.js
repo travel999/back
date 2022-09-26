@@ -5,6 +5,7 @@ const salt = 12;
 const Email = require("../schemas/emailValidation");
 
 class UserRepository {
+    
   createUser = async (email, nickname, userImage, password) => {
     const hash = await bcrypt.hash(password, salt);
     const createUserData = await User.create({
@@ -13,7 +14,7 @@ class UserRepository {
       userImage,
       password: hash,
     });
-
+  
     return createUserData;
   };
 
