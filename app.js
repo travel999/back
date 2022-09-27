@@ -2,9 +2,8 @@ const express = require('express');
 const http = require("http");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const morgan = require('morgan');
 const fs = require('fs');
-
+const morganMiddleware = require('./middlewares/morgan');
 
 require("dotenv").config();
 const app = express();
@@ -43,14 +42,8 @@ app.use(
 );
 
 
+app.use(morganMiddleware)
 
-app.use(morgan('combined', {                                  // 코드가 400 미만라면 함수를 리턴해 버려서 로그 기록 안함.
-  skip: function (req, res) { return res.statusCode < 400 } // 코드가 400 이상이면 로그 기록함
-}));
-
-// app.use(morgan('dev', {                                  
-//   skip: function (req, res) { return res.statusCode < 400 } 
-// })); //개발환경
 
 
 app.use(cookieParser());
