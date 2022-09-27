@@ -6,6 +6,7 @@ class UserController {
   userService = new UserService();
   notisService = new NoticeService();
   createUser = async (req, res, next) => {
+    
     let userImage = "";
     if (req.file) userImage = req.file.location;
     const { signUp } = req.body;
