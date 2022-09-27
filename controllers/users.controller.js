@@ -10,7 +10,9 @@ class UserController {
     // const { email, nickname, password, confirm,userImage } = req.body;
     if (req.file){
       const userImage = req.file.location 
-      //
+    }
+    if (!req.file){
+      const userImage = ""
     }
     const { signUp } = req.body;
     const email = signUp.email;
