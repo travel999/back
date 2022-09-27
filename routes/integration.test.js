@@ -6,14 +6,14 @@ require("dotenv").config();
 
 // 토큰
 const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzJmMjEyZjU3MDc0NjI2Y2Y0YmYyZTIiLCJpYXQiOjE2NjQwMzMxNDN9.fDW2hh4sd5vgXLaDB1JDVAdsutOtzZ6RCtDkPpQmNhQ"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzMxY2UzNjVkNDZlZjExNzgwNWY4MDEiLCJpYXQiOjE2NjQyNTM5Mzd9.ASISujjXtIQeNBYq7DIfpXaOTktM1IuMnudii64gkBI"
 
 
 describe("POST / signup", ()=>{
     
     test("로그인", async () => {
        const data = {
-            email: "test00@test.com",
+            email: "shshinkitec2@gmail.com",
             password: "111111"
             }
         await request(app).post("/user/login").send(data)
@@ -42,7 +42,7 @@ describe("POST / signup", ()=>{
             ]}]
             
         }
-        await request(app).put("/post/632f21fcff4116a2546823d9").set("authorization", "Bearer " + token).send(data)
+        await request(app).put("/post/6331cfce5d46ef117805f9d4").set("authorization", "Bearer " + token).send(data)
         .expect(200)
     })
 
@@ -58,12 +58,12 @@ describe("POST / signup", ()=>{
                     {day: 2, title: '황리단길', lat: '35.836252574629924', lng: '129.28206598992438'}
             ]}]
         }
-        await request(app).put("/post/632d0049f8d99ed90bee791c").set("authorization", "Bearer " + token).send(data) //DB 초기화 할때 게시글 수정.
+        await request(app).put("/post/6331cf695d46ef117805f96d").set("authorization", "Bearer " + token).send(data) //DB 초기화 할때 게시글 수정.
         .expect(400)
     })
 
     test("일정 조회", async () => {
-        await request(app).get("/post/632d0049f8d99ed90bee791c").set("authorization", "Bearer " + token)
+        await request(app).get("/post/6331cf695d46ef117805f96d").set("authorization", "Bearer " + token)
         .expect(200)
     })
     
@@ -72,7 +72,7 @@ describe("POST / signup", ()=>{
         const data = {
             nickname2 : "코드테스터2"
         }
-        await request(app).patch("/post/invite/632dae42916c7dfcd375930e").set("authorization", "Bearer " + token).send(data)
+        await request(app).patch("/post/invite/6331ce365d46ef117805f801").set("authorization", "Bearer " + token).send(data)
         .expect(400)
     })
     
@@ -87,7 +87,7 @@ describe("POST / signup", ()=>{
     })
 
     test("좋아요기능", async () => {
-        await request(app).post("/like/632dae42916c7dfcd375930e").set("authorization", "Bearer " + token)
+        await request(app).post("/like/6331cf695d46ef117805f96d").set("authorization", "Bearer " + token)
         .expect(200)
     })
     
