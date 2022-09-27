@@ -23,13 +23,16 @@ const storage = multerS3({
     bucket: process.env.BUCKET,   //s3 버킷 주소
     key: (req, file, callback) => {
         callback(null,  `user_image/${Date.now()}_` + file.originalname);  // 저장되는 위치 및 파일명 
-    },
-    limits: { fileSize: 10 * 5000 * 5000 }
+    }
+
 });
+
+
 
 const img_up = multer({ 
     storage: storage,
     fileFilter: fileFilter,
 });
 
-exports.img_up = img_up
+module.exports = { img_up }
+// exports.img_up = img_up
