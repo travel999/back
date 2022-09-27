@@ -1,6 +1,7 @@
 const winston = require('winston');
 const winstonDaily = require('winston-daily-rotate-file');
 const process = require('process');
+require('dotenv').config()
 
 const { combine, timestamp, label, printf } = winston.format;
 
