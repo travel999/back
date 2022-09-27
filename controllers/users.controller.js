@@ -6,14 +6,14 @@ class UserController {
   userService = new UserService();
   notisService = new NoticeService();
   createUser = async (req, res, next) => {
-    
+    const { email, nickname, password, confirm } = req.body;
     let userImage = "";
     if (req.file) userImage = req.file.location;
-    const { signUp } = req.body;
-    const email = signUp.email;
-    const nickname = signUp.nickname;
-    const password = signUp.password;
-    const confirm = signUp.confirm;
+    // const { signUp } = req.body;
+    // const { email }= email;
+    // const nickname = nickname;
+    // const password = password;
+    // const confirm = confirm;
 
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
     const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
@@ -43,7 +43,7 @@ class UserController {
     if(emailValidate.result === false){
       return res.status(415).json({ statusCode:"415", emailValidate});
     }
-
+  
     const user = await this.userService.createUser(
       email,
       nickname,
@@ -51,8 +51,8 @@ class UserController {
       password,
       confirm
     );
-    await this.notisService.createNoticeBoard( user );
     if (user) {
+      await this.notisService.createNoticeBoard( user );
       return res.status(201).json({ statusCode: "201: 새로운 유저 정보가 등록되었습니다." });
     } else {
       return res.status(400).json({ statusCode: "400: 오류 발생." });
