@@ -14,7 +14,8 @@ class UserController {
     // const nickname = nickname;
     // const password = password;
     // const confirm = confirm;
-
+    console.log(email)
+    console.log(nickname)
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
     const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
