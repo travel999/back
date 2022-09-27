@@ -1,6 +1,7 @@
 const UserService = require("../services/users.service");
 const jwt = require("jsonwebtoken");
 const NoticeService = require('../services/notis.service');
+const { img_up } = require('../middlewares/user_image');
 class UserController {
   userService = new UserService();
   notisService = new NoticeService();
@@ -8,12 +9,11 @@ class UserController {
 
     // const { email, nickname, password, confirm,userImage } = req.body;
 
-
-
     const { signUp } = req.body;
     const email = signUp.email;
     const nickname = signUp.nickname;
-    const userImage = signUp.userImage;
+    const userImage = req.file.location 
+    console.log(userImage)
     const password = signUp.password;
     const confirm = signUp.confirm;
 
