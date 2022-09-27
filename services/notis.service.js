@@ -9,8 +9,8 @@ class NotisService {
         return findBoard;
     }
     //회원가입시 알림창 생성
-    createNoticeBoard = async (user) => {
-        const findExistBoard = await this.notisRepository.createNoticeBoard(user)
+    createNoticeBoard = async (newUser) => {
+        const findExistBoard = await this.notisRepository.createNoticeBoard(newUser)
         return findExistBoard
     };
 

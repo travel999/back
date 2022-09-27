@@ -14,21 +14,14 @@ class NotisRepository {
         return findBoard.notices;
     }
 
-    createNoticeBoard = async (user) => {
-        const findExistBoard = await NoticeBoard.findOne({
-            boardNum: user.email,
-            userId: user.nickname,
+    createNoticeBoard = async (newUser) => {
+        const newBoard = await NoticeBoard.create({
+            boardNum: newUser.email,
+            userId: newUser.nickname,
         });
-        if (findExistBoard) return;
-        else {
-            const newBoard = new NoticeBoard({
-                boardNum: user.email,
-                userId: user.nickname,
-            });
-            await newBoard.save();
-            return;
-        }
-    };
+        return newBoard;
+    }
+
 
     createNoticeMessage = async (nickname2) => {
         const findinviteuser = await User.findOne({ nickname: nickname2 });
