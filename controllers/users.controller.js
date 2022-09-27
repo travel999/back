@@ -6,14 +6,14 @@ class UserController {
   userService = new UserService();
   notisService = new NoticeService();
   createUser = async (req, res, next) => {
-    const { email, nickname, password, confirm } = req.body;
+    // const { email, nickname, password, confirm } = req.body;//
     let userImage = "";
     if (req.file) userImage = req.file.location;
-    // const { signUp } = req.body;
-    // const { email }= email;
-    // const nickname = nickname;
-    // const password = password;
-    // const confirm = confirm;
+    const { signUp } = req.body;
+    const email = signUp.email;
+    const nickname = signUp.nickname;
+    const password = signUp.password;
+    const confirm = signUp.confirm;
     console.log(email)
     console.log(nickname)
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
