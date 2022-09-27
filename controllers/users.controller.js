@@ -8,12 +8,13 @@ class UserController {
   createUser = async (req, res, next) => {
 
     // const { email, nickname, password, confirm,userImage } = req.body;
-
+    if (req.file){
+      const userImage = req.file.location 
+      //
+    }
     const { signUp } = req.body;
     const email = signUp.email;
     const nickname = signUp.nickname;
-    const userImage = req.file.location 
-    console.log(userImage)
     const password = signUp.password;
     const confirm = signUp.confirm;
 
@@ -143,7 +144,9 @@ class UserController {
   };
 
   updateImage = async (req, res, next) => {
-    const { newImage } = req.body;
+    // const { newImage } = req.body;
+    const newImage = req.file.location 
+    console.log(newImage)
     const { nickname } = res.locals.user;
     const userInfo = await this.userService.updateImage(nickname, newImage);
 

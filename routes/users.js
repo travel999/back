@@ -19,7 +19,7 @@ router.post("/sendEmail", usercontroller.sendEmail);
 router.post("/checkCode", usercontroller.checkCode);
 
 router.get("/me", authMiddlewares, usercontroller.findUser);
-router.put("/me/image", authMiddlewares, usercontroller.updateImage);
+router.put("/me/image", authMiddlewares,img_up.single('img'), usercontroller.updateImage);
 router.put("/me/password", authMiddlewares, usercontroller.updatePassword);
 router.delete("/me/delete", authMiddlewares, usercontroller.deleteUser);
 router.get('/mine',authMiddlewares,usercontroller.getmine);//나의여행일정 가져오기(닉네임이같아야함)
