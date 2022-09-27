@@ -80,7 +80,6 @@ class PostService {
 
     createPost = async ({ nickname, title, date  }) => {
             const post = await this.postRepository.createPost({ nickname, title, date });  
-            
             return post 
     }
 

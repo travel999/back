@@ -18,6 +18,7 @@ describe("POST / signup", ()=>{
             }
         await request(app).post("/user/login").send(data)
         .expect(200)
+        .expect(200)
         })
 
     test("임시 일정 작성", async () => {
@@ -45,6 +46,7 @@ describe("POST / signup", ()=>{
         await request(app).put("/post/6331cfce5d46ef117805f9d4").set("authorization", "Bearer " + token).send(data)
         .expect(200)
     })
+
 
     test("일정 작성 권한 없음", async () => {
         const data = {
