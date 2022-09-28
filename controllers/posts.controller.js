@@ -34,9 +34,9 @@ class PostsController {
         const pageSize = 7;
         const openStatus = true;
         try {
-            const posts = await this.postService.findMain(nickname);
-            const likedPosts = await this.postService.findMain2(nickname);
-            const openPosts = await this.postService.findMain3(openStatus, nickname, page, pageSize);
+            const posts = await this.postService.myPostsMain(nickname); //나의 일정
+            const likedPosts = await this.postService.likedPostsMain(nickname); // 좋아요 한 일정
+            const openPosts = await this.postService.openPostsMain(openStatus, nickname, page, pageSize); //공개 일정
             res.status(200).json({ data1: posts, data2: likedPosts, data3: openPosts });
         } catch (error) {
             res.status(400).json({ statusCode: "400: 정보 호출 오류" });

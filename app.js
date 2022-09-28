@@ -50,7 +50,7 @@ app.use(morganMiddleware)
 //   skip: function (req, res) { return res.statusCode < 400 } 
 // })); //개발환경
 
-
+app.use( express.static( "public" ) );
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
