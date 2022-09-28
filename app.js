@@ -2,9 +2,8 @@ const express = require('express');
 const http = require("http");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const morgan = require('morgan');
 const fs = require('fs');
-
+const morganMiddleware = require('./middlewares/morgan');
 
 require("dotenv").config();
 const app = express();
@@ -27,7 +26,6 @@ connect();
 
 app.use(
   cors({
-
     // origin: true,
     origin: [
       "http://54.180.131.25:3000",
@@ -37,6 +35,7 @@ app.use(
       "http://randomtest.co.kr",
       "https://randomtest.co.kr",
       "https://d2pzxujfgupu45.cloudfront.net",
+
       ],
 
     credentials: true
@@ -44,10 +43,12 @@ app.use(
 );
 
 
+app.use(morganMiddleware)
 
-app.use(morgan('combined', {                                  // 코드가 400 미만라면 함수를 리턴해 버려서 로그 기록 안함.
-  skip: function (req, res) { return res.statusCode < 400 } // 코드가 400 이상이면 로그 기록함
-}));
+
+// app.use(morgan('dev', {                                  
+//   skip: function (req, res) { return res.statusCode < 400 } 
+// })); //개발환경
 
 app.use( express.static( "public" ) );
 app.use(cookieParser());
@@ -69,7 +70,10 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   // logger.error(err.message) //서버 배포할때 주석 해제해서 에러 로그가 남게 설정!!!
   res.status(err.status || 500).send(err.message);
+  console.log(err.message);
 });
+
+
 
 
 module.exports = server;
