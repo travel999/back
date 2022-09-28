@@ -19,7 +19,7 @@ const passport = require("passport");
 const passportConfig = require("./passport/index.js"); // passportIndex
 passportConfig();
 
-//db연결
+//db연결 
 const connect = require("./schemas");
 connect();
 
