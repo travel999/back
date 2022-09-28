@@ -82,19 +82,22 @@ class UserRepository {
 
 
   login = async (email, password) => {
-    const dbhash = await User.findOne({
-      email
-    });
+    const user = await User.findOne({ email });
 
-    const match = await bcrypt.compare(password, dbhash.password);
-    if (!match) {
-      return res.json({
-        Message: "검증되지 않은 비밀번호 입니다",
-      });
+    try{
+      if(!user){
+        return { result:false, message: "해당 유저의 정보를 찾을수 없습니다."};
+      }
+      const match = await bcrypt.compare(password, user.password);
+      if(!match){
+        return { result:false, message: "입력한 정보를 확인해주세요"};
+      }
+      else{
+        return user;
+      }
+    }catch(err){
+      console.log(err)
     }
-    const user = await User.findOne({ email: email, password: dbhash.password });
-    return user;
-
   };
 
   findUser = async (nickname, password) => {
@@ -114,7 +117,6 @@ class UserRepository {
 
     const updateUser = await User.updateOne({ nickname: nickname }, { $set: { password: newPassword } });
     const userInfo = await User.findOne({ nickname: nickname });
-    console.log(userInfo);
     return userInfo;
   };
 

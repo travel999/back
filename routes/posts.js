@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../schemas/users");
-const Post = require("../schemas/posts");
 
-const NoticeController = require('../controllers/notis.controller');
 const PostsController = require('../controllers/posts.controller');
 const postsController = new PostsController();
 
@@ -18,7 +15,7 @@ router.patch("/public/:postId", postsController.publicPost); //일정 공개/비
 router.patch("/invite/:postId", postsController.invitePost ) //일정에 멤버초대
 router.put("/:postId/title", postsController.updateTitle) //일정 수정 (날짜,제목)
 
-   
+
 
 
 module.exports = router;

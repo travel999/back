@@ -1,4 +1,3 @@
-
 const express = require("express");
 const router = express.Router();
 const Chat = require("../schemas/chat");
@@ -17,4 +16,5 @@ router.get("/:postId", async (req, res, next) => {  //채팅방 로그 돌려주
         next(err);
     }
 });
+
 module.exports = router;

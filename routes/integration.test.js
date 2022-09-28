@@ -10,17 +10,17 @@ const token =
 
 
 describe("POST / signup", ()=>{
-    
-    test("로그인", async () => {
-       const data = {
-            email: "shshinkitec2@gmail.com",
-            password: "111111"
-            }
-        await request(app).post("/user/login").send(data)
-        .expect(200)
-        .expect(200)
-        })
 
+    test("로그인", async () => {
+        const data = {
+             email: "shshinkitec2@gmail.com",
+             password: "111111"
+             }
+         await request(app).post("/user/login").send(data)
+         .expect(200)
+         .expect(200)
+         })
+    
     test("임시 일정 작성", async () => {
         const data = {
             title : "테스트 여행 일정",

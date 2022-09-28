@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const authMiddlewares = require("../middlewares/auth.middleware");
 const { img_up } = require('../middlewares/user.image');
-const User = require("../schemas/users");
 const UserController = require("../controllers/users.controller");
 const usercontroller = new UserController();
 
@@ -22,7 +21,7 @@ router.delete("/me/delete", authMiddlewares, usercontroller.deleteUser);
 router.get('/mine',authMiddlewares,usercontroller.getmine);//나의여행일정 가져오기(닉네임이같아야함)
 
 
-router.put("/me/image", authMiddlewares, img_up.single('img'), usercontroller.updateImage);
+// router.put("/me/image", authMiddlewares, img_up.single('img'), usercontroller.updateImage);
 // router.post("/signup", img_up.single('img'), usercontroller.createUser); 회원가입 multer 주석
 
 // router.post("/test", img_up.single('img'), async(req, res) => {
