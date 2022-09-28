@@ -7,29 +7,24 @@ const { send } = require("process");
 class UserService {
   userRepository = new UserRepository();
 
-  createUser = async (email, nickname, userImage, password, confirm) => {
-
+  createUser = async (email, nickname, userImage, password) => {
     const createUserData = await this.userRepository.createUser(
       email,
       nickname,
       userImage,
       password,
     );
-
     return createUserData;
   };
 
   checkEmail = async (email) => {
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-
     if (!regEmail.test(email)) {
       return { result: false, message: "이메일 양식 위반." }
     }
-
     const checked = await this.userRepository.checkEmail(email);
-
+    
     return checked;
-
   };
 
   emailValidate = async (email) => {
@@ -115,9 +110,7 @@ class UserService {
     if (!regNickname.test(nickname)) {
       return { result: false, message: "닉네임 양식 위반." };
     }
-
     const checked = await this.userRepository.checkNickname(nickname);
-
     return checked;
 
   };
@@ -143,7 +136,6 @@ class UserService {
 
   updateImage = async (nickname, newImage) => {
     const updateUser = await this.userRepository.updateImage(nickname, newImage);
-    console.log("기본 이미지: ", updateUser);
     if (updateUser.userImage === newImage) {
       return { result: true, message: "유저 이미지가 변경되었습니다", updateUser };
     } else {

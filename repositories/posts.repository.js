@@ -8,7 +8,6 @@ class PostRepository {
         const posts = await Post.find({ title: { $regex: keyword }, openPublic: true }).sort({ "like": -1, "createdAt": -1 }).skip(start).limit(pageSize);
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
-
         for (var i = 0; i < likedPost.length; i++) {
             let ids = likedPost[i];
             for (var j = 0; j < posts.length; j++) {
@@ -17,7 +16,6 @@ class PostRepository {
                 }
             }
         }
-
         return posts;
     }
 
@@ -30,16 +28,13 @@ class PostRepository {
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
         const post = [];
-        
         if(likedPost.length > 0){
             for (var i = 0; i < likedPost.length; i++) {
                 const data = await Post.findById(likedPost[i]);
                 data.isLiked = true;
                 post.push(data);
             }
-
             return post;
-        
         }else{
             return post;
         }
@@ -59,10 +54,8 @@ class PostRepository {
                 }
             }
         }
-        
         return posts;
     }
-
 
     findPost = async (postId) => {
         const post = await Post.findById(postId)
@@ -104,7 +97,6 @@ class PostRepository {
     };
 
     invite = async ({ postId, nickname2 }) => {
-        
         const post = await Post.updateOne({ _id : postId }, { $push: { nickname: nickname2 } })
         await this.notisService.createNoticeMessage(  nickname2  );
         return post
