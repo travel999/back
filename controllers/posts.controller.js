@@ -174,7 +174,7 @@ class PostsController {
             }else if(post === 3){
                 res.status(400).json({ message: '존재하지 않는 닉네임입니다.'})
             }else{
-                res.status(200).json({ message: `${nickname2}님을 일정에 초대하엿습니다.`, });
+                res.status(200).json({ message: `${nickname2}님을 일정에 초대하였습니다.`, });
             }
 
         } catch (err) {
