@@ -159,20 +159,23 @@ class UserController {
     const { email, password } = req.body;
     const user = await this.userService.userLogin(email, password);
 
-    // if (req.cookies.token) {
-    //   res.status(401).json({ result: false, error: "이미 로그인이 되어있습니다" });
-    //   return;
-    // }
-    if (user) {
-      if (user.result === false) {
-        return res.status(400).json(user);
+    try{
+      if (user) {
+        if (user.result === false) {
+          return res.status(400).json(user);
+        }
+        const token = jwt.sign({ userId: user._id }, process.env.myKey);
+        return res.status(200).json({ statusCode: "200: 로그인 성공.", token, image: user.userImage, nickname: user.nickname });
       }
-      const token = jwt.sign({ userId: user._id }, process.env.myKey);
-      return res.status(200).json({ statusCode: "200: 로그인 성공.", token, image: user.userImage, nickname: user.nickname });
+      else {
+        return res.status(400).json({ statusCode: "400: 입력한 정보를 확인해주세요." });
+      }
+    }catch(err){
+      console.log(err)
+      err.status = 400
+      next(err);
     }
-    else {
-      return res.status(400).json({ statusCode: "400: 입력한 정보를 확인해주세요." });
-    }
+    
   };
 
   userLogout = async (req, res, next) => {
