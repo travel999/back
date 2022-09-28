@@ -19,12 +19,12 @@ class PostRepository {
         return posts;
     }
 
-    findMain = async (nickname) => {
+    myPostsMain = async (nickname) => {
         const posts = await Post.find({ nickname }).sort({ "createdAt": -1 });
         return posts;
     }
 
-    findMain2 = async (nickname) => {
+    likedPostsMain = async (nickname) => {
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
         const post = [];
@@ -41,19 +41,21 @@ class PostRepository {
         
     }
 
-    findMain3 = async (openStatus, nickname, start, pageSize) => {
+    openPostsMain = async (openStatus, nickname, start, pageSize) => {
         const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1, "createdAt": -1 }).skip(start).limit(pageSize);
+        console.log(posts)
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
-
-        for (var i = 0; i < likedPost.length; i++) {
-            let ids = likedPost[i];
-            for (var j = 0; j < posts.length; j++) {
-                if (posts[j]._id.toString() === ids) {
-                    posts[j].isLiked = true;
+        
+            for (var i = 0; i < likedPost.length; i++) {
+                let ids = likedPost[i];
+                for (var j = 0; j < posts.length; j++) {
+                    if (posts[j]._id.toString() === ids) {
+                        posts[j].isLiked = true;
+                    }
                 }
             }
-        }
+
         return posts;
     }
 

@@ -1,5 +1,4 @@
 const UserRepository = require("../repositories/users.repository");
-// const crypto = require("crypto");
 const ejs = require('ejs');
 const nodemailer = require('nodemailer');
 const { send } = require("process");
@@ -20,7 +19,7 @@ class UserService {
   checkEmail = async (email) => {
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     if (!regEmail.test(email)) {
-      return { result: false, message: "이메일 양식 위반." }
+      return { result: false, message: "이메일 형식에 맞게 입력해주세요." }
     }
     const checked = await this.userRepository.checkEmail(email);
     
@@ -43,7 +42,6 @@ class UserService {
 
   sendEmail = async (email) => {
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-    // const code = crypto.randomBytes(10).toString('hex');
     let code = Math.random().toString(36).substr(2,8);
     if (!regEmail.test(email)) {
       return { result: false, message: "이메일 양식 위반." }
@@ -54,8 +52,8 @@ class UserService {
 
       let emailTemplete;
 
-      ejs.renderFile("./template/authMail.ejs", { authCode: emailSent.code, nickname: emailSent.email }, function (err, data) {
-        if (err) { console.log(err) }
+      ejs.renderFile("./template/testMail.ejs", { authCode: emailSent.code, nickname: emailSent.email }, function (err, data) {
+        if (err) { console.log(err); }
         emailTemplete = data;
       });
 
@@ -69,6 +67,16 @@ class UserService {
           pass: process.env.GOOGLEPW,
         },
       });
+
+      // 이메일 테스터
+      // let transporter = nodemailer.createTransport({
+      //   host: "smtp.mailtrap.io",
+      //   port: 2525,
+      //   auth: {
+      //     user: "19c826e74c09c5",
+      //     pass: "1028700bbaeac1"
+      //   }
+      // });
 
       let mailOptions = await transporter.sendMail({
         from: "오리가치",
@@ -108,7 +116,7 @@ class UserService {
     const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
 
     if (!regNickname.test(nickname)) {
-      return { result: false, message: "닉네임 양식 위반." };
+      return { result: false, message: "닉네임은 특수문자 제외 2~10 글자로 입력할 수 있습니다." };
     }
     const checked = await this.userRepository.checkNickname(nickname);
     return checked;
