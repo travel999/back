@@ -109,8 +109,8 @@ class UserRepository {
   };
 
   updatePassword = async (nickname, newPassword) => {
-
-    const updateUser = await User.updateOne({ nickname: nickname }, { $set: { password: newPassword } });
+    const hash = await bcrypt.hash(newPassword, salt);
+    const updateUser = await User.updateOne({ nickname: nickname }, { $set: { password:hash} });
     const userInfo = await User.findOne({ nickname: nickname });
     return userInfo;
   };
