@@ -6,7 +6,7 @@ require("dotenv").config();
 
 // 토큰
 const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzMxY2UzNjVkNDZlZjExNzgwNWY4MDEiLCJpYXQiOjE2NjQyNTM5Mzd9.ASISujjXtIQeNBYq7DIfpXaOTktM1IuMnudii64gkBI"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM0NTQwYzAxYTJmZWYxYjBhZWE0OTIiLCJpYXQiOjE2NjQzNzM5MTZ9.4Fw2mwv3LxZMjRBwMrecuL80NEAS2BqehJaPjC7oSr0"
 
 
 describe("POST / signup", ()=>{
@@ -43,7 +43,7 @@ describe("POST / signup", ()=>{
             ]}]
             
         }
-        await request(app).put("/post/6331cfce5d46ef117805f9d4").set("authorization", "Bearer " + token).send(data)
+        await request(app).put("/post/633454df01a2fef1b0aea505").set("authorization", "Bearer " + token).send(data)
         .expect(200)
     })
 
@@ -60,22 +60,22 @@ describe("POST / signup", ()=>{
                     {day: 2, title: '황리단길', lat: '35.836252574629924', lng: '129.28206598992438'}
             ]}]
         }
-        await request(app).put("/post/6331cf695d46ef117805f96d").set("authorization", "Bearer " + token).send(data) //DB 초기화 할때 게시글 수정.
+        await request(app).put("/post/633450cd01a2fef1b0aea015").set("authorization", "Bearer " + token).send(data) //DB 초기화 할때 게시글 수정.
         .expect(400)
     })
 
     test("일정 조회", async () => {
-        await request(app).get("/post/6331cf695d46ef117805f96d").set("authorization", "Bearer " + token)
+        await request(app).get("/post/63344f6601a2fef1b0ae9ecd").set("authorization", "Bearer " + token)
         .expect(200)
     })
     
     
     test("일정 멤버 초대", async () => {
         const data = {
-            nickname2 : "코드테스터2"
+            nickname2 : "현호"
         }
-        await request(app).patch("/post/invite/6331ce365d46ef117805f801").set("authorization", "Bearer " + token).send(data)
-        .expect(400)
+        await request(app).patch("/post/invite/6334557801a2fef1b0aea534").set("authorization", "Bearer " + token).send(data)
+        .expect(200)
     })
     
     test("메인페이지 게시글 조회", async () => {
@@ -89,7 +89,7 @@ describe("POST / signup", ()=>{
     })
 
     test("좋아요기능", async () => {
-        await request(app).post("/like/6331cf695d46ef117805f96d").set("authorization", "Bearer " + token)
+        await request(app).post("/like/633450cd01a2fef1b0aea015").set("authorization", "Bearer " + token)
         .expect(200)
     })
     
