@@ -24,12 +24,7 @@ const postSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-    },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        
-    },
+    }
 
 
 },{ strict: false }); //{ strict: false } 스키마에 제약 없이 DB에 저장가능

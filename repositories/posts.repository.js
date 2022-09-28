@@ -8,7 +8,6 @@ class PostRepository {
         const posts = await Post.find({ title: { $regex: keyword }, openPublic: true }).sort({ "like": -1, "createdAt": -1 }).skip(start).limit(pageSize);
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
-
         for (var i = 0; i < likedPost.length; i++) {
             let ids = likedPost[i];
             for (var j = 0; j < posts.length; j++) {
@@ -17,52 +16,48 @@ class PostRepository {
                 }
             }
         }
-
         return posts;
     }
 
-    findMain = async (nickname) => {
+    myPostsMain = async (nickname) => {
         const posts = await Post.find({ nickname }).sort({ "createdAt": -1 });
         return posts;
     }
 
-    findMain2 = async (nickname) => {
+    likedPostsMain = async (nickname) => {
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
         const post = [];
-        
         if(likedPost.length > 0){
             for (var i = 0; i < likedPost.length; i++) {
                 const data = await Post.findById(likedPost[i]);
                 data.isLiked = true;
                 post.push(data);
             }
-
             return post;
-        
         }else{
             return post;
         }
         
     }
 
-    findMain3 = async (openStatus, nickname, start, pageSize) => {
+    openPostsMain = async (openStatus, nickname, start, pageSize) => {
         const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1, "createdAt": -1 }).skip(start).limit(pageSize);
+        console.log(posts)
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
-
-        for (var i = 0; i < likedPost.length; i++) {
-            let ids = likedPost[i];
-            for (var j = 0; j < posts.length; j++) {
-                if (posts[j]._id.toString() === ids) {
-                    posts[j].isLiked = true;
+        
+            for (var i = 0; i < likedPost.length; i++) {
+                let ids = likedPost[i];
+                for (var j = 0; j < posts.length; j++) {
+                    if (posts[j]._id.toString() === ids) {
+                        posts[j].isLiked = true;
+                    }
                 }
             }
-        }
-        
+
         return posts;
     }
-
 
     findPost = async (postId) => {
         const post = await Post.findById(postId)
@@ -104,7 +99,6 @@ class PostRepository {
     };
 
     invite = async ({ postId, nickname2 }) => {
-        
         const post = await Post.updateOne({ _id : postId }, { $push: { nickname: nickname2 } })
         await this.notisService.createNoticeMessage(  nickname2  );
         return post

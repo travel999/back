@@ -18,7 +18,6 @@ router.use("/user", UserRouter);
 router.use("/post", authMiddleware, postsRouter);
 router.use("/like",authMiddleware, LikesRouter);
 router.use("/kakao", kakaosRouter);
-
 router.use("/noti", authMiddleware, NotisRouter);
 router.use("/chat",authMiddleware, chatRouter);
 
