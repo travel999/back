@@ -40,8 +40,6 @@ const userSchema = new Schema({
 
 
 });
-userSchema.virtual('userId').get(function () {
-    return this._id.toHexString();
-});
+
 
 module.exports = mongoose.model(`User`, userSchema);

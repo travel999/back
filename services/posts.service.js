@@ -26,8 +26,8 @@ class PostService {
         }
     }
     
-    findMain = async (nickname) => {
-        const posts = await this.postRepository.findMain(nickname);
+    myPostsMain = async (nickname) => {
+        const posts = await this.postRepository.myPostsMain(nickname);
         
         if(!posts || !posts.length){
             return { result:false, message: "일정을 찾을수 없습니다" };
@@ -37,8 +37,8 @@ class PostService {
             
     }
 
-    findMain2 = async (nickname) => {
-        const posts = await this.postRepository.findMain2(nickname);
+    likedPostsMain = async (nickname) => {
+        const posts = await this.postRepository.likedPostsMain(nickname);
         
         if(!posts || !posts.length){
             return { result:false, message: "좋아요 한 일정이 없습니다" };
@@ -48,7 +48,7 @@ class PostService {
             
     }
 
-    findMain3 = async (openStatus,nickname,page,pageSize) => {
+    openPostsMain = async (openStatus,nickname,page,pageSize) => {
         
         let start = 0;
         if (page <= 0) {
@@ -58,7 +58,7 @@ class PostService {
         }
         // const listSize = page * pageSize;
                         
-        const posts = await this.postRepository.findMain3(openStatus,nickname,start,pageSize);
+        const posts = await this.postRepository.openPostsMain(openStatus,nickname,start,pageSize);
 
         if (!posts || !posts.length){
             return { result:false, message: "공개된 일정이 없습니다."};

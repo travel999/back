@@ -28,7 +28,7 @@ router.patch("/invite/:postId", async (req, res, next) => {
         }else{
             await Post.updateOne({ _id : postId }, { $push: { nickname : nickname2} }) // $push 닉네임 배열에 새로운값 을 추가해준다. 
             await NoticeController.createNoticeMessage({ nickname2 });
-            res.status(200).json({ result: true, message: `${nickname2}님을 일정에 초대하엿습니다.`, });
+            res.status(200).json({ result: true, message: `${nickname2}님을 일정에 초대하였습니다.`, });
         }
     } catch (err) {
         console.log(err)
