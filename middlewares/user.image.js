@@ -22,10 +22,9 @@ const storage = multerS3({
     acl: 'public-read-write',     //권한 설정
     bucket: process.env.BUCKET,   //s3 버킷 주소
     key: (req, file, callback) => {
-        console.log(req.body)
         callback(null,  `user_image/${Date.now()}_` + file.originalname);  // 저장되는 위치 및 파일명 
-    }
-
+    },
+    limits: { fileSize: 10 * 5000 * 5000 }
 });
 
 const img_up = multer({ 

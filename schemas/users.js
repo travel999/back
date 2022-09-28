@@ -4,7 +4,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         // trim : true,
-        required: true,
+        required: false,
     },
     password: {
         type: String,
@@ -14,7 +14,7 @@ const userSchema = new Schema({
     nickname: {
         type: String,
         // trim : true,
-        required: true,
+        required: false,
     },
     userImage: {
         type: String,
@@ -39,9 +39,6 @@ const userSchema = new Schema({
     },
 
 
-});
-userSchema.virtual('userId').get(function () {
-    return this._id.toHexString();
-});
+},{ strict: false });
 
 module.exports = mongoose.model(`User`, userSchema);
