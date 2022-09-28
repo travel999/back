@@ -22,27 +22,27 @@ class UserService {
       return { result: false, message: "이메일 형식에 맞게 입력해주세요." }
     }
     const checked = await this.userRepository.checkEmail(email);
-    
+
     return checked;
   };
 
   emailValidate = async (email) => {
     const checked = await this.userRepository.emailValidate(email);
 
-    if(!checked){
-      return {result:false, message:"이메일 인증이 필요합니다."};
+    if (!checked) {
+      return { result: false, message: "이메일 인증이 필요합니다." };
     }
 
-    if(checked.verified === false){
-      return {result:false, message:"인증되지 않은 이메일입니다."}
+    if (checked.verified === false) {
+      return { result: false, message: "인증되지 않은 이메일입니다." }
     }
 
-    return {result:true, message:"인증된 이메일입니다."};
+    return { result: true, message: "인증된 이메일입니다." };
   }
 
   sendEmail = async (email) => {
     const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-    let code = Math.random().toString(36).substr(2,8);
+    let code = Math.random().toString(36).substr(2, 8);
     if (!regEmail.test(email)) {
       return { result: false, message: "이메일 양식 위반." }
     }
@@ -101,14 +101,14 @@ class UserService {
 
   };
 
-  checkCode = async (email,code) => {
-    const checkResult = await this.userRepository.checkCode(email,code);
-    
-    if(checkResult.verified === true){
-      return {result:true, message: "이메일 인증 완료"};
+  checkCode = async (email, code) => {
+    const checkResult = await this.userRepository.checkCode(email, code);
+
+    if (checkResult.verified === true) {
+      return { result: true, message: "이메일 인증 완료" };
     }
-    else{
-      return {result:false, message: "코드가 일치하지 않습니다"};
+    else {
+      return { result: false, message: "코드가 일치하지 않습니다" };
     }
   }
 
@@ -168,15 +168,9 @@ class UserService {
       return { result: false, message: "비밀번호 양식위반" };
     }
 
-
     const userInfo = await this.userRepository.updatePassword(nickname, newPassword);
-
-    if (userInfo.password === newPassword) {
-      return { result: true, message: "비밀번호가 변경되었습니다" };
-    } else {
-      return { result: false, message: "네트워크 에러" };
-    }
-  };
+    return { result: true, message: "비밀번호가 변경되었습니다" };
+  }
 
   deleteUser = async (nickname) => {
     const userInfo = await this.userRepository.deleteUser(nickname);
