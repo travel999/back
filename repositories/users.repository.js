@@ -82,17 +82,15 @@ class UserRepository {
 
 
   login = async (email, password) => {
-    const dbhash = await User.findOne({
+    const user = await User.findOne({
       email
     });
-
-    const match = await bcrypt.compare(password, dbhash.password);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.json({
         Message: "검증되지 않은 비밀번호 입니다",
       });
     }
-    const user = await User.findOne({ email: email, password: dbhash.password });
     return user;
 
   };
@@ -114,7 +112,6 @@ class UserRepository {
 
     const updateUser = await User.updateOne({ nickname: nickname }, { $set: { password: newPassword } });
     const userInfo = await User.findOne({ nickname: nickname });
-    console.log(userInfo);
     return userInfo;
   };
 

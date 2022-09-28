@@ -14,12 +14,10 @@ const io = SocketIO(server, {
             socket.join(data);
         });
 
-
         socket.on("send_message", async (data) => {  //채팅 메시지 및 채팅기록 저장 
             log = await Chat.findOne({ room: data.room })
             if (log) {
                 await Chat.updateOne({ room: data.room }, {
-                    // $push: { chatLog : data.message, nickname : data.author, chatTime : data.time} 
                     $push: {
                         chatLog: { $each: [data.message], $slice: -80 }, //채팅로그 80개 까지만 저장
                         nickname: { $each: [data.author], $slice: -80 },
@@ -41,7 +39,6 @@ const io = SocketIO(server, {
         });
 
         socket.on("SaveDone_data", (data) => {
-            // console.log("저장한사람: ", data.author);
             socket.to(data.room).emit("SaveGet_data", data);
             console.log("save", data.author);
         });
@@ -69,5 +66,4 @@ const io = SocketIO(server, {
     })
 
 
-// }
 
