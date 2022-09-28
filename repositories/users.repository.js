@@ -82,17 +82,22 @@ class UserRepository {
 
 
   login = async (email, password) => {
-    const user = await User.findOne({
-      email
-    });
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.json({
-        Message: "검증되지 않은 비밀번호 입니다",
-      });
-    }
-    return user;
+    const user = await User.findOne({ email });
 
+    try{
+      if(!user){
+        return { result:false, message: "해당 유저의 정보를 찾을수 없습니다."};
+      }
+      const match = await bcrypt.compare(password, user.password);
+      if(!match){
+        return { result:false, message: "입력한 정보를 확인해주세요"};
+      }
+      else{
+        return user;
+      }
+    }catch(err){
+      console.log(err)
+    }
   };
 
   findUser = async (nickname, password) => {
