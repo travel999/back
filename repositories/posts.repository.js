@@ -43,7 +43,6 @@ class PostRepository {
 
     openPostsMain = async (openStatus, nickname, start, pageSize) => {
         const posts = await Post.find({ openPublic: openStatus }).sort({ "like": -1, "createdAt": -1 }).skip(start).limit(pageSize);
-        console.log(posts)
         const targetPost = await Like.find({ nickname }).sort({ "createdAt": -1 });
         const likedPost = targetPost.map((post) => post.postId);
         
