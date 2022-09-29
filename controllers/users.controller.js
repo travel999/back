@@ -1,46 +1,39 @@
 const UserService = require("../services/users.service");
 const jwt = require("jsonwebtoken");
-
+const NoticeService = require('../services/notis.service');
 class UserController {
   userService = new UserService();
-
+  notisService = new NoticeService();
   createUser = async (req, res, next) => {
-
-    // const { email, nickname, password, confirm,userImage } = req.body;
-
-
-
+    // const { email, nickname, password, confirm } = req.body;//
+    // let userImage = "";
+    // if (req.file) userImage = req.file.location;
     const { signUp } = req.body;
     const email = signUp.email;
     const nickname = signUp.nickname;
-    const userImage = signUp.userImage;
     const password = signUp.password;
     const confirm = signUp.confirm;
-
+    const userImage = signUp.userImage
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
-    const regNickname = /^[A-Za-z가-힣0-9]{2,15}$/;
-    const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 
     if (password !== confirm) {
       return res.status(411).json({ statusCode: "411: 입력하신 비밀번호가 일치하지 않습니다." });
     }
-
     if (!regPassword.test(password)) {
       return res.status(412).json({ statusCode: "412: 비밀번호 양식 위반." });
     }
-
     const nicknameCheck = await this.userService.checkNickname(nickname);
-
     if (nicknameCheck.result === false) {
       return res.status(413).json({ statusCode: "413", nicknameCheck });
     }
-
     const emailCheck = await this.userService.checkEmail(email);
-
     if (emailCheck.result === false) {
       return res.status(414).json({ statusCode: "414", emailCheck });
     }
-
+    const emailValidate = await this.userService.emailValidate(email);
+    if(emailValidate.result === false){
+      return res.status(415).json({ statusCode:"415", emailValidate});
+    }
     const user = await this.userService.createUser(
       email,
       nickname,
@@ -48,8 +41,8 @@ class UserController {
       password,
       confirm
     );
-
     if (user) {
+      await this.notisService.createNoticeBoard( user );
       return res.status(201).json({ statusCode: "201: 새로운 유저 정보가 등록되었습니다." });
     } else {
       return res.status(400).json({ statusCode: "400: 오류 발생." });
@@ -58,14 +51,9 @@ class UserController {
   };
 
   checkEmail = async (req, res, next) => {
-    // const { email } = req.body;
-
     const { signUp } = req.body;
     const email = signUp.email;
-
-
     const checked = await this.userService.checkEmail(email);
-
     if (checked.result === true) {
       return res.status(200).json(checked);
     }
@@ -73,18 +61,35 @@ class UserController {
       return res.status(400).json(checked);
     }
 
-
-
   };
 
+  sendEmail = async(req,res,next) => {
+    const { email } = req.body;
+    const emailSent = await this.userService.sendEmail(email);  
+    if (emailSent.result === true){
+      return res.status(200).json(emailSent);
+    }
+    else{
+      return res.status(400).json(emailSent);
+    }
+
+  }
+
+  checkCode = async (req,res,next) => {
+    const { email,code } = req.body;
+    const checkResult = await this.userService.checkCode(email,code);
+    
+    if(checkResult.result === true){
+      return res.status(200).json(checkResult);
+    }
+    else{
+      return res.status(400).json(checkResult);
+    }
+  }
+
   checkNickname = async (req, res, next) => {
-    // const { nickname } = req.body;
-
-
     const { signUp } = req.body;
     const nickname = signUp.nickname;
-
-
     const checked = await this.userService.checkNickname(nickname);
 
     if (checked.result === true) {
@@ -114,6 +119,8 @@ class UserController {
 
   updateImage = async (req, res, next) => {
     const { newImage } = req.body;
+    // const newImage = req.file.location 
+    // console.log(newImage)
     const { nickname } = res.locals.user;
     const userInfo = await this.userService.updateImage(nickname, newImage);
 
@@ -150,34 +157,31 @@ class UserController {
 
   userLogin = async (req, res, next) => {
     const { email, password } = req.body;
-    const expires = new Date();
     const user = await this.userService.userLogin(email, password);
 
-    if (req.cookies.token) {
-      res.status(401).json({ result: false, error: "이미 로그인이 되어있습니다" });
-      return;
-    }
-
-    if (user) {
-      if (user.result === false) {
-        return res.status(400).json(user);
+    try{
+      if (user) {
+        if (user.result === false) {
+          return res.status(400).json(user);
+        }
+        const token = jwt.sign({ userId: user._id }, process.env.myKey);
+        return res.status(200).json({ statusCode: "200: 로그인 성공.", token, image: user.userImage, nickname: user.nickname });
       }
-      const token = jwt.sign({ userId: user._id }, process.env.myKey);
-      expires.setMinutes(expires.getMinutes() + 60);
-      res.cookie("token", token, { expires: expires });
-
-      return res.status(200).json({ statusCode: "200: 로그인 성공.", token, image: user.userImage, nickname: user.nickname });
+      else {
+        return res.status(400).json({ statusCode: "400: 입력한 정보를 확인해주세요." });
+      }
+    }catch(err){
+      console.log(err)
+      err.status = 400
+      next(err);
     }
-    else {
-      return res.status(400).json({ statusCode: "400: 입력한 정보를 확인해주세요." });
-    }
+    
   };
 
   userLogout = async (req, res, next) => {
     try {
       res.clearCookie("token");
       res.status(200).json({ result: true, message: "로그아웃" });
-      // res.redirect("/");
 
     } catch (error) {
       res.status(400).json({ result: false, error: "네트워크 에러" });

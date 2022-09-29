@@ -1,51 +1,103 @@
 const User = require("../schemas/users");
 const Post = require("../schemas/posts");
+const bcrypt = require("bcrypt");
+const salt = 12;
+const Email = require("../schemas/emailValidation");
 
 class UserRepository {
-  createUser = async (email, nickname, userImage, password) => {
     
+  createUser = async (email, nickname, userImage, password) => {
+    const hash = await bcrypt.hash(password, salt);
     const createUserData = await User.create({
       email,
       nickname,
       userImage,
-      password,
+      password: hash,
     });
-
+  
     return createUserData;
   };
 
-  
+
   checkEmail = async (email) => {
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
+
+    if (user) {
+      return { result: false, message: "이미 사용 중인 이메일입니다." };
+    }
+    else {
+      return { result: true, message: "사용 가능한 이메일입니다." };
+    }
+  }
+
+  emailValidate = async (email) => {
+    const userEmail = await Email.findOne({email});
+
+    return userEmail;
+  }
+
+  sendEmail = async (email,code) => {
+    const userEmailInfo = await Email.findOne({email});
     
-    if(user){
-      return {result: false, message: "이미 사용 중인 이메일입니다."};
+    if(userEmailInfo){
+      return userEmailInfo;
     }
     else{
-      return {result: true, message: "사용 가능한 이메일입니다."};
+      const userEmailInfo = await Email.create({
+        email,
+        code,
+        verified:false,
+      });
+  
+      return userEmailInfo;
     }
-  };
+    
+  }
+
+  checkCode = async (email,code) => {
+    const userInfo = await Email.findOne({email,code});
+
+    if(userInfo.code === code){
+      const updateUser = await Email.updateOne({ email: email, code: code },{ $set: { verified: true } });
+      return {verified:true};
+    }
+    else{
+      return {verified:false};
+    }
+  }
 
   checkNickname = async (nickname) => {
-    const user = await User.findOne({nickname});
+    const user = await User.findOne({ nickname });
 
-    if(user){
-      return {result: false, message: "이미 사용 중인 닉네임입니다."};
+    if (user) {
+      return { result: false, message: "이미 사용 중인 닉네임입니다." };
     }
-    else{
-      return {result: true, message: "사용 가능한 닉네임입니다."};
+    else {
+      return { result: true, message: "사용 가능한 닉네임입니다." };
     }
 
-    
+
   };
 
 
 
   login = async (email, password) => {
-    const user = await User.findOne({ email: email, password: password });
-    console.log(user);
-    
-    return user;
+    const user = await User.findOne({ email });
+
+    try{
+      if(!user){
+        return { result:false, message: "해당 유저의 정보를 찾을수 없습니다."};
+      }
+      const match = await bcrypt.compare(password, user.password);
+      if(!match){
+        return { result:false, message: "입력한 정보를 확인해주세요"};
+      }
+      else{
+        return user;
+      }
+    }catch(err){
+      console.log(err)
+    }
   };
 
   findUser = async (nickname, password) => {
@@ -54,35 +106,34 @@ class UserRepository {
   };
 
   updateImage = async (nickname, newImage) => {
-    
-    const updateUser = await User.updateOne({ nickname: nickname },{ $set: { userImage: newImage } });
+
+    const updateUser = await User.updateOne({ nickname: nickname }, { $set: { userImage: newImage } });
     const userInfo = await User.findOne({ nickname: nickname });
 
     return userInfo;
   };
 
-  updatePassword = async (nickname,newPassword) => {
-    
-    const updateUser = await User.updateOne({ nickname: nickname },{ $set: { password: newPassword }});
+  updatePassword = async (nickname, newPassword) => {
+    const hash = await bcrypt.hash(newPassword, salt);
+    const updateUser = await User.updateOne({ nickname: nickname }, { $set: { password:hash} });
     const userInfo = await User.findOne({ nickname: nickname });
-    console.log(userInfo);
     return userInfo;
   };
 
   deleteUser = async (nickname) => {
-    const updateUser = await User.deleteOne({nickname:nickname});
-    const userInfo = await User.findOne({nickname:nickname});
+    const updateUser = await User.deleteOne({ nickname: nickname });
+    const userInfo = await User.findOne({ nickname: nickname });
 
     return userInfo;
   };
-  
+
   findPost = async (nickname) => {
     const findPostData = await Post.find({ nickname });
-    
+
     return findPostData;
   };
 
-  
+
 }
 
 module.exports = UserRepository;

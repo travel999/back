@@ -1,10 +1,9 @@
-
 const PostService = require('../services/posts.service');
 
 class PostsController {
     postService = new PostService(); // Post 서비스를 클래스를 컨트롤러 클래스의 멤버 변수로 할당합니다.
-
-
+   
+    // 검색기능
     search = async (req, res, next) => {
         const { keyword } = req.params;
         const { page } = req.params;
@@ -25,7 +24,6 @@ class PostsController {
         
     }
 
-
     //메인페이지 게시글 조회
     getMain = async (req, res, next) => {
         const { nickname } = res.locals.user;
@@ -33,9 +31,9 @@ class PostsController {
         const pageSize = 7;
         const openStatus = true;
         try {
-            const posts = await this.postService.findMain(nickname);
-            const likedPosts = await this.postService.findMain2(nickname);
-            const openPosts = await this.postService.findMain3(openStatus, nickname, page, pageSize);
+            const posts = await this.postService.myPostsMain(nickname); //나의 일정
+            const likedPosts = await this.postService.likedPostsMain(nickname); // 좋아요 한 일정
+            const openPosts = await this.postService.openPostsMain(openStatus, nickname, page, pageSize); //공개 일정
             res.status(200).json({ data1: posts, data2: likedPosts, data3: openPosts });
         } catch (error) {
             res.status(400).json({ statusCode: "400: 정보 호출 오류" });
@@ -43,29 +41,32 @@ class PostsController {
 
     }
 
-
     //일정 조회
     getPost = async (req, res, next) => {
         const { postId } = req.params;
         const posts = await this.postService.findPost(postId);
-        res.status(200).json({ data: posts })
+        if (posts.errormessage){
+            return res.status(400).json({posts})
+        }else{
+            res.status(200).json({ data: posts })
+        }
+        
     }
 
-    //일정 생성
+    //일정 초기 생성
     createPost = async (req, res, next) => {
         try {
-            const { nickname } = res.locals.user
-            const { nickname2, title, day: [cardNum, [placeName, locate, content]] } = req.body;
-
-            const createPostData = await this.postService.createPost({ nickname: [nickname].concat(nickname2), title, day: [cardNum, [placeName, locate, content]] });
-
-            res.status(201).json({ data: createPostData });
-
-
-        } catch (error) {
-            const message = `${req.method} ${req.originalUrl} : ${error.message}`;
-            console.log(message);
-            res.status(400).json({ message });
+            const { nickname } = res.locals.user;
+            const { title, date } = req.body;
+            if ( !title || !date ) {
+                res.status(400).json({ message: '제목 및 날짜를 입력해주세요' });
+            }else{
+                const createPostData = await this.postService.createPost({nickname, title, date });
+                res.status(200).json({ postId : createPostData._id, title : createPostData.title, date : createPostData.date });
+            }
+        } catch (err) {
+            console.log(err)
+            next(err);
         }
     }
 
@@ -73,25 +74,51 @@ class PostsController {
     updatePost = async (req, res, next) => {
         try {
             const { nickname } = res.locals.user;
-            const { postId } = req.params;
-            const { nickname2, title, day: [cardNum, [placeName, locate, content]] } = req.body;
-            const updateData = await this.postService.updatepost({ postId, nickname: [nickname].concat(nickname2), title, day: [cardNum, [placeName, locate, content]] });
-            res.status(201).json(updateData);
-        } catch (error) {
-            const message = `${req.method} ${req.originalUrl} : ${error.message}`;
-            console.log(message);
-            res.status(400).json({ message });
+            const _id = req.params.postId
+            const { title, date, day1, day2, day3, day4, day5, day6, day7  } = req.body;
+            const updateData = await this.postService.updatepost(nickname, _id, title, date, day1, day2, day3, day4, day5, day6, day7)
+            if (updateData === 1){
+                res.status(400).json({ message: '일정을 찾을수 없습니다.' })
+            }else if(updateData === 2){
+                res.status(400).json({ message: '수정권한이 없습니다.' })
+            }else{
+                res.status(200).json( updateData );
+            }
+        } catch (err) {
+            console.log(err)
+            err.status = 400
+            next(err);
         }
 
     }
+    //일정 수정 (날짜,제목)
+    updateTitle = async (req, res, next) => {
+        try {
+            const { nickname } = res.locals.user;
+            const _id = req.params.postId
+            const { title, date } = req.body;
+            const updateData = await this.postService.updatetitle(nickname, _id, title, date)
+            if (updateData === 1){
+                res.status(400).json({ message: '일정을 찾을수 없습니다.' })
+            }else if(updateData === 2){
+                res.status(400).json({ message: '수정권한이 없습니다.' })
+            }else{
+                res.status(200).json( updateData );
+            }
+        } catch (err) {
+            console.log(err)
+            err.status = 400
+            next(err);
+        }
 
+    }
     //일정 삭제
     deletePost = async (req, res, next) => {
         try {
             const { nickname } = res.locals.user;
             const { postId } = req.params;
             const deleteData = await this.postService.deletepost({ postId, nickname })
-            res.status(201).json(deleteData);
+            res.status(200).json(deleteData);
         } catch (error) {
             const message = `${req.method} ${req.originalUrl} : ${error.message}`;
             console.log(message);
@@ -114,10 +141,10 @@ class PostsController {
             } else {
                 res.status(200).json(publicData);
             }
-        } catch (error) {
-            const message = `${req.method} ${req.originalUrl} : ${error.message}`;
-            console.log(message);
-            res.status(400).json({ message });
+        } catch (err) {
+            console.log(err)
+            err.status = 400
+            next(err);
         }
 
     }
@@ -133,6 +160,31 @@ class PostsController {
             return res.status(200).json({ data: posts });
         }
     }
+
+    invitePost = async(req, res, next) => {
+        try {
+            const { nickname } = res.locals.user;
+            const { postId } = req.params;
+            const { nickname2 } = req.body;
+            const post = await this.postService.invite({ postId, nickname, nickname2 })
+            if (post === 1){
+                res.status(400).json({ message: '일정을 찾을수 없습니다.' })
+            }else if(post === 2){
+                res.status(400).json({ message: '권한이 없습니다.' })
+            }else if(post === 3){
+                res.status(400).json({ message: '존재하지 않는 닉네임입니다.'})
+            }else{
+                res.status(200).json({ message: `${nickname2}님을 일정에 초대하였습니다.`, });
+            }
+
+        } catch (err) {
+            console.log(err)
+            err.status = 400
+            next(err);
+        }
+    }
+
+    
 
 }
 

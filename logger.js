@@ -1,6 +1,7 @@
 const winston = require('winston');
 const winstonDaily = require('winston-daily-rotate-file');
 const process = require('process');
+require('dotenv').config()
 
 const { combine, timestamp, label, printf } = winston.format;
 
@@ -46,15 +47,26 @@ const logger = winston.createLogger({
     //* uncaughtException(catch 에러) 발생시 파일 설정 
     exceptionHandlers: [
         new winstonDaily({
-           level: 'error',
-           datePattern: 'YYYY-MM-DD',
-           dirname: logDir,
-           filename: `%DATE%.exception.log`,
-           maxFiles: 30,
-           zippedArchive: true,
+            level: 'error',
+            datePattern: 'YYYY-MM-DD',
+            dirname: logDir + '/catch',//logs/catch 하위에 저장
+            filename: `%DATE%.exception.log`,
+            maxFiles: 30,
+            zippedArchive: true,
         }),
-     ],
+    ],
 });
+
+if (process.env.NODE_ENV !== 'production') {
+    logger.add(
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.colorize(), // log level별로 색상 적용하기
+                winston.format.simple(), // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
+            ),
+        }),
+    );
+}
 
 
 

@@ -1,8 +1,12 @@
 const passport = require('passport');
 const KakaoStrategy = require('passport-kakao').Strategy;
 const User = require('../schemas/users');
+const NoticeService = require('../services/notis.service');
 require('dotenv').config();
+
+
 module.exports = () => {
+    const notisService = new NoticeService();
     passport.use(
         new KakaoStrategy(
             {
@@ -16,18 +20,20 @@ module.exports = () => {
             // profile: 카카오가 보내준 유저 정보. profile의 정보를 바탕으로 회원가입
             async (accessToken, refreshToken, profile, done) => {
                 console.log('카카오 엑세스, 파일', accessToken, profile);
+
                 try {
+
                     const exUser = await User.findOne({
                         // 카카오 플랫폼에서 로그인 했고 & snsId필드에 카카오 아이디가 일치할경우
                         snsId: profile.id,
                         provider: "kakao"
                     });
                     // 이미 가입된 카카오 프로필이면 성공
+
                     if (exUser) {
+
                         done(null, exUser); // 로그인 인증 완료
                     } else {
-                        // let profile_image = "";
-                        // let email = "";
                         // 가입되지 않는 유저면 회원가입 시키고 로그인을 시킨다
 
                         const newUser = await User.create({
@@ -37,6 +43,10 @@ module.exports = () => {
                             profile_image: profile._json.properties.profile_image,
                             provider: 'kakao',
                         });
+
+
+                        await notisService.createNoticeBoard(newUser);
+
                         done(null, newUser); // 회원가입하고 로그인 인증 완료
                     }
                 } catch (error) {
@@ -47,3 +57,4 @@ module.exports = () => {
         )
     );
 };
+
