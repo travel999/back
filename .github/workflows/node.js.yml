@@ -23,6 +23,7 @@ jobs:
           node-version: [16.x]
           cache: 'npm'
       - run: npm install
+    
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.5
         with:
