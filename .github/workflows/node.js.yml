@@ -24,7 +24,7 @@ jobs:
 
   
   AUTO_DEPLOY:
-    name: CD Pipeline
+    name: CD Pipeline 
     needs: CI Pipeline
     runs-on: ubuntu-20.04
 
