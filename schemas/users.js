@@ -3,18 +3,19 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     email: {
         type: String,
-        // trim : true,
-        required: false,
+        required: true,
+        unique: true,
     },
     password: {
         type: String,
-        // trim : true,
-        required: false,
+        required: true,
     },
     nickname: {
         type: String,
-        // trim : true,
-        required: false,
+        minlength: 1,
+        maxlength: 14,
+        required: true,
+        unique: true,
     },
     userImage: {
         type: String,
