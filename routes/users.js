@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const authMiddlewares = require("../middlewares/auth.middleware");
+const User = require("../schemas/users");
 const { img_up } = require('../middlewares/user.image');
 const UserController = require("../controllers/users.controller");
 const usercontroller = new UserController();
 
 
-router.post("/signup", usercontroller.createUser);
+// router.post("/signup", usercontroller.createUser);
 router.post("/login", usercontroller.userLogin);
 router.post("/logout", usercontroller.userLogout);
 router.post("/checkEmail", usercontroller.checkEmail);
@@ -22,21 +23,21 @@ router.get('/mine',authMiddlewares,usercontroller.getmine);//나의여행일정 
 
 
 // router.put("/me/image", authMiddlewares, img_up.single('img'), usercontroller.updateImage);
-// router.post("/signup", img_up.single('img'), usercontroller.createUser); 회원가입 multer 주석
+router.post("/signup", img_up.single('img'), usercontroller.createUser); // 회원가입 multer 주석
 
-// router.post("/test", img_up.single('img'), async(req, res) => {
-//     // img_up.single('img'),
-//     // console.log (111111, req.file.location)
-//     const uri = req.file.location
-//     console.log(uri)
-//     // const userImage = String(uri)
-//     // const test = "1232satsdat134"
-//     // const email = "stasdtst"
-//     // const { email, nickname } = req.body;
-//     await User.create({ uri });
-//     res.status(200).json({ message: "새로운 유저 정보가 등록되었습니다" })
+router.post("/test", img_up.single('img'), async(req, res) => {
+    // img_up.single('img'),
+    const { email, nickname } = req.body
+    const uri = req.file.location
+    console.log(uri)
+    // const userImage = String(uri)
+    // const test = "1232satsdat134"
+    // const email = "stasdtst"
+    // const { email, nickname } = req.body;
+    await User.create({ uri, email, nickname });
+    res.status(200).json({ message: "새로운 유저 정보가 등록되었습니다" })
 
-// })
+})
 
 
 module.exports = router;
