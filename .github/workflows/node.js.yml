@@ -24,7 +24,7 @@ jobs:
         
     - run: npm ci
     - name: Create .env file
-    - run: |
+      run: |
           touch .env
           echo MONGDB=${{ secrets.MONGDB }} >> .env
           echo myKey=${{ secrets.myKey }} >> .env
@@ -39,7 +39,7 @@ jobs:
           echo SecretAccessKey=${{ secrets.SecretAccessKey }} >> .env
           echo BUCKET=${{ secrets.BUCKET }} >> .env
           cat .env
-          npm test
+    - run: npm test
 
   
   AUTO_DEPLOY:
