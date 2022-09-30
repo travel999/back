@@ -63,6 +63,9 @@ const io = SocketIO(server, {
         socket.on("send_dayDone", (data, person) => { //알림 
             socket.to(data).emit("receive_dayDone", person);
         });
+        socket.on("delete_card", (room, data, pins) => { //일정삭제 소켓
+            socket.to(room).emit("receive_delete", data, pins);
+            });
     })
 
 

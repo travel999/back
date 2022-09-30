@@ -5,15 +5,9 @@ class UserController {
   userService = new UserService();
   notisService = new NoticeService();
   createUser = async (req, res, next) => {
-    // const { email, nickname, password, confirm } = req.body;//
-    // let userImage = "";
-    // if (req.file) userImage = req.file.location;
-    const { signUp } = req.body;
-    const email = signUp.email;
-    const nickname = signUp.nickname;
-    const password = signUp.password;
-    const confirm = signUp.confirm;
-    const userImage = signUp.userImage
+    const { email, nickname, password, confirm } = req.body;//
+    let userImage = "";
+    if (req.file) userImage = req.file.location;
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
 
     if (password !== confirm) {
@@ -118,9 +112,10 @@ class UserController {
   };
 
   updateImage = async (req, res, next) => {
-    const { newImage } = req.body;
-    // const newImage = req.file.location 
-    // console.log(newImage)
+    console.log(req.body)
+    let newImage = "";
+    if (req.file) newImage = req.file.location;
+    console.log("이미지 파일 확인", newImage)
     const { nickname } = res.locals.user;
     const userInfo = await this.userService.updateImage(nickname, newImage);
 
