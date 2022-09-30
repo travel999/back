@@ -5,11 +5,11 @@ class UserController {
   userService = new UserService();
   notisService = new NoticeService();
   createUser = async (req, res, next) => {
+
     const { email, nickname, password, confirm } = req.body;//
     let userImage = "";
     if (req.file) userImage = req.file.location;
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
-
     if (password !== confirm) {
       return res.status(411).json({ statusCode: "411: 입력하신 비밀번호가 일치하지 않습니다." });
     }
@@ -67,7 +67,9 @@ class UserController {
       return res.status(400).json(emailSent);
     }
 
+
   }
+
 
   checkCode = async (req,res,next) => {
     const { email,code } = req.body;
@@ -112,10 +114,10 @@ class UserController {
   };
 
   updateImage = async (req, res, next) => {
+
     console.log(req.body)
     let newImage = "";
     if (req.file) newImage = req.file.location;
-    console.log("이미지 파일 확인", newImage)
     const { nickname } = res.locals.user;
     const userInfo = await this.userService.updateImage(nickname, newImage);
 
