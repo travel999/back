@@ -38,6 +38,7 @@ jobs:
           echo AWSAccessKeyId=${{ secrets.AWSAccessKeyId }} >> .env
           echo SecretAccessKey=${{ secrets.SecretAccessKey }} >> .env
           echo BUCKET=${{ secrets.BUCKET }} >> .env
+          cat .env
     - run: npm test
 
   
