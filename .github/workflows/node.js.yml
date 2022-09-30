@@ -22,6 +22,23 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
+    - name: Create .env file
+    - run: |
+          touch .env
+          echo MONGDB=${{ secrets.MONGDB }} >> .env
+          echo myKey=${{ secrets.myKey }} >> .env
+          echo KAKAOCALLBACKURL=${{ secrets.KAKAOCALLBACKURL }} >> .env
+          echo KAKAOCLIENT_ID=${{ secrets.KAKAOCLIENT_ID }} >> .env
+          echo KAKAO_SECRETKEY=${{ secrets.KAKAO_SECRETKEY }} >> .env
+          echo GOOGLEID=${{ secrets.GOOGLEID }} >> .env
+          echo GOOGLEPW=${{ secrets.GOOGLEPW }} >> .env
+          echo Port=${{ secrets.Port }} >> .env
+          echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
+          echo AWSAccessKeyId=${{ secrets.AWSAccessKeyId }} >> .env
+          echo SecretAccessKey=${{ secrets.SecretAccessKey }} >> .env
+          echo BUCKET=${{ secrets.BUCKET }} >> .env
+         
+
     - run: npm test
 
   
