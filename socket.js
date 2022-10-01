@@ -1,12 +1,19 @@
 const Chat = require("./schemas/chat");
 const SocketIO = require("socket.io");
+const createAdapter = require('socket.io-redis');
 const server = require("./app");
 const io = SocketIO(server, {
 	cors: {
 		origin: "*",
 		methods: ["GET", "POST"],
 	},
-});
+})
+
+    io.adapter(createAdapter({host: 'xxx.xxx.xxx.xx', port: 6379}));
+    // const pubClient = new RedisClient({ host: 'localhost', port: 6379 });
+    // const subClient = pubClient.duplicate();
+    // const redisAdapter = createAdapter({ pubClient, subClient });
+
     io.on("connection", (socket) => {
         console.log("Connected to Browser ✅")
         
