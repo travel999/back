@@ -9,7 +9,7 @@ const io = SocketIO(server, {
 	},
 })
 
-    io.adapter(createAdapter({host: 'xxx.xxx.xxx.xx', port: 6379}));
+    io.adapter(createAdapter({host: '43.201.31.247', port: 6379}));
     // const pubClient = new RedisClient({ host: 'localhost', port: 6379 });
     // const subClient = pubClient.duplicate();
     // const redisAdapter = createAdapter({ pubClient, subClient });
