@@ -63,6 +63,6 @@ jobs:
                 sudo git pull origin dev
                 npm install
                 pm2 restart server.js
-                
+
 
 
