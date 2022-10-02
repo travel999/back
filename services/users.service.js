@@ -22,7 +22,7 @@ class UserService {
       return { result: false, message: "이메일 형식에 맞게 입력해주세요." }
     }
     const checked = await this.userRepository.checkEmail(email);
-
+    
     return checked;
   };
 

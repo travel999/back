@@ -1,12 +1,19 @@
 const Chat = require("./schemas/chat");
 const SocketIO = require("socket.io");
+const createAdapter = require('socket.io-redis');
 const server = require("./app");
 const io = SocketIO(server, {
 	cors: {
 		origin: "*",
 		methods: ["GET", "POST"],
 	},
-});
+})
+
+    io.adapter(createAdapter({host: '43.201.31.247', port: 6379}));
+    // const pubClient = new RedisClient({ host: 'localhost', port: 6379 });
+    // const subClient = pubClient.duplicate();
+    // const redisAdapter = createAdapter({ pubClient, subClient });
+
     io.on("connection", (socket) => {
         console.log("Connected to Browser ✅")
         
@@ -63,6 +70,9 @@ const io = SocketIO(server, {
         socket.on("send_dayDone", (data, person) => { //알림 
             socket.to(data).emit("receive_dayDone", person);
         });
+        socket.on("delete_card", (room, data, pins) => { //일정삭제 소켓
+            socket.to(room).emit("receive_delete", data, pins);
+            });
     })
 
 
