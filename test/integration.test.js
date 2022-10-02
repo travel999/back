@@ -72,7 +72,7 @@ describe("POST / signup", ()=>{
     
     test("일정 멤버 초대", async () => {
         const data = {
-            nickname2 : "현호"
+            nickname2 : "테스트코드"
         }
         await request(app).patch("/post/invite/6334557801a2fef1b0aea534").set("authorization", "Bearer " + token).send(data)
         .expect(200)
