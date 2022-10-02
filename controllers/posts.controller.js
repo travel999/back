@@ -120,12 +120,13 @@ class PostsController {
             const deleteData = await this.postService.deletepost({ postId, nickname })
             res.status(200).json(deleteData);
         } catch (error) {
-            const message = `${req.method} ${req.originalUrl} : ${error.message}`;
-            console.log(message);
-            res.status(400).json({ message });
+            console.log(err)
+            err.status = 400
+            next(err);
         }
-
     }
+
+    
 
     //일정 공개/비공개
     publicPost = async (req, res, next) => {
@@ -184,8 +185,8 @@ class PostsController {
         }
     }
 
-    
-
 }
+
+
 
 module.exports = PostsController;

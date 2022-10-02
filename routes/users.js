@@ -24,6 +24,7 @@ router.get('/mine',authMiddlewares,usercontroller.getmine);//나의여행일정 
 
 
 
+
 module.exports = router;
 
 
