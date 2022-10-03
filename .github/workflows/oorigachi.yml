@@ -1,4 +1,4 @@
-name: OORIGACHI CD
+name: main 
 
 on:
   push:
