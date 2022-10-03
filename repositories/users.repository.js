@@ -86,11 +86,11 @@ class UserRepository {
 
     try{
       if(!user){
-        return { result:false, message: "해당 유저의 정보를 찾을수 없습니다."};
+        return { result:false, statusCode: "400: 해당 유저의 정보를 찾을수 없습니다."};
       }
       const match = await bcrypt.compare(password, user.password);
       if(!match){
-        return { result:false, message: "입력한 정보를 확인해주세요"};
+        return { result:false, statusCode: "400: 입력한 정보를 확인해주세요."};
       }
       else{
         return user;
