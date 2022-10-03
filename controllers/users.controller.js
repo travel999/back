@@ -10,7 +10,6 @@ class UserController {
     let userImage = "";
     if (req.file) userImage = req.file.location;
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
-
     if (password !== confirm) {
       return res.status(411).json({ statusCode: "411: 입력하신 비밀번호가 일치하지 않습니다." });
     }
@@ -68,7 +67,9 @@ class UserController {
       return res.status(400).json(emailSent);
     }
 
+
   }
+
 
   checkCode = async (req,res,next) => {
     const { email,code } = req.body;
