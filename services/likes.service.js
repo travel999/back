@@ -14,10 +14,8 @@ class LikeService {
     updateLike = async (nickname, postId) => {
         const isLike = await this.likeRepository.findLike(nickname, postId);
         if (!isLike) {
-
             const existLikes = await this.likeRepository.targetId({ _id: postId });
             if (existLikes) {
-
                 const countLikes = existLikes.like;
                 const postLike = countLikes + 1
                 await this.likeRepository.createLike(nickname, postId);
@@ -27,7 +25,6 @@ class LikeService {
                 return { message: '일정이 없습니다' };
             }
         } else {
-
             const existLikes = await this.likeRepository.targetId({ _id: postId });
             if (existLikes) {
                 const countLikes = existLikes.like;

@@ -28,17 +28,12 @@ const falseData = {
 
 describe("게시글 CRUD", () => {
     test("게시글 조회 성공", async () => {
-        postservice.postRepository.findPost = jest.fn(() => ({
-            "_id": "63344f6601a2fef1b0ae9ecd",
-            "nickname": ["백엔드오리3"],
-            "title": "가로수길 루트",
-        }))
-        expect(await postservice.findPost())
-            .toEqual({
-                "_id": "63344f6601a2fef1b0ae9ecd",
-                "nickname": ["백엔드오리3"],
-                "title": "가로수길 루트",
-            })
+        postservice.postRepository.findPost = jest.fn(() => (
+            data
+        ))
+        expect(await postservice.findPost()).toEqual(
+            data
+        )
     })
 
     test("게시글 조회 실패", async () => {
@@ -48,7 +43,6 @@ describe("게시글 CRUD", () => {
         })
 
     })
-
     test("게시글 작성", async () => {
         postservice.postRepository.createPost = jest.fn(() => ({
             "title": "가로수길 루트"
@@ -228,3 +222,5 @@ describe("일정에 멤버 초대", () => {
         )
     })
 })
+
+
