@@ -173,17 +173,6 @@ class UserController {
     
   };
 
-  userLogout = async (req, res, next) => {
-    try {
-      res.clearCookie("token");
-      res.status(200).json({ result: true, message: "로그아웃" });
-
-    } catch (error) {
-      res.status(400).json({ result: false, error: "네트워크 에러" });
-    }
-
-  };
-
   getmine = async (req, res, next) => {
 
     const { nickname } = res.locals.user;
