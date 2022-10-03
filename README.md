@@ -47,7 +47,7 @@
 |임주영|FE🔰|[주영's github](https://github.com/JJOOYYONG)|카카오맵API를 사용하여 일정 CRUD 기능 구현, 등록된 일정 상세보기(수정/삭제) 알고리즘 구축|
 |강나오미|FE|[나오미's github](https://github.com/na-0-mi)|일반,소셜로그인/ 회원가입 / 마이페이지 / 이메일 인증 / cloudFront(https) 서버 배포|
 |문동환|FE|[동환's github](https://github.com/moduri)| 메인페이지/ 공개된 일정 페이지 / 좋아요 페이지 /소켓ios을 사용한 실시간 채팅 및 작성 글 공유 기능|
-|김승남|BE🔰|[승남's github](https://github.com/hinel03)|elb nginx https 서버 구축/ 리버스 프록시 서버/ 로드밸런싱/ 이메일 인증|
+|김승남|BE🔰|[승남's github](https://github.com/hinel03)|elb nginx https 리버스 프록시 서버/ 로드밸런싱/ 이메일 인증/ 유저,메인페이지 CRUD|
 |김동일|BE|[동일's github](https://github.com/dongridongil)|좋아요 CRUD / 소셜로그인(카카오톡) /알림 기능 /Morgan 기능/ Bycrypt 암호화기능구현|
 |신현호|BE|[현호's github](https://github.com/azoong)|일정 CRUD / 소켓io을 사용한 실시간 채팅 및 작성 글 공유 기능/ 자동배포 / 로깅 / 테스트코드|
 |최소이|DE|-| 메인,모바일,홍보물 디자인|
