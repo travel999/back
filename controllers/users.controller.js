@@ -4,9 +4,9 @@ const NoticeService = require('../services/notis.service');
 class UserController {
   userService = new UserService();
   notisService = new NoticeService();
-  
+
   createUser = async (req, res, next) => {
-    const { email, nickname, password, confirm } = req.body;//
+    const { email, nickname, password, confirm } = req.body;
     let userImage = "";
     if (req.file) userImage = req.file.location;
     const regPassword = /^[A-Za-z0-9]{6,20}$/;

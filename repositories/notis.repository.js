@@ -10,7 +10,6 @@ class NotisRepository {
         }).populate({
             path: 'notices'
         });
-        console.log(findBoard.notices)
         return findBoard.notices;
     }
 
@@ -25,7 +24,6 @@ class NotisRepository {
 
     createNoticeMessage = async (nickname2) => {
         const findinviteuser = await User.findOne({ nickname: nickname2 });
-        console.log(nickname2)
         const findBoard = await NoticeBoard.findOne({
             userId: findinviteuser.nickname,
         });
