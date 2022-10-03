@@ -54,7 +54,7 @@
 
 
 ## 아키텍쳐
-![아키텍쳐](https://user-images.githubusercontent.com/54390853/193512556-e8fc091a-ca13-4b51-a617-c05d47187549.png)
+![아키텍쳐](https://user-images.githubusercontent.com/54390853/193526304-f3ebae1b-bb8c-4308-b01d-a1cffd49c9ca.png)
 
 ## 사용 툴
 * ### 프론트 엔드
