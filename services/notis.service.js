@@ -23,6 +23,7 @@ class NotisService {
     //알림삭제
     deleteNotice = async (noticeMessageId) => {
         const deleteNotice = await this.notisRepository.deleteNotice(noticeMessageId)
+        return deleteNotice
     };
 };
 module.exports = NotisService;

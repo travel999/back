@@ -4,8 +4,9 @@ const NoticeService = require('../services/notis.service');
 class UserController {
   userService = new UserService();
   notisService = new NoticeService();
+
   createUser = async (req, res, next) => {
-    const { email, nickname, password, confirm } = req.body;//
+    const { email, nickname, password, confirm } = req.body;
     let userImage = "";
     if (req.file) userImage = req.file.location;
     const regPassword = /^[A-Za-z0-9]{6,20}$/;
@@ -112,10 +113,8 @@ class UserController {
   };
 
   updateImage = async (req, res, next) => {
-    console.log(req.body)
     let newImage = "";
     if (req.file) newImage = req.file.location;
-    console.log("이미지 파일 확인", newImage)
     const { nickname } = res.locals.user;
     const userInfo = await this.userService.updateImage(nickname, newImage);
 
