@@ -9,7 +9,6 @@ const usercontroller = new UserController();
 
 router.post("/signup", img_up.single('img'), usercontroller.createUser); // 회원가입 multer 주석
 router.post("/login", usercontroller.userLogin);
-router.post("/logout", usercontroller.userLogout);
 router.post("/checkEmail", usercontroller.checkEmail);
 router.post("/checkNickname", usercontroller.checkNickname);
 router.post("/sendEmail", usercontroller.sendEmail);
