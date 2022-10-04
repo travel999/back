@@ -1,14 +1,14 @@
-name: OORIGACHI CD
+name: main 
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "dev" ]
+    branches: [ main ]
 
 jobs:
   CI_TEST:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     
     strategy:
       matrix:
@@ -44,7 +44,7 @@ jobs:
   
   AUTO_DEPLOY:
     needs: CI_TEST
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
 
     strategy:
       matrix:
@@ -54,16 +54,26 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.5
         with:
-          host: ${{ secrets.REMOTE_IP }}
-          username: ${{ secrets.REMOTE_SSH_ID }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
-          port: ${{ secrets.REMOTE_SSH_PORT }}
+          host: ${{ secrets.OORIGACHI_SERVER1 }}
+          username: ${{ secrets.OORIGACHI_SERVER1_NAME }}
+          key: ${{ secrets.OORIGACHI_SERVER_KEY }}
+          port: ${{ secrets.OORIGACHI_SERVER_PORT }}
           script: |
-                cd ${{ secrets.TEST_DEPLOY }}
-                sudo git pull origin dev
+                cd ${{ secrets.OORIGACHI_SERVER_SCRIPT }}
+                sudo git pull origin main
                 npm install
                 pm2 restart server.js
 
-
-
+      - name: Deploy2
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.OORIGACHI_SERVER2 }}
+          username: ${{ secrets.OORIGACHI_SERVER1_NAME }}
+          key: ${{ secrets.OORIGACHI_SERVER_KEY }}
+          port: ${{ secrets.OORIGACHI_SERVER_PORT }}
+          script: |
+                cd ${{ secrets.OORIGACHI_SERVER_SCRIPT }}
+                sudo git pull origin main
+                npm install
+                pm2 restart server.js
 
