@@ -9,7 +9,6 @@ const format = () => {
 // 로그 작성을 위한 Output stream옵션.
 const stream = {
     write: (message) => {
-        // console.log(message);
         logger.info(message);
     },
 };

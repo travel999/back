@@ -16,7 +16,7 @@ const io = SocketIO(server, {
     // const redisAdapter = createAdapter({ pubClient, subClient });
 
     io.on("connection", (socket) => {
-        console.log("Connected to Browser ✅")
+        // console.log("Connected to Browser ✅")
         
         socket.on("join_room", (data) => {  //채팅방 입장
             socket.join(data);
@@ -43,17 +43,14 @@ const io = SocketIO(server, {
 
         socket.on("join_box", (data) => {
             socket.join(data);
-            console.log(`User: ${socket.id} room: ${data}`);
         });
 
         socket.on("SaveDone_data", (data) => {
             socket.to(data.room).emit("SaveGet_data", data);
-            console.log("save", data.author);
         });
 
         socket.on("liveText_send", (data) => {
             socket.to(data.room).emit("liveText_receive", data);
-            console.log("live", data.msg)
         });
 
         socket.on("join_save", (data) => {
