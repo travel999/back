@@ -60,7 +60,7 @@ jobs:
           port: ${{ secrets.OORIGACHI_SERVER_PORT }}
           script: |
                 cd ${{ secrets.OORIGACHI_SERVER_SCRIPT }}
-                sudo git pull origin dev
+                sudo git pull origin main
                 npm install
                 pm2 restart server.js
 
@@ -73,7 +73,7 @@ jobs:
           port: ${{ secrets.OORIGACHI_SERVER_PORT }}
           script: |
                 cd ${{ secrets.OORIGACHI_SERVER_SCRIPT }}
-                sudo git pull origin dev
+                sudo git pull origin main
                 npm install
                 pm2 restart server.js
 
