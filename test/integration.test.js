@@ -68,6 +68,30 @@ describe("POST / signup", ()=>{
         await request(app).get("/post/63344f6601a2fef1b0ae9ecd").set("authorization", "Bearer " + token)
         .expect(200)
     })
+
+    test("일정 공개", async () => {
+        const data = {
+            openPublic : true
+        }
+        await request(app).patch("/post/public/633454df01a2fef1b0aea505").set("authorization", "Bearer " + token).send(data)
+        .expect(200)
+    })
+
+    test("일정 비공개", async () => {
+        const data = {
+            openPublic : false
+        }
+        await request(app).patch("/post/public/633454df01a2fef1b0aea505").set("authorization", "Bearer " + token).send(data)
+        .expect(200)
+    })
+
+    test("일정 공개 권한 X", async () => {
+        const data = {
+            openPublic : true
+        }
+        await request(app).patch("/post/public/633450cd01a2fef1b0aea015").set("authorization", "Bearer " + token).send(data)
+        .expect(400)
+    })
     
     
     test("일정 멤버 초대", async () => {
@@ -96,6 +120,19 @@ describe("POST / signup", ()=>{
     test("유저정보 페이지", async () => {
         await request(app).get("/user/me").set("authorization", "Bearer " + token)
         .expect(200)
+    })
+    test("비밀번호 변경", async () => {
+        const data = {
+            newPassword : "111111",
+            confirm : "111111"
+        }
+        await request(app).put("/user/me/password").set("authorization", "Bearer " + token).send(data)
+        .expect(200)
+    })
+
+    test("채팅 로그 불러오기", async () => {
+        await request(app).get("/chat/:633450cd01a2fef1b0aea015").set("authorization", "Bearer " + token)
+        .expect(201)
     })
         
       
